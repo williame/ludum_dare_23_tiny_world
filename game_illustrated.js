@@ -24,6 +24,8 @@ function _illustrated_perform_layout() {
 		if(value.ui) {
 			ui = value.ui;
 			value = value.illustrated;
+			if(!value.w) value.w = value.x2-value.x;
+			if(!value.h) value.h = value.y2-value.y;
 			ui.setAttribute("style",
 				"position:absolute;"+
 				"width:"+value.w+"px;"+

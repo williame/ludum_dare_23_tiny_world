@@ -3,7 +3,7 @@ function Go(dir,key) {
 	var functor = function() {
 		go_to(key);
 	};
-	functor.command = ["go "+dir,"exit "+dir];
+	functor.command = ["go "+dir,"exit "+dir,dir];
 	return functor;
 }
 
@@ -101,7 +101,9 @@ function set_ui(new_ui) {
 			main.replaceChild(block,location.ui);
 			location.ui = block;
 			block.location = location;
-			ui.get_commandline(location).onkeydown = on_commandline;
+			var commandline = ui.get_commandline(location);
+			commandline.style.display=(location==current_location?"block":"none");
+			commandline.onkeydown = on_commandline;
 		}
 	}
 	ui.perform_layout();
