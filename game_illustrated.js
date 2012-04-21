@@ -7,8 +7,10 @@ function _illustrated_create_location(location) {
 		"<b>"+location.name+"</b><br/>";
 	if(location.description)
 		html += location.description+"<br/>";
-	html += "<input class=\"commandline\" id=\"commandline_"+location.key+"\"/><br/>"+
+	html += "<div id=\"messages_"+location.key+"\" style=\"display:none;\" class=\"messages\"></div>"+
+		"<input class=\"commandline\" id=\"commandline_"+location.key+"\"/><br/>"+
 		"<div id=\"auto_complete_"+location.key+"\" style=\"display:none;\"></div>"+
+		"<div id=\"error_"+location.key+"\" style=\"display:none;\" class=\"error\"></div>"+
 		"</div></td></tr></table>";
 	block.innerHTML = html;
 	return block;
@@ -122,8 +124,18 @@ var illustrated_ui = {
 			clearTimeout(scroll.timer);
 		_illustrated_scroll_into_view();
 	},
+	set_error: function(location,message) {
+		var error = document.getElementById("error_"+location.key);
+		error.innerHTML = message;
+		error.style.display = "block";
+	},
+	clear_error: function(location) {
+		var error = document.getElementById("error_"+location.key);
+		error.style.display = "none";
+	},
 	get_commands: get_commands,
 	on_commandline: function(location,event,line) {
+		illustrated_ui.clear_error(location);
 		var auto_complete = (event.keyCode == 32) && event.shiftKey,
 			auto_complete_helper = document.getElementById("auto_complete_"+location.key);
 		if(auto_complete) {
@@ -134,6 +146,14 @@ var illustrated_ui = {
 			auto_complete_helper.style.display = "block";
 		} else
 			auto_complete_helper.style.display = "none";
+	},
+	add_message: function(location,message) {
+		var block = document.createElement("div");
+		block.innerHTML = message;
+		block.setAttribute("class","message");
+		var messages = document.getElementById("messages_"+location.key);
+		messages.appendChild(block);
+		messages.style.display = "block";
 	},
 };
 

@@ -34,7 +34,7 @@ var locations = {
 			x:729,y:930,x2:1073,y2:1244,
 		},
 		commands:[
-			Go("west","garden_shed"),
+			Go("west","garage"),
 			Go("south","house"),
 			Go("north","maze"),
 			Go("east","north_lawn"),
@@ -83,6 +83,7 @@ var locations = {
 		commands:[
 			Go("south","north_lawn"),
 			Go("north","workshop"),
+			Go("east","north_path"),
 		],
 	},
 	workshop: {
@@ -189,6 +190,9 @@ var locations = {
 		illustrated:{
 			x:516,y:3379,x2:768,y2:3556,
 		},
+		objects:[
+			"bottle_closed_message",
+		],
 		commands:[
 			Go("north","wood_pile"),
 			Go("east","t_path"),
@@ -250,7 +254,7 @@ var locations = {
 			Go("east","lawn"),
 		],
 	},
-	garden_shed: {
+	garage: {
 		illustrated:{
 			x:405,y:943,x2:719,y2:1214,
 		},
@@ -278,17 +282,60 @@ var locations = {
 		},
 		commands:[
 			Go("north","rope_bridge"),
-		],	
+		],
 	},
-}, current_location, location_count = 0;
+	north_path:{
+		illustrated:{
+			x:2161,y:571,w:522,h:215,
+		},
+		commands:[
+			Go("west","secret_garden"),
+		],
+	},
+}, current_location = null;
 
-// init them; todo: validate them?
-for(current_location in locations) {
-	locations[current_location].key = current_location;
-	if(!locations[current_location].name)
-		locations[current_location].name = "!"+current_location;
-	location_count++;
-}
-current_location = null;
-console.log("there are "+location_count+" locations!");
+var objects = {
+	bottle_closed_message:{
+		name:"bottle",
+		take:Take("bottle_closed_message","bottle"),
+		drop:Drop("bottle_closed_message","bottle"),
+		commands:[
+			Msg("the bottle is corked; it contains a message",["examine bottle"]),
+			Cmd(function() {
+				exchange_object("bottle_closed_message",["bottle_open","bottle_message"],
+					"you uncork the bottle; the message falls out");
+			},["open bottle","uncork bottle"]),
+		],
+	},
+	bottle_open:{
+		name:"bottle",
+		take:Take("bottle_open","bottle"),
+		drop:Drop("bottle_open","bottle"),
+		commands:[
+			Msg("the bottle is open",["examine bottle"]),
+			Cmd(function() {
+				exchange_object("bottle_open",["bottle_closed"],
+					"you cork the bottle again");
+			},["close bottle","cork bottle"]),
+		],
+	},
+	bottle_closed:{
+		name:"bottle",
+		take:Take("bottle_closed","bottle"),
+		drop:Drop("bottle_closed","bottle"),
+		commands:[
+			Msg("the bottle is closed",["examine bottle"]),
+			Cmd(function() {
+				exchange_object("bottle_closed",["bottle_open"],
+					"you uncork the bottle");
+			},["open bottle","uncork bottle"]),
+		],
+	},
+	bottle_message:{
+		name:"message",
+		commands:[
+			Msg("this is the message blah blah",["read message","examine message"]),
+		],
+	},
+};
 

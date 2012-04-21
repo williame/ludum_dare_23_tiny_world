@@ -1,10 +1,47 @@
 
-function Go(dir,key) {
-	var functor = function() {
-		go_to(key);
-	};
-	functor.command = ["go "+dir,"exit "+dir,dir];
+function Cmd(functor,cmds) {
+	functor.commands = cmds;
 	return functor;
+}
+
+function Go(dir,key) {
+	return Cmd(function() { go_to(key); },["go "+dir,"exit "+dir,dir]);
+}
+
+function Take(obj,name) {
+	return Cmd(function(){
+		remove_from_array(current_location.objects,obj);
+		inventory.push(obj);
+		ui.add_message(current_location,"you took the "+name);
+	},["take "+name]);
+}
+
+function Drop(obj,name) {
+	return Cmd(function(){
+		remove_from_array(inventory,obj);
+		current_location.objects.push(obj);
+		ui.add_message(current_location,"you dropped the "+name);
+	},["drop "+name]);
+}
+
+function Msg(msg,cmds) {
+	return Cmd(function() { ui.add_message(current_location,msg); },cmds);
+}
+
+function remove_from_array(array,obj) {
+	for(var i in array)
+		if(array[i] === obj) {
+			array.splice(i,1);
+			return true;
+		}
+	return false;
+}
+
+function in_array(array,obj) {
+	for(var i in array)
+		if(array[i] === obj)
+			return true;
+	return false;
 }
 
 function getattr(obj,attr) {
@@ -35,40 +72,76 @@ function on_commandline(event) {
 		set_ui(uis[ui_index]);
 		return false;
 	}
-	var line = event.target.value.trim().toLowerCase().replace(/\s+/g," ");
-	ui.on_commandline(current_location,event,line);
+	var line = event.target.value.trim().toLowerCase().replace(/\s+/g," "),
+		location = current_location;
+	ui.on_commandline(location,event,line);
 	if(event.keyCode == 13) {
 		if(line == "!show map") {
-			var restore = current_location.key, location;
+			var restore = location.key;
 			for(location in locations)
 				go_to(location);
 			go_to(restore);
 		} else if(line.startsWith("!goto ")) {
-			var location = line.substring(6).trim();
+			location = line.substring(6).trim();
 			if(location in locations)
 				go_to(location);
 			else
 				console.log("could not go to "+location);
 		} else if(line.length) {
-			var commands = ui.get_commands(current_location), command;
+			var commands = ui.get_commands(location), command;
+			ui.get_commandline(location).select();
 			for(command in commands)
 				if(command == line) {
 					commands[command]();
+					ui.get_commandline(location).select();
 					return true;
 				}
-			console.log("could not "+line);
+			ui.set_error(location,"could not "+line);
+			ui.get_commandline(location).select();
 		}
 	}
 	return true;
 }
 
 function get_commands(location,standard_commands) {
-	var commands = {}, command, alias;
+	var commands = {
+		"inventory":function() {
+			var description = "you are carrying: ";
+			if(inventory)
+				for(var i in inventory) {
+					if(i) description += ", ";
+					description += objects[inventory[i]].name;
+				}
+			else
+				description += "nothing!";
+			ui.add_message(location,description);
+		},
+	};
+	var command, object;
 	if(standard_commands)
 		commands = union(commands,standard_commands);
+	function add_commands(command) {
+		for(var alias in command.commands)
+			commands[command.commands[alias]] = command;
+	}
+	function add_object(key) {
+		var object = objects[key];
+		console.log("add_object",key,object);
+		if(in_array(inventory,key)) {
+			if(object.drop)
+				add_commands(object.drop);
+		} else if(object.take)
+			add_commands(object.take);
+		for(command in object.commands)
+			add_commands(object.commands[command]);
+	}
+	for(object in inventory)
+		add_object(inventory[object]);
+	if(location.objects)
+		for(object in location.objects)
+			add_object(location.objects[object]);
 	for(command in location.commands)
-		for(alias in location.commands[command].command)
-			commands[location.commands[command].command[alias].toLowerCase()] = location.commands[command];
+		add_commands(location.commands[command]);
 	return commands;
 }
 
@@ -94,8 +167,33 @@ function go_to(key) {
 	ui.scroll_into_view(current_location);
 }
 
+function refresh_location(location) {
+	location = locations[location];
+	var commandline = ui.get_commandline(location), old_commandline_text = commandline.value;
+	var block = ui.create_location(location);
+	location.ui.parentNode.replaceChild(block,location.ui);
+	location.ui = block;
+	block.location = location;
+	commandline = ui.get_commandline(location);
+	commandline.value = old_commandline_text;
+	commandline.style.display=(location==current_location?"block":"none");
+	commandline.onkeydown = on_commandline;
+}
+
+var inventory;
+
 function new_game() {
-	go_to("quay");
+	inventory = [];
+	go_to("jetty");
+}
+
+function exchange_object(from,to,msg) {
+	if(remove_from_array(inventory,from))
+		inventory = inventory.concat(to);
+	else if(remove_from_array(current_location.objects,from))
+		current_location.objects = current_location.objects.concat(to);
+	if(msg)
+		ui.add_message(current_location,msg);
 }
 
 var uis = [], ui = null, ui_index = -1;
@@ -110,19 +208,25 @@ function set_ui(new_ui) {
 	ui.init();
 	for(i in main.childNodes) {
 		location = main.childNodes[i].location;
-		if(location) {
-			var commandline = ui.get_commandline(location), old_commandline_text = commandline.value;
-			var block = ui.create_location(location);
-			main.replaceChild(block,location.ui);
-			location.ui = block;
-			block.location = location;
-			commandline = ui.get_commandline(location);
-			commandline.value = old_commandline_text;
-			commandline.style.display=(location==current_location?"block":"none");
-			commandline.onkeydown = on_commandline;
-		}
+		if(location)
+			refresh_location(location.key);
 	}
 	ui.perform_layout();
 	if(current_location)
 		go_to(current_location.key);
+}
+
+function init_locations() {
+	var location, count = 0;
+	// init them; todo: validate them?
+	for(location in locations) {
+		locations[location].key = location;
+		location = locations[location];
+		if(!location.name)
+			location.name = "!"+location.key;
+		if(!location.objects)
+			location.objects = [];
+		count++;
+	}
+	console.log("there are "+count+" locations!");
 }
