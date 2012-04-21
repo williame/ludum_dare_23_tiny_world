@@ -36,7 +36,6 @@ function _illustrated_perform_layout() {
 			if(value.y+value.h > bottom) bottom = value.y+value.h;
 		}
 	}
-	console.log("bounds = "+left+","+top+" -> "+right+","+bottom);
 	// move all explored items to be in-bounds
 	var main = document.getElementById("main");
 	if(main._rect) {
@@ -62,7 +61,6 @@ function _illustrated_perform_layout() {
 				w:value.illustrated.w,h:value.illustrated.h};
 			value.ui.style.left = ""+value.pos.x+"px";
 			value.ui.style.top = ""+value.pos.y+"px";
-			console.log(key+" = "+value.ui.style.left+","+value.ui.style.top);
 		}
 	}
 	_illustrated_scroll_into_view();

@@ -76,7 +76,7 @@ var locations = {
 			Go("south","coppice"),
 		],
 	},
-	vegetable_garden: {
+	secret_garden: {
 		illustrated:{
 			x:1104,y:352,x2:1759,y2:1025,
 		},
@@ -90,7 +90,7 @@ var locations = {
 			x:1148,y:161,x2:1457,y2:319,
 		},
 		commands:[
-			Go("south","vegetable_garden"),
+			Go("south","secret_garden"),
 		],
 	},
 	coppice:{
@@ -107,7 +107,7 @@ var locations = {
 		},
 		commands:[
 			Go("west","yard"),
-			Go("north","vegetable_garden"),
+			Go("north","secret_garden"),
 			Go("east","mysterious_path"),
 		],
 	},
@@ -162,7 +162,7 @@ var locations = {
 		},
 		commands:[
 			Go("east","rough_ridge"),
-			Go("west","secret_garden"),
+			Go("west","vegetable_garden"),
 			Go("south","tennis_court"),
 			Go("north","terrace"),
 			Go("take muddy path","wood_pile"),
@@ -223,7 +223,7 @@ var locations = {
 			Go("take muddy path","south_yard"),
 		],
 	},
-	secret_garden: {
+	vegetable_garden: {
 		illustrated:{
 			x:411,y:2432,x2:975,y2:2868,
 		},
@@ -264,12 +264,15 @@ var locations = {
 		},
 		commands:[],
 	},
-}, current_location;
+}, current_location, location_count = 0;
 
 // init them; todo: validate them?
 for(current_location in locations) {
 	locations[current_location].key = current_location;
 	if(!locations[current_location].name)
 		locations[current_location].name = "!"+current_location;
+	location_count++;
 }
 current_location = null;
+console.log("there are "+location_count+" locations!");
+
