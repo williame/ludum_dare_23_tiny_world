@@ -41,7 +41,6 @@ function _illustrated_ui_set_layer(layer) {
 		} else {
 			i = illustrated_layers[i];
 			if(i.img) {
-				console.log("hiding",i.img);
 				i.img.style.display = "none";
 			}
 		}

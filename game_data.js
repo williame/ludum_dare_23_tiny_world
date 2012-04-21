@@ -26,7 +26,7 @@ var locations = {
 		},
 		commands:[
 			Go("west","garage"),
-			Go("south","house"),
+			Go("south","hg_piano"),
 			Go("north","maze"),
 			Go("east","north_lawn"),
 		],
@@ -248,10 +248,11 @@ var locations = {
 	},
 	conservatory: {
 		illustrated:{
-			x:678,y:2030,x2:970,y2:2359,
+			layer:"house_ground_floor",
+			x:285,y:781,x2:277,y2:330,
 		},
 		commands:[
-			Go("north","house"),
+			Go("north","hg_dining"),
 		],
 	},
 	terrace: {
@@ -315,6 +316,7 @@ var locations = {
 			Go("east","terrace"),
 			Go("south","hg_fireplace"),
 			Go("west","hg_front_hall"),
+			Go("north","hg_piano"),
 		],
 	},
 	hg_fireplace:{
@@ -325,6 +327,7 @@ var locations = {
 		commands:[
 			Go("south","hg_dining"),
 			Go("north","hg_hall"),
+			Go("west","hg_kitchen"),
 		],
 	},
 	hg_dining:{
@@ -334,6 +337,8 @@ var locations = {
 		},
 		commands:[
 			Go("north","hg_fireplace"),
+			Go("west","hg_library"),
+			Go("south","conservatory"),
 		],
 	},
 	hg_front_hall:{
@@ -344,6 +349,44 @@ var locations = {
 		commands:[
 			Go("east","hg_hall"),
 			Go("upstairs","ht_landing"),
+			Go("north","hg_toilet"),
+		],
+	},
+	hg_toilet:{
+		illustrated:{
+			layer:"house_ground_floor",
+			x:174,y:19,w:117,h:164,
+		},
+		commands:[
+			Go("south","hg_front_hall"),
+		],
+	},
+	hg_library:{
+		illustrated:{
+			layer:"house_ground_floor",
+			x:22,y:591,w:264,h:178,
+		},
+		commands:[
+			Go("east","hg_dining"),
+		],
+	},
+	hg_kitchen:{
+		illustrated:{
+			layer:"house_ground_floor",
+			x:20,y:350,w:263,h:226,
+		},
+		commands:[
+			Go("east","hg_fireplace"),
+		],
+	},
+	hg_piano:{
+		illustrated:{
+			layer:"house_ground_floor",
+			x:301,y:19,w:285,h:165,
+		},
+		commands:[
+			Go("north","yard"),
+			Go("south","hg_hall"),
 		],
 	},
 	ht_landing:{
