@@ -82,10 +82,10 @@ var locations = {
 		},
 		commands:[
 			Go("south","north_lawn"),
-			Go("north","potting_shed"),
+			Go("north","workshop"),
 		],
 	},
-	potting_shed: {
+	workshop: {
 		illustrated:{
 			x:1148,y:161,x2:1457,y2:319,
 		},
