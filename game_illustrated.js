@@ -61,7 +61,7 @@ var illustrated_ui = {
 		return document.getElementById("commandline_"+location.key);
 	},
 	scroll_into_view: function(location) {
-		window.location.hash = "location_"+name;
+		window.location.hash = "location_"+location.key;
 	},
 	get_commands: get_commands,
 	on_commandline: function(location,event,line) {
