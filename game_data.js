@@ -143,7 +143,7 @@ var locations = {
 		},
 		commands:[
 			Go("north","west_point"),
-			Go("west","rope_bridge_north"),
+			Go("west","rope_bridge"),
 		],
 	},
 	rough_ridge:{
@@ -176,7 +176,7 @@ var locations = {
 			Go("north","rough_ridge"),
 		],
 	},
-	rope_bridge_north: {
+	rope_bridge: {
 		illustrated:{
 			x:1777,y:3555,x2:2055,y2:3897,
 		},
@@ -201,7 +201,7 @@ var locations = {
 		commands:[
 			Go("north","tennis_court"),
 			Go("west","jetty"),
-			Go("east","rope_bridge_north"),
+			Go("east","rope_bridge"),
 		],
 	},
 	tennis_court: {
@@ -263,6 +263,22 @@ var locations = {
 			x:397,y:317,x2:1073,y2:919,
 		},
 		commands:[],
+	},
+	long_grass:{
+		illustrated:{
+			x:1730,y:3018,w:348,h:383,
+		},
+		commands:[
+			Go("south","rope_bridge"),
+		],
+	},
+	rock:{
+		illustrated:{
+			x:1725,y:4132,w:585,h:603,
+		},
+		commands:[
+			Go("north","rope_bridge"),
+		],	
 	},
 }, current_location, location_count = 0;
 
