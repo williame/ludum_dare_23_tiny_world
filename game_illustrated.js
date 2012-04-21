@@ -118,7 +118,7 @@ var illustrated_ui = {
 		scroll.to = {x:location.pos.x+location.pos.w/2,y:location.pos.y+location.pos.h/2};
 		scroll.from = scroll.last;
 		scroll.start_time = new Date().getTime();
-		scroll.end_time = scroll.start_time + 3000; // later, make it based on distance
+		scroll.end_time = scroll.start_time + 1000; // later, make it based on distance
 		if(scroll.timer)
 			clearTimeout(scroll.timer);
 		_illustrated_scroll_into_view();

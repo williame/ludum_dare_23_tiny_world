@@ -56,7 +56,7 @@ function get_commands(location,standard_commands) {
 		commands = union(commands,standard_commands);
 	for(command in location.commands)
 		for(alias in location.commands[command].command)
-			commands[location.commands[command].command[alias]] = location.commands[command];
+			commands[location.commands[command].command[alias].toLowerCase()] = location.commands[command];
 	return commands;
 }
 
@@ -76,7 +76,9 @@ function go_to(key) {
 		ui.get_commandline(current_location).onkeydown = on_commandline;
 		ui.perform_layout();
 	}
-	ui.get_commandline(current_location).style.display="block";
+	var commandline = ui.get_commandline(current_location);
+	commandline.style.display="block";
+	commandline.select();
 	ui.scroll_into_view(current_location);
 }
 
@@ -97,16 +99,18 @@ function set_ui(new_ui) {
 	for(i in main.childNodes) {
 		location = main.childNodes[i].location;
 		if(location) {
+			var commandline = ui.get_commandline(location), old_commandline_text = commandline.value;
 			var block = ui.create_location(location);
 			main.replaceChild(block,location.ui);
 			location.ui = block;
 			block.location = location;
-			var commandline = ui.get_commandline(location);
+			commandline = ui.get_commandline(location);
+			commandline.value = old_commandline_text;
 			commandline.style.display=(location==current_location?"block":"none");
 			commandline.onkeydown = on_commandline;
 		}
 	}
 	ui.perform_layout();
 	if(current_location)
-		ui.scroll_into_view(current_location);
+		go_to(current_location.key);
 }

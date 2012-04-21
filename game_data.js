@@ -16,7 +16,7 @@ var locations = {
 		},
 		commands:[
 			Go("south","quay"),
-			Go("west","wood_pile"),
+			Go("east","wood_pile"),
 		],
 	},
 	house: {
@@ -25,6 +25,8 @@ var locations = {
 		},
 		commands:[
 			Go("north","yard"),
+			Go("south","conservatory"),
+			Go("east","terrace"),
 		],
 	},
 	yard: {
@@ -32,56 +34,90 @@ var locations = {
 			x:729,y:930,x2:1073,y2:1244,
 		},
 		commands:[
-			Go("east","garden_shed"),
+			Go("west","garden_shed"),
+			Go("south","house"),
+			Go("north","maze"),
+			Go("east","north_lawn"),
 		],
 	},
 	steps: {
 		illustrated:{
 			x:2919,y:1271,x2:3193,y2:1400,
 		},
-		commands:[],
+		commands:[
+			Go("north","light_house"),
+		],
 	},
 	light_house: {
 		illustrated:{
 			x:2745,y:830,x2:3368,y2:1258,
 		},
-		commands:[],
+		commands:[
+			Go("west","mysterious_path"),
+			Go("south","steps"),
+			Go("up","lantern"),
+		],
+	},
+	lantern:{
+		illustrated:{
+			x:2745,y:830,x2:3368,y2:1258,
+		},
+		commands:[
+			Go("down","light_house"),
+		],
 	},
 	mysterious_path: {
 		illustrated:{
 			x:1821,y:817,x2:2735,y2:1242,
 		},
-		commands:[],
+		commands:[
+			Go("west","north_lawn"),
+			Go("east","light_house"),
+		],
 	},
-	vegatable_garden: {
+	vegetable_garden: {
 		illustrated:{
 			x:1104,y:352,x2:1759,y2:1025,
 		},
-		commands:[],
+		commands:[
+			Go("south","north_lawn"),
+			Go("north","potting_shed"),
+		],
 	},
 	potting_shed: {
 		illustrated:{
 			x:1148,y:161,x2:1457,y2:319,
 		},
-		commands:[],
+		commands:[
+			Go("south","vegatable_garden"),
+		],
 	},
 	north_lawn: {
 		illustrated:{
 			x:1230,y:1065,x2:1802,y2:1572,
 		},
-		commands:[],
+		commands:[
+			Go("west","yard"),
+			Go("north","vegetable_garden"),
+			Go("east","mysterious_path"),
+		],
 	},
 	lawn: {
 		illustrated:{
 			x:1225,y:1594,x2:1798,y2:2149,
 		},
-		commands:[],
+		commands:[
+			Go("east","beach"),
+			Go("west","terrace"),
+		],
 	},
 	beach: {
 		illustrated:{
 			x:1802,y:1601,x2:2388,y2:2199,
 		},
-		commands:[],
+		commands:[
+			Go("west","lawn"),
+		],
 	},
 	west_point: {
 		illustrated:{
@@ -89,6 +125,7 @@ var locations = {
 		},
 		commands:[
 			Go("south","promontory"),
+			Go("west","rough_ridge"),
 		],
 	},
 	promontory: {
@@ -97,22 +134,45 @@ var locations = {
 		},
 		commands:[
 			Go("north","west_point"),
-			Go("east","rope_bridge_north"),
+			Go("west","rope_bridge_north"),
+		],
+	},
+	rough_ridge:{
+		illustrated:{
+			x:1457,y:2229,w:792,h:452,
+		},
+		commands:[
+			Go("south","balloon_shed"),
+			Go("east","west_point"),
+			Go("west","south_yard"),
+		],
+	},
+	south_yard:{
+		illustrated:{
+			x:984,y:2149,w:455,h:570,
+		},
+		commands:[
+			Go("east","rough_ridge"),
+			Go("west","secret_garden"),
+			Go("south","tennis_court"),
+			Go("north","terrace"),
 		],
 	},
 	balloon_shed: {
 		illustrated:{
 			x:1669,y:2691,x2:1949,y2:2953,
 		},
-		commands:[],
+		commands:[
+			Go("north","rough_ridge"),
+		],
 	},
 	rope_bridge_north: {
 		illustrated:{
 			x:1777,y:3555,x2:2055,y2:3897,
 		},
 		commands:[
-			Go("east","t_path"),
-			Go("west","promontory"),
+			Go("west","t_path"),
+			Go("east","promontory"),
 		],
 	},
 	jetty: {
@@ -121,7 +181,7 @@ var locations = {
 		},
 		commands:[
 			Go("north","wood_pile"),
-			Go("west","t_path"),
+			Go("east","t_path"),
 		],
 	},
 	t_path: {
@@ -130,8 +190,8 @@ var locations = {
 		},
 		commands:[
 			Go("north","tennis_court"),
-			Go("east","jetty"),
-			Go("west","rope_bridge_north"),
+			Go("west","jetty"),
+			Go("east","rope_bridge_north"),
 		],
 	},
 	tennis_court: {
@@ -140,6 +200,7 @@ var locations = {
 		},
 		commands:[
 			Go("south","t_path"),
+			Go("north","south_yard"),
 		],
 	},
 	wood_pile: {
@@ -147,7 +208,7 @@ var locations = {
 			x:617,y:2885,x2:874,y2:3030,
 		},
 		commands:[
-			Go("east","boat_shed"),
+			Go("west","boat_shed"),
 			Go("south","jetty"),
 		],
 	},
@@ -155,19 +216,28 @@ var locations = {
 		illustrated:{
 			x:411,y:2432,x2:975,y2:2868,
 		},
-		commands:[],
+		commands:[
+			Go("east","south_yard"),
+		],
 	},
 	conservatory: {
 		illustrated:{
 			x:678,y:2030,x2:970,y2:2359,
 		},
-		commands:[],
+		commands:[
+			Go("north","house"),
+		],
 	},
 	terrace: {
 		illustrated:{
 			x:1004,y:1252,x2:1207,y2:2021,
 		},
-		commands:[],
+		commands:[
+			Go("south","south_yard"),
+			Go("north","yard"),
+			Go("west","house"),
+			Go("east","lawn"),
+		],
 	},
 	garden_shed: {
 		illustrated:{
