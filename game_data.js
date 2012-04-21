@@ -2,12 +2,18 @@
 var locations = {
 	quay: {
 		name:"The Quay",
+		illustrated:{
+			x:100,y:100,w:500,h:100,
+		},
 		commands:[
 			Go("west","beach"),
 		],
 	},
 	beach: {
 		name:"The Beach",
+		illustrated:{
+			x:600,y:100,w:100,h:100,
+		},
 		commands:[
 			Go("east","quay"),
 		],

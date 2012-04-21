@@ -68,6 +68,7 @@ function go_to(key) {
 		block.setAttribute("id","loc_"+key);	
 		document.getElementById("main").appendChild(block);
 		ui.get_commandline(current_location).onkeydown = on_commandline;
+		ui.perform_layout();
 	}
 	ui.scroll_into_view(current_location);
 	ui.get_commandline(current_location).focus();
