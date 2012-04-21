@@ -2,6 +2,8 @@
 function _illustrated_create_location(location) {
 	var block = document.createElement("div");
 	block.setAttribute("class","block");
+	if(location.illustrated.image)
+		block.setAttribute("style","background-image:url('"+location.illustrated.image+"');");
 	var html = "<table style=\"width:100%;height:100%;\"><tr><td valign=\"middle\"><div>"+
 		"<a name=\"location_"+location.key+"\"/>"+
 		"<b>"+location.name+"</b><br/>";
@@ -16,6 +18,37 @@ function _illustrated_create_location(location) {
 	return block;
 }
 
+function _illustrated_ui_set_layer(layer) {
+	var main = document.getElementById("main"), location;
+	for(location in main.childNodes) {
+		location = main.childNodes[location].location;
+		if(location && location.illustrated.layer)
+			location.ui.style.display = location.illustrated.layer != layer? "none": "block";
+	}
+	for(var i in illustrated_layers) {
+		if(i == layer) {
+			i = illustrated_layers[i];
+			if(!i.img) {
+				var img = i.img = document.createElement("img");
+				img.src = i.image;
+				img.setAttribute("style",
+					"position:absolute;"+
+					"left:"+(i.x-main._rect.left)+"px;"+
+					"top:"+(i.y-main._rect.top)+"px;");
+				main.insertBefore(img,main.firstChild);
+			} else
+				i.img.style.display = "block";
+		} else {
+			i = illustrated_layers[i];
+			if(i.img) {
+				console.log("hiding",i.img);
+				i.img.style.display = "none";
+			}
+		}
+	}
+	
+}
+
 function _illustrated_perform_layout() {
 	// work out explored bounds
 	var key, value, ui,
@@ -26,16 +59,21 @@ function _illustrated_perform_layout() {
 		if(value.ui) {
 			ui = value.ui;
 			value = value.illustrated;
-			if(!value.w) value.w = value.x2-value.x;
-			if(!value.h) value.h = value.y2-value.y;
+			var x = value.x, y = value.y;
+			if(!value.w) value.w = value.x2-x;
+			if(!value.h) value.h = value.y2-y;
+			if(value.layer) {
+				x += illustrated_layers[value.layer].x;
+				y += illustrated_layers[value.layer].y;
+			}
 			ui.setAttribute("style",
 				"position:absolute;"+
 				"width:"+value.w+"px;"+
 				"height:"+value.h+"px;");
-			if(value.x < left) left = value.x;
-			if(value.x+value.w > right) right = value.x+value.w;
-			if(value.y < top) top = value.y;
-			if(value.y+value.h > bottom) bottom = value.y+value.h;
+			if(x < left) left = value.x;
+			if(x+value.w > right) right = x+value.w;
+			if(y < top) top = value.y;
+			if(y+value.h > bottom) bottom = y+value.h;
 		}
 	}
 	// move all explored items to be in-bounds
@@ -59,10 +97,22 @@ function _illustrated_perform_layout() {
 	for(key in locations) {
 		value = locations[key];
 		if(value.ui) {
-			value.pos = {x:(value.illustrated.x-left),y:(value.illustrated.y-top),
+			var x = value.illustrated.x, y = value.illustrated.y;
+			if(value.illustrated.layer) {
+				x += illustrated_layers[value.illustrated.layer].x;
+				y += illustrated_layers[value.illustrated.layer].y;
+			}
+			value.pos = {x:(x-left),y:(y-top),
 				w:value.illustrated.w,h:value.illustrated.h};
 			value.ui.style.left = ""+value.pos.x+"px";
 			value.ui.style.top = ""+value.pos.y+"px";
+		}
+	}
+	for(var layer in illustrated_layers) {
+		layer = illustrated_layers[layer];
+		if(layer.img) {
+			layer.img.style.left = ""+(layer.x-main._rect.left)+"px";
+			layer.img.style.top = ""+(layer.y-main._rect.top)+"px";
 		}
 	}
 	_illustrated_scroll_into_view();
@@ -154,6 +204,14 @@ var illustrated_ui = {
 		var messages = document.getElementById("messages_"+location.key);
 		messages.appendChild(block);
 		messages.style.display = "block";
+	},
+	enter_room: function(location) {
+		if((typeof location.illustrated.layer != typeof illustrated_ui.layer) ||
+			(illustrated_ui.layer != location.illustrated.layer)) {
+			illustrated_ui.layer = location.illustrated.layer;
+			console.log("now on layer "+illustrated_ui.layer);
+			_illustrated_ui_set_layer(illustrated_ui.layer);
+		}
 	},
 };
 

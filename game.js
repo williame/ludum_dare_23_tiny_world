@@ -166,6 +166,7 @@ function go_to(key) {
 	var commandline = ui.get_commandline(current_location);
 	commandline.style.display="block";
 	commandline.select();
+	ui.enter_room(current_location);
 	ui.scroll_into_view(current_location);
 }
 

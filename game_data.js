@@ -2,6 +2,7 @@
 var locations = {
 	quay: {
 		name:"The Quay",
+		description:"You are standing on a quay awaiting the arrival of your uncle. His little ship is due in today and you hope to listen to tales of his adventures around the fire this evening. As you stand watching the flying fish struggling on the large piece of parchment floating in the sea to your south, you notice a small, green bottle floating towards you in murky water. You collect the bottle using the handy flying fish net.",
 		illustrated:{
 			x:104,y:3096,w:500,h:600,
 		},
@@ -17,16 +18,6 @@ var locations = {
 		commands:[
 			Go("south","quay"),
 			Go("east","wood_pile"),
-		],
-	},
-	house: {
-		illustrated:{
-			x:403,y:1252,x2:998,y2:2022,
-		},
-		commands:[
-			Go("north","yard"),
-			Go("south","conservatory"),
-			Go("east","terrace"),
 		],
 	},
 	yard: {
@@ -112,6 +103,11 @@ var locations = {
 			Go("north","secret_garden", function(){ 
 				return locations.secret_garden.unlocked;
 			}),
+			Cmd(function(){
+				ui.set_error(current_location,"The door is locked; the door is too heavy to break down");
+			},["go north","exit north","north","open door"], function(){ 
+				return !locations.secret_garden.unlocked;
+			}),
 			Go("east","mysterious_path"),
 		],
 	},
@@ -191,6 +187,11 @@ var locations = {
 			Go("south","rock",function(){
 				return locations.rope_bridge.repaired;
 			}),
+			Cmd(function(){
+				ui.set_error(current_location,"you cannot go south because the bridge is broken; it is missing some treads and you dare not jump them");
+			},["go south","exit south","south"],function() {
+				return !locations.rope_bridge.repaired;
+			}),
 		],
 	},
 	jetty: {
@@ -260,7 +261,7 @@ var locations = {
 		commands:[
 			Go("south","south_yard"),
 			Go("north","yard"),
-			Go("west","house"),
+			Go("west","hg_hall"),
 			Go("east","lawn"),
 		],
 	},
@@ -305,7 +306,67 @@ var locations = {
 			Go("west","secret_garden"),
 		],
 	},
+	hg_hall:{
+		illustrated:{
+			layer:"house_ground_floor",
+			x:299,y:187,w:289,h:158,
+		},
+		commands:[
+			Go("east","terrace"),
+			Go("south","hg_fireplace"),
+			Go("west","hg_front_hall"),
+		],
+	},
+	hg_fireplace:{
+		illustrated:{
+			layer:"house_ground_floor",
+			x:300,y:350,w:288,h:183,
+		},
+		commands:[
+			Go("south","hg_dining"),
+			Go("north","hg_hall"),
+		],
+	},
+	hg_dining:{
+		illustrated:{
+			layer:"house_ground_floor",
+			x:298,y:543,w:291,h:228,
+		},
+		commands:[
+			Go("north","hg_fireplace"),
+		],
+	},
+	hg_front_hall:{
+		illustrated:{
+			layer:"house_ground_floor",
+			x:18,y:193,w:269,h:148,
+		},
+		commands:[
+			Go("east","hg_hall"),
+			Go("upstairs","ht_landing"),
+		],
+	},
+	ht_landing:{
+		illustrated:{
+			layer:"house_top_floor",
+			x:19,y:22,w:145,h:159,
+		},
+		commands:[
+			Go("downstairs","hg_front_hall"),
+		],
+	},
 }, current_location = null;
+
+var illustrated_layers = {
+	house_ground_floor:{
+		x:403,y:1252,
+		image:"house_groundfloor.jpg",
+	},
+	house_top_floor:{
+		x:403,y:1252,
+		image:"house_topfloor.jpg",
+	},
+};
 
 var objects = {
 	bottle_closed_message:{
