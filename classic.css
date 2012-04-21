@@ -1,0 +1,13 @@
+body {
+	color: white;
+	background-color:black;
+}
+.commandline {
+	width: 80%;
+	color: white;
+	background-color:black;
+}
+.commandline:focus {
+	color: black;
+	background-color:white;
+}

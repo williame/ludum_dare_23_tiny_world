@@ -9,22 +9,23 @@ function _illustrated_create_location(location) {
 	html += "<input class=\"commandline\" id=\"commandline_"+location.key+"\"/><br/>"+
 		"<div id=\"auto_complete_"+location.key+"\" style=\"display:none;\"></div>";
 	block.innerHTML = html;
-	block.setAttribute("style",
-		"position:absolute;"+
-		"width:"+location.illustrated.w+"px;"+
-		"height:"+location.illustrated.h+"px;");
 	return block;
 }
 
 function _illustrated_perform_layout() {
 	// work out explored bounds
-	var key, value,
+	var key, value, ui,
 		left = 10000000, top = 10000000,
 		right = -left, bottom = -top;
 	for(key in locations) {
 		value = locations[key]; 
 		if(value.ui) {
+			ui = value.ui;
 			value = value.illustrated;
+			ui.setAttribute("style",
+				"position:absolute;"+
+				"width:"+value.w+"px;"+
+				"height:"+value.h+"px;");
 			if(value.x < left) left = value.x;
 			if(value.x+value.w > right) right = value.x+value.w;
 			if(value.y < top) top = value.y;
@@ -37,6 +38,8 @@ function _illustrated_perform_layout() {
 	main._rect = {left:left,top:top,width:right-left,height:bottom-top};
 	main.style.width = ""+main._rect.width+"px";
 	main.style.height = ""+main._rect.height+"px";
+	console.log(""+main.style.backgroundPosition);
+	main.style.backgroundPosition = "-"+left+"px -"+top+"px";
 	for(key in locations) {
 		value = locations[key];
 		if(value.ui) {
@@ -74,3 +77,5 @@ var illustrated_ui = {
 			auto_complete_helper.style.display = "none";
 	},
 };
+
+uis.push(illustrated_ui);

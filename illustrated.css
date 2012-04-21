@@ -1,13 +1,16 @@
 body {
-	color: white;
-	background-color:black;
+	color: red;
+	background-color:lightgreen;
+}
+#main {
+	background-image: url('background1a.png');
 }
 .commandline {
 	width: 80%;
-	color: white;
-	background-color:black;
+	color: red;
+	background-color:lightgreen;
 }
 .commandline:focus {
-	color: black;
-	background-color:white;
+	color: lightgreen;
+	background-color:red;
 }

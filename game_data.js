@@ -3,7 +3,7 @@ var locations = {
 	quay: {
 		name:"The Quay",
 		illustrated:{
-			x:100,y:100,w:500,h:100,
+			x:1920,y:900,w:500,h:100,
 		},
 		commands:[
 			Go("west","beach"),
