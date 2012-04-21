@@ -1,0 +1,48 @@
+<html>
+<head>
+	<title>Aardvark Island Treasure</title>
+</head>
+<link id="main_css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+<!--
+
+var script_files = [
+	"game.js",
+	"game_illustrated.js",
+	"game_data.js",
+], script_count = -1;
+
+function init() {
+	if(++script_count == script_files.length) {
+		set_ui(illustrated_ui);
+		new_game();
+	} else {
+		if(0 == script_count) {
+			setTimeout(function() {
+				if(script_count != script_files.length)
+					alert("its taking a long time to load all "+
+					"the required javascript scripts;\nmaybe something "+
+					"is wrong?\n(only got as far as "+script_files[script_count]+")");
+			},script_files.length*1000);
+		}
+		console.log("loading "+script_files[script_count]+"...");
+		var script = document.createElement('script');
+		script.setAttribute("type","text/javascript");
+		script.setAttribute("src",script_files[script_count]);
+		script.async = true;
+		script.onload = init;
+		document.getElementsByTagName("head")[0].appendChild(script);
+	}
+}
+//-->
+</script>
+<body onload="init();">
+	<noscript>
+		Without Javascript, there's nothing to see here; move along!
+	</noscript>
+	<div style="width:100%; height:100%; overflow-y:scroll; overflow-x:scroll;">
+		<div id="main">
+		</div>
+	</div>
+</body>
+</html>
