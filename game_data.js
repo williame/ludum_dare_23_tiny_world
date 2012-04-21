@@ -151,7 +151,12 @@ var locations = {
 			x:1457,y:2229,w:792,h:452,
 		},
 		commands:[
-			Go("south","balloon_shed"),
+			Go("south","balloon_shed",function(){
+				return !locations.balloon_shed.open;
+			}),
+			Go("south","balloon_shed_open",function(){
+				return locations.balloon_shed.open;
+			}),
 			Go("east","west_point"),
 			Go("west","south_yard"),
 		],
@@ -169,11 +174,30 @@ var locations = {
 		],
 	},
 	balloon_shed: {
+		open:false,
 		illustrated:{
-			x:1669,y:2691,x2:1949,y2:2953,
+			layer:"balloon_shed_interior",
+			x:0,y:0,w:281,h:293,
 		},
 		commands:[
 			Go("north","rough_ridge"),
+			Cmd(function(){
+				locations.balloon_shed.open=true;
+				go_to("balloon_shed_open");
+			},["open roof"]),
+		],
+	},
+	balloon_shed_open: {
+		illustrated:{
+			layer:"balloon_shed_open",
+			x:0,y:0,w:281,h:293,
+		},
+		commands:[
+			Go("north","rough_ridge"),
+			Cmd(function(){
+				locations.balloon_shed.open=false;
+				go_to("balloon_shed");
+			},["close roof"]),
 		],
 	},
 	rope_bridge: {
@@ -402,12 +426,20 @@ var locations = {
 
 var illustrated_layers = {
 	house_ground_floor:{
-		x:403,y:1252,
+		x:400,y:1240,
 		image:"house_groundfloor.jpg",
 	},
 	house_top_floor:{
-		x:403,y:1252,
+		x:400,y:1240,
 		image:"house_topfloor.jpg",
+	},
+	balloon_shed_interior:{
+		x:1669,y:2691,
+		image:"", //######
+	},
+	balloon_shed_open:{
+		x:1545,y:2585, //x:1669,y:2691,
+		image:"balloon_shed_open.jpg",
 	},
 };
 
