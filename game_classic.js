@@ -13,16 +13,22 @@ function _classic_create_location(location) {
 }
 
 var classic_ui = {
+	name: "classic",
 	init: function() {
 		document.getElementById("main_css").href = "classic.css";
 	},
 	create_location: _classic_create_location,
-	perform_layout: function(){},
+	perform_layout: function(){
+		var main = document.getElementById("main");
+		main.style.width = "";
+		main.style.height = "";
+	},
 	get_commandline: function(location) {
 		return document.getElementById("commandline_"+location.key);
 	},
 	scroll_into_view: function(location) {
 		window.location.hash = "location_"+location.key;
+		classic_ui.get_commandline(current_location).focus();
 	},
 	get_commands: get_commands,
 	on_commandline: function(location,event,line) {

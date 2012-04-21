@@ -3,19 +3,29 @@ var locations = {
 	quay: {
 		name:"The Quay",
 		illustrated:{
-			x:1920,y:900,w:500,h:100,
+			x:104,y:3096,w:500,h:600,
 		},
 		commands:[
-			Go("west","beach"),
+			Go("north","boat_shed"),
 		],
 	},
-	beach: {
-		name:"The Beach",
+	boat_shed: {
+		name:"The Boat Shed",
 		illustrated:{
-			x:600,y:100,w:100,h:100,
+			x:312,y:2864,w:269,h:344,
 		},
 		commands:[
-			Go("east","quay"),
+			Go("north","walled_garden"),
+			Go("south","quay"),
+		],
+	},
+	walled_garden: {
+		name:"The Walled Garden",
+		illustrated:{
+			x:424,y:2448,w:520,h:424,
+		},
+		commands:[
+			Go("south","boat_shed"),
 		],
 	},
 }, current_location;

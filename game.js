@@ -31,7 +31,6 @@ function union(assoc_array_1,assoc_array_2) {
 
 function on_commandline(event) {
 	if(event.keyCode == 66 && event.ctrlKey) {
-		console.log("AHAA");
 		if(++ui_index >= uis.length) ui_index = 0; // cycle through available UIs
 		set_ui(uis[ui_index]);
 		return false;
@@ -72,14 +71,12 @@ function go_to(key) {
 	if(!block) {
 		console.log("creating "+current_location.name);
 		block = current_location.ui = ui.create_location(current_location);
-		block.setAttribute("id","loc_"+key);
 		block.location = current_location;
 		document.getElementById("main").appendChild(block);
 		ui.get_commandline(current_location).onkeydown = on_commandline;
 		ui.perform_layout();
 	}
 	ui.scroll_into_view(current_location);
-	ui.get_commandline(current_location).focus();
 }
 
 function new_game() {
@@ -93,6 +90,7 @@ function set_ui(new_ui) {
 		if(uis[ui_index] == new_ui)
 			break;
 	ui = uis[ui_index];
+	console.log("UI is "+ui.name);
 	var main = document.getElementById("main"), i, location;
 	ui.init();
 	for(i in main.childNodes) {
@@ -101,15 +99,11 @@ function set_ui(new_ui) {
 			var block = ui.create_location(location);
 			main.replaceChild(block,location.ui);
 			location.ui = block;
-			console.log(""+block.style);
 			block.location = location;
-			block.setAttribute("id","loc_"+location.key);
 			ui.get_commandline(location).onkeydown = on_commandline;
 		}
 	}
 	ui.perform_layout();
-	if(current_location) {
+	if(current_location)
 		ui.scroll_into_view(current_location);
-		ui.get_commandline(current_location).focus();
-	}
 }
