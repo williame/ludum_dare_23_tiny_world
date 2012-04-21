@@ -73,6 +73,7 @@ var locations = {
 		commands:[
 			Go("west","north_lawn"),
 			Go("east","light_house"),
+			Go("south","coppice"),
 		],
 	},
 	vegetable_garden: {
@@ -89,7 +90,15 @@ var locations = {
 			x:1148,y:161,x2:1457,y2:319,
 		},
 		commands:[
-			Go("south","vegatable_garden"),
+			Go("south","vegetable_garden"),
+		],
+	},
+	coppice:{
+		illustrated:{
+			x:1822,y:1253,w:412,h:330,
+		},
+		commands:[
+			Go("north","mysterious_path"),
 		],
 	},
 	north_lawn: {
@@ -156,6 +165,7 @@ var locations = {
 			Go("west","secret_garden"),
 			Go("south","tennis_court"),
 			Go("north","terrace"),
+			Go("take muddy path","wood_pile"),
 		],
 	},
 	balloon_shed: {
@@ -210,6 +220,7 @@ var locations = {
 		commands:[
 			Go("west","boat_shed"),
 			Go("south","jetty"),
+			Go("take muddy path","south_yard"),
 		],
 	},
 	secret_garden: {
@@ -244,7 +255,7 @@ var locations = {
 			x:405,y:943,x2:719,y2:1214,
 		},
 		commands:[
-			Go("west","yard"),
+			Go("east","yard"),
 		],
 	},
 	maze: {
