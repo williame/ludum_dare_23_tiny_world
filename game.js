@@ -1,31 +1,32 @@
 
-function Cmd(functor,cmds) {
+function Cmd(functor,cmds,condition) {
 	functor.commands = cmds;
+	functor.condition = condition;
 	return functor;
 }
 
-function Go(dir,key) {
-	return Cmd(function() { go_to(key); },["go "+dir,"exit "+dir,dir]);
+function Go(dir,key,condition) {
+	return Cmd(function() { go_to(key); },["go "+dir,"exit "+dir,dir],condition);
 }
 
-function Take(obj,name) {
+function Take(obj,name,condition) {
 	return Cmd(function(){
 		remove_from_array(current_location.objects,obj);
 		inventory.push(obj);
 		ui.add_message(current_location,"you took the "+name);
-	},["take "+name]);
+	},["take "+name],condition);
 }
 
-function Drop(obj,name) {
+function Drop(obj,name,condition) {
 	return Cmd(function(){
 		remove_from_array(inventory,obj);
 		current_location.objects.push(obj);
 		ui.add_message(current_location,"you dropped the "+name);
-	},["drop "+name]);
+	},["drop "+name],condition);
 }
 
-function Msg(msg,cmds) {
-	return Cmd(function() { ui.add_message(current_location,msg); },cmds);
+function Msg(msg,cmds,condition) {
+	return Cmd(function() { ui.add_message(current_location,msg); },cmds,condition);
 }
 
 function remove_from_array(array,obj) {
@@ -106,14 +107,14 @@ function on_commandline(event) {
 function get_commands(location,standard_commands) {
 	var commands = {
 		"inventory":function() {
-			var description = "you are carrying: ";
-			if(inventory)
+			var description = "you are carrying";
+			if(inventory.length) {
 				for(var i in inventory) {
-					if(i) description += ", ";
+					description += i?", a ":" a ";
 					description += objects[inventory[i]].name;
 				}
-			else
-				description += "nothing!";
+			} else
+				description += " nothing!";
 			ui.add_message(location,description);
 		},
 	};
@@ -121,12 +122,13 @@ function get_commands(location,standard_commands) {
 	if(standard_commands)
 		commands = union(commands,standard_commands);
 	function add_commands(command) {
+		if(command.condition && !command.condition())
+			return;
 		for(var alias in command.commands)
 			commands[command.commands[alias]] = command;
 	}
 	function add_object(key) {
 		var object = objects[key];
-		console.log("add_object",key,object);
 		if(in_array(inventory,key)) {
 			if(object.drop)
 				add_commands(object.drop);

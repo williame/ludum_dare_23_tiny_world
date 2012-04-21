@@ -77,6 +77,7 @@ var locations = {
 		],
 	},
 	secret_garden: {
+		unlocked:false,
 		illustrated:{
 			x:1104,y:352,x2:1759,y2:1025,
 		},
@@ -108,7 +109,9 @@ var locations = {
 		},
 		commands:[
 			Go("west","yard"),
-			Go("north","secret_garden"),
+			Go("north","secret_garden", function(){ 
+				return locations.secret_garden.unlocked;
+			}),
 			Go("east","mysterious_path"),
 		],
 	},
@@ -178,12 +181,16 @@ var locations = {
 		],
 	},
 	rope_bridge: {
+		repaired:false,
 		illustrated:{
 			x:1777,y:3555,x2:2055,y2:3897,
 		},
 		commands:[
 			Go("west","t_path"),
 			Go("east","promontory"),
+			Go("south","rock",function(){
+				return locations.rope_bridge.repaired;
+			}),
 		],
 	},
 	jetty: {
@@ -221,6 +228,9 @@ var locations = {
 		illustrated:{
 			x:617,y:2885,x2:874,y2:3030,
 		},
+		objects:[
+			"plank",
+		],
 		commands:[
 			Go("west","boat_shed"),
 			Go("south","jetty"),
@@ -280,6 +290,9 @@ var locations = {
 		illustrated:{
 			x:1725,y:4132,w:585,h:603,
 		},
+		objects:[
+			"secret_garden_key",
+		],
 		commands:[
 			Go("north","rope_bridge"),
 		],
@@ -333,8 +346,51 @@ var objects = {
 	},
 	bottle_message:{
 		name:"message",
+		take:Take("bottle_message","message"),
+		drop:Drop("bottle_message","message"),
 		commands:[
 			Msg("this is the message blah blah",["read message","examine message"]),
+			Cmd(function() {
+				exchange_object("bottle_open",["bottle_closed_message"],"you put the message back in the bottle");
+				exchange_object("bottle_message",[]); // remove it
+			},["put message in the bottle"],
+			function() {
+				return in_array(inventory,"bottle_open") || in_array(current_location.objects,"bottle_open");
+			}),
+		],
+	},
+	plank:{
+		name:"a plank",
+		used:false,
+		take:Take("plank","plank"),
+		drop:Drop("plank","plank"),
+		commands:[
+			Msg("You examine the perfectly ordinary plank of wood",["examine plank"]),
+			Cmd(function() {
+				locations.rope_bridge.repaired = true;
+				objects.plank.used = true;
+				exchange_object("plank",[],"you use the plank to repair the bridge"); // remove it
+			},["repair the bridge","use the plank"],
+			function() {
+				return current_location == locations.rope_bridge;
+			}),
+		],
+	},
+	secret_garden_key:{
+		name:"a heavy iron key",
+		used:false,
+		take:Take("secret_garden_key","key"),
+		drop:Drop("secret_garden_key","key"),
+		commands:[
+			Msg("Its a very heavy iron key",["examine key","look at the key"]),
+			Cmd(function() {
+				locations.secret_garden.unlocked = true;
+				objects.secret_garden_key.used = true;
+				exchange_object("secret_garden_key",[],"the key fits the lock perfectly; you unlock the door"); // removed
+			},["open the door","unlock the door","use key"],
+			function() {
+				return current_location == locations.north_lawn;
+			}),
 		],
 	},
 };
