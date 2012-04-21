@@ -1,16 +1,15 @@
 body {
-	color: red;
-	background-color:lightgreen;
 }
 #main {
 	background-image: url('background1a.jpg');
 }
+.block {
+	font-size: 150%;
+	font-style: italic;
+	text-shadow: -2px 0 white, 0 2px white, 3px 0 white, 0 -3px white;
+}
 .commandline {
 	width: 80%;
-	color: red;
-	background-color:lightgreen;
 }
 .commandline:focus {
-	color: lightgreen;
-	background-color:red;
 }

@@ -63,7 +63,7 @@ function get_commands(location,standard_commands) {
 function go_to(key) {
 	console.log("go_to("+key+")");
 	if(current_location) {
-		console.log("was at",current_location.name);
+		ui.get_commandline(current_location).style.display="none";
 	}
 	current_location = locations[key];
 	console.log("going to",current_location.name);
@@ -76,6 +76,7 @@ function go_to(key) {
 		ui.get_commandline(current_location).onkeydown = on_commandline;
 		ui.perform_layout();
 	}
+	ui.get_commandline(current_location).style.display="block";
 	ui.scroll_into_view(current_location);
 }
 

@@ -1,13 +1,15 @@
 
 function _illustrated_create_location(location) {
-	var block = document.createElement("pre");
-	var html =
+	var block = document.createElement("div");
+	block.setAttribute("class","block");
+	var html = "<table style=\"width:100%;height:100%;\"><tr><td valign=\"middle\"><div>"+
 		"<a name=\"location_"+location.key+"\"/>"+
 		"<b>"+location.name+"</b><br/>";
 	if(location.description)
 		html += location.description+"<br/>";
 	html += "<input class=\"commandline\" id=\"commandline_"+location.key+"\"/><br/>"+
-		"<div id=\"auto_complete_"+location.key+"\" style=\"display:none;\"></div>";
+		"<div id=\"auto_complete_"+location.key+"\" style=\"display:none;\"></div>"+
+		"</div></td></tr></table>";
 	block.innerHTML = html;
 	return block;
 }
@@ -46,7 +48,6 @@ function _illustrated_perform_layout() {
 		scroll.to.y -= y;
 		main.parentNode.scrollLeft -= x;		
 		main.parentNode.scrollTop -= y;
-		_illustrated_scroll_into_view();
 	}
 	main._rect = {left:left,top:top,width:right-left,height:bottom-top};
 	main.style.width = ""+main._rect.width+"px";
@@ -62,6 +63,7 @@ function _illustrated_perform_layout() {
 			console.log(key+" = "+value.ui.style.left+","+value.ui.style.top);
 		}
 	}
+	_illustrated_scroll_into_view();
 }
 
 function _illustrated_scroll_into_view() {
@@ -76,7 +78,8 @@ function _illustrated_scroll_into_view() {
 		clearTimeout(scroll.timer);
 		scroll.timer = null;
 		scroll.last = scroll.to;
-		ui.get_commandline(current_location).focus();
+		if(current_location)
+			ui.get_commandline(current_location).focus();
 	} else {
 		var lerp = (now-scroll.start_time) / (scroll.end_time-scroll.start_time);
 		scroll.last = {x:scroll.from.x+(scroll.to.x-scroll.from.x)*lerp,
