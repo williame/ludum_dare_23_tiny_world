@@ -19,12 +19,17 @@ function init() {
 		new_game();
 	} else {
 		if(0 == script_count) {
+			// monkey patch String
+			if(typeof String.prototype.startsWith === "undefined")
+				String.prototype.startsWith = function (str) { return this.indexOf(str) == 0; };
+			if(typeof String.prototype.trim === "undefined") 
+				String.prototype.trim = function () { return this.replace(/^\s+|\s+$/g,''); }; 
 			setTimeout(function() {
 				if(script_count != script_files.length)
 					alert("its taking a long time to load all "+
 					"the required javascript scripts;\nmaybe something "+
 					"is wrong?\n(only got as far as "+script_files[script_count]+")");
-			},script_files.length*1000);
+			},script_files.length*3000);
 		}
 		console.log("loading "+script_files[script_count]+"...");
 		var script = document.createElement('script');

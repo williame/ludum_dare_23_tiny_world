@@ -35,17 +35,29 @@ function on_commandline(event) {
 		set_ui(uis[ui_index]);
 		return false;
 	}
-	var line = event.target.value.trim().replace(/\s+/g," ");
+	var line = event.target.value.trim().toLowerCase().replace(/\s+/g," ");
 	ui.on_commandline(current_location,event,line);
 	if(event.keyCode == 13) {
-		line = line.toLowerCase();
-		var commands = ui.get_commands(current_location), command;
-		for(command in commands)
-			if(command == line) {
-				commands[command]();
-				return true;
-			}
-		console.log("could not "+line);
+		if(line == "!show map") {
+			var restore = current_location.key, location;
+			for(location in locations)
+				go_to(location);
+			go_to(restore);
+		} else if(line.startsWith("!goto ")) {
+			var location = line.substring(6).trim();
+			if(location in locations)
+				go_to(location);
+			else
+				console.log("could not go to "+location);
+		} else if(line.length) {
+			var commands = ui.get_commands(current_location), command;
+			for(command in commands)
+				if(command == line) {
+					commands[command]();
+					return true;
+				}
+			console.log("could not "+line);
+		}
 	}
 	return true;
 }

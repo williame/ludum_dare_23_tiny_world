@@ -95,6 +95,7 @@ function _illustrated_scroll_into_view() {
 var illustrated_ui = {
 	name: "illustrated",
 	init: function() {
+		window.location.hash = "";
 		document.getElementById("main_css").href = "illustrated.css";
 		illustrated_ui._scroll = {
 			from:{x:0,y:0},
