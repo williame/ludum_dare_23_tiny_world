@@ -377,7 +377,8 @@ var locations = {
 		name: "Garage",
 		description: "The Professors garage contains several curious contraptions.",
 		illustrated:{
-			x:405,y:943,x2:719,y2:1214,
+			layer:"garage",
+			x:0,y:0,w:719-405,h:1214-943,
 		},
 		commands:[
 			Go("east","yard"),
@@ -688,6 +689,10 @@ var illustrated_layers = {
 		x:312,y:2864,
 		image:"boat_shed_interior.jpg",
 	},
+	garage:{
+		x:405,y:943,
+		image:"garage_interior.jpg",
+	},
 	cave:{
 		x:2303,y:2900,
 		image:"cave_interior.jpg",
@@ -850,5 +855,44 @@ var objects = {
 			Msg("a rough hole hewn in the east wall leads deep underground away from the house",["examine hole"]),
 		],
 	},
+};
+
+var npcs = {
+	octopus:{
+		name:"A large octopus",
+		illustrated:{
+			avatar:"char_octopus.png",
+		},
+	},
+	robot:{
+		name:"Robot",
+		illustrated:{
+			avatar:"char_robot.png",
+		},
+	},
+	sioux:{
+		name:"The Sioux Indians",
+		illustrated:{
+			avatar:"char_sioux.png",
+		},
+	},
+	Woman:{
+		name:"The Bossy Woman and her husband",
+		illustrated:{
+			avatar:"char_woman.png",
+		},
+	},
+	baron:{
+		name:"The Baron",
+		illustrated:{
+			avatar:"char_baron.png",
+		},
+	},
+	hedgehog:{
+		name:"Hedgehog",
+		illustrated:{
+			avatar:"char_hedgehog.png",
+		},
+	},	
 };
 

@@ -9,7 +9,8 @@ function _illustrated_create_location(location) {
 			image = location.illustrated.images[image];
 			html += "<img src=\""+image.image+"\" style=\"position:relative; left:"+image.x+"px; top:"+image.y+"px;\"/>";
 		}
-	html += "<b>"+location.name+"</b><br/>";
+	html += "<div id=\"npcs_"+location.key+"\" style=\"display:none;\"></div>"+
+		"<b>"+location.name+"</b><br/>";
 	for(var message in location.messages)
 		html += "<div class=\"message\">"+location.messages[message]+"</div>"
 	html += "<input class=\"commandline\" id=\"commandline_"+location.key+"\"/><br/>"+
@@ -17,6 +18,7 @@ function _illustrated_create_location(location) {
 		"<div id=\"error_"+location.key+"\" style=\"display:none;\" class=\"error\"></div>"+
 		"</div></td></tr></table>";
 	block.innerHTML = html;
+	illustrated_ui.update_npcs(location);
 	return block;
 }
 
@@ -50,7 +52,7 @@ function _illustrated_ui_set_layer(layer) {
 	
 }
 
-function _illustrated_perform_layout() {
+function _illustrated_perform_layout(location) {
 	// work out explored bounds
 	var key, value, ui,
 		left = 10000000, top = 10000000,
@@ -212,6 +214,24 @@ var illustrated_ui = {
 			console.log("now on layer "+illustrated_ui.layer);
 			_illustrated_ui_set_layer(illustrated_ui.layer);
 		}
+	},
+	update_npcs: function(location) {
+		var div = document.getElementById("npcs_"+location.key);
+		if(!div) return;
+		var html = "";		
+		if(location.npcs.length) {
+			for(var npc in location.npcs) {
+				npc = location.npcs[npc];
+				console.log(npc.illustrated);
+				html += "<img src=\""+npc.illustrated.avatar+"\"/>";
+			}
+			html += "<br/>";
+		}
+		if(html.length) {
+			div.innerHTML = html;
+			div.style.display = "block";
+		} else
+			div.style.display = "none";
 	},
 };
 

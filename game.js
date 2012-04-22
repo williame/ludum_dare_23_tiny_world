@@ -6,7 +6,9 @@ function Cmd(functor,cmds,condition) {
 }
 
 function Go(dir,key,condition) {
-	return Cmd(function() { go_to(key); },["go "+dir,"exit "+dir,dir],condition);
+	var go = Cmd(function() { go_to(key); },["go "+dir,"exit "+dir,dir],condition);
+	go.go = key; // so npcs know its navigable
+	return go;
 }
 
 function Take(obj,name,condition) {
@@ -216,16 +218,54 @@ function refresh_location(location) {
 	new_commandline.parentNode.replaceChild(commandline,new_commandline);
 	commandline.style.display=(location==current_location?"block":"none");
 	commandline.onkeydown = on_commandline;
-	ui.perform_layout();
+	ui.perform_layout(location);
 	if(location === current_location)
 		commandline.focus();
+}
+
+function npc_tick() {
+	for(var npc in npcs) {
+		npc = npcs[npc];
+		if(npc.location) {
+			var commands = get_commands(npc.location), command, go = [];
+			for(command in commands) {
+				command = commands[command];
+				if(command.go)
+					go.push(command.go);
+			}
+			if(go.length)
+				move_npc(npc,locations[go[Math.floor(Math.random()*go.length)]]);
+		}
+	}
+	setTimeout(npc_tick,1000*2);
+}
+
+function move_npc(npc,location) {
+	if(npc.location) {
+		remove_from_array(npc.location.npcs,npc);
+		if(npc.location.ui)
+			ui.update_npcs(npc.location);
+	}
+	npc.location = location;
+	if(location) {
+		location.npcs.push(npc);
+		if(location.ui)
+			ui.update_npcs(location);
+	}
 }
 
 var inventory;
 
 function new_game() {
 	inventory = [];
+	// reset all objects etc; not going to happen
+	var loc_names = [], location;
+	for(location in locations)
+		loc_names.push(location);
+	for(var npc in npcs)
+		move_npc(npcs[npc],locations[loc_names[Math.floor(Math.random()*loc_names.length)]]);
 	go_to("jetty");
+	setTimeout(npc_tick,1000*2);
 }
 
 function add_message(location,message) {
@@ -234,7 +274,7 @@ function add_message(location,message) {
 	setTimeout(function() {
 		if(remove_from_array(location.messages,message))
 			refresh_location(location.key);
-	},1000*8);
+	},1000*20);
 	refresh_location(location.key);
 }
 
@@ -295,7 +335,7 @@ function show_modal(modal) {
 	}
 }
 
-function init_locations() {
+function init_game_data() {
 	var location, count = 0;
 	// init them; todo: validate them?
 	for(location in locations) {
@@ -309,6 +349,7 @@ function init_locations() {
 		count++;
 		if(!location.illustrated.layer)
 			location.illustrated.layer = "base";
+		location.npcs = [];
 	}
 	console.log("there are "+count+" locations!");
 	var object;
@@ -321,4 +362,14 @@ function init_locations() {
 		count++;
 	}
 	console.log("there are "+count+" objects!");
+	var npc;
+	count = 0;
+	for(npc in npcs) {
+		npcs[npc].key = npc;
+		npc = npcs[npc];
+		if(!npc.name)
+			npc.name = "!"+npc.key;
+		count++;
+	}
+	console.log("there are "+count+" npcs!");
 }
