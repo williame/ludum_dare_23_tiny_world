@@ -13,7 +13,7 @@ function Take(obj,name,condition) {
 	return Cmd(function(){
 		remove_from_array(current_location.objects,obj);
 		inventory.push(obj);
-		ui.add_message(current_location,"you took the "+name);
+		add_message(current_location,"you took the "+name);
 	},["take "+name],condition);
 }
 
@@ -21,12 +21,12 @@ function Drop(obj,name,condition) {
 	return Cmd(function(){
 		remove_from_array(inventory,obj);
 		current_location.objects.push(obj);
-		ui.add_message(current_location,"you dropped the "+name);
+		add_message(current_location,"you dropped the "+name);
 	},["drop "+name],condition);
 }
 
 function Msg(msg,cmds,condition) {
-	return Cmd(function() { ui.add_message(current_location,msg); },cmds,condition);
+	return Cmd(function() { add_message(current_location,msg); },cmds,condition);
 }
 
 function remove_from_array(array,obj) {
@@ -107,15 +107,23 @@ function on_commandline(event) {
 function get_commands(location,standard_commands) {
 	var commands = {
 		"inventory":function() {
-			var description = "you are carrying";
+			var description = "";
 			if(inventory.length) {
 				for(var i in inventory) {
-					description += i?", a ":" a ";
+					if(!description.length)
+						description = "you are carrying ";
+					else
+						description += ", ";
 					description += objects[inventory[i]].name;
 				}
 			} else
-				description += " nothing!";
-			ui.add_message(location,description);
+				description = "you aren't carrying anything";
+			add_message(location,description);
+		},
+		"help":function() {
+			if(location.hint)
+				add_message(loction,location.hint);
+			ui.show_commands(location,commands);
 		},
 	};
 	var command, object;
@@ -172,15 +180,17 @@ function go_to(key) {
 
 function refresh_location(location) {
 	location = locations[location];
-	var commandline = ui.get_commandline(location), old_commandline_text = commandline.value;
+	var commandline = ui.get_commandline(location);
 	var block = ui.create_location(location);
 	location.ui.parentNode.replaceChild(block,location.ui);
 	location.ui = block;
 	block.location = location;
-	commandline = ui.get_commandline(location);
-	commandline.value = old_commandline_text;
+	var new_commandline = ui.get_commandline(location);
+	new_commandline.parentNode.replaceChild(commandline,new_commandline);
 	commandline.style.display=(location==current_location?"block":"none");
 	commandline.onkeydown = on_commandline;
+	if(location === current_location)
+		commandline.focus();
 }
 
 var inventory;
@@ -190,13 +200,23 @@ function new_game() {
 	go_to("jetty");
 }
 
+function add_message(location,message) {
+	remove_from_array(location.messages,message);
+	location.messages.push(message);
+	setTimeout(function(){
+		if(remove_from_array(location.messages,message))
+			refresh_location(location.key);
+	},1000*3);
+	refresh_location(location.key);
+}
+
 function exchange_object(from,to,msg) {
 	if(remove_from_array(inventory,from))
 		inventory = inventory.concat(to);
 	else if(remove_from_array(current_location.objects,from))
 		current_location.objects = current_location.objects.concat(to);
 	if(msg)
-		ui.add_message(current_location,msg);
+		add_message(current_location,msg);
 }
 
 var uis = [], ui = null, ui_index = -1;
@@ -229,6 +249,7 @@ function init_locations() {
 			location.name = "!"+location.key;
 		if(!location.objects)
 			location.objects = [];
+		location.messages = [];
 		count++;
 	}
 	console.log("there are "+count+" locations!");
