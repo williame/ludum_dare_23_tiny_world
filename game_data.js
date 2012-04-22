@@ -481,15 +481,15 @@ var objects = {
 		],
 	},
 	bottle_message:{
-		name:"message",
-		take:Take("bottle_message","message"),
-		drop:Drop("bottle_message","message"),
+		name:"lette",
+		take:Take("bottle_message","lette"),
+		drop:Drop("bottle_message","lette"),
 		commands:[
-			Msg("this is the message blah blah",["read message","examine message"]),
+			Msg("this is the lette blah blah",["read message","examine message"]),
 			Cmd(function() {
-				exchange_object("bottle_open",["bottle_closed_message"],"you put the message back in the bottle");
+				exchange_object("bottle_open",["bottle_closed_message"],"you put the letter back in the bottle");
 				exchange_object("bottle_message",[]); // remove it
-			},["put message in the bottle"],
+			},["put letter in the bottle"],
 			function() {
 				return in_array(inventory,"bottle_open") || in_array(current_location.objects,"bottle_open");
 			}),

@@ -8,6 +8,7 @@ body {
 	font-size: 150%;
 	font-style: italic;
 	font-weight: 900;
+	font-family: cursive, serif;
 	text-shadow: 0 -1px white, 1px 0 white, 0 1px white, -1px 0 white;
 }
 .error {
