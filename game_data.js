@@ -342,6 +342,9 @@ var locations = {
 		illustrated:{
 			x:1072,y:2792,x2:1388,y2:3278,
 		},
+		objects:[
+			"tennis_racket",
+		],
 		commands:[
 			Go("south","t_path"),
 			Go("north","south_yard"),
@@ -411,6 +414,15 @@ var locations = {
 			layer:"garage",
 			x:0,y:0,w:719-405,h:1214-943,
 		},
+		visits:0,
+		on_enter:[
+			function(){
+				if(locations.garage.visits++) return;
+				add_message(current_location,"A woman and man have just chained their tandem bicycle across the garage door<br/>"+
+					"The gentleman is sweating profusely; they seem to have pedelled up to the house in a great hurry");
+				move_npc(npcs.woman,current_location);
+			},
+		],
 		commands:[
 			Go("east","yard"),
 		],
@@ -895,13 +907,20 @@ var objects = {
 		examined:false,
 		commands:[
 			Cmd(function() {
-				add_message(current_location,"There are what appears to a half-assembled robot on the bench.  It doesn't look like its in workable condition.");
+				if(npcs.robot.location)
+					add_message(current_location,"There is the sharp outline in the dust where the robot had laid dormant");
+				else
+					add_message(current_location,"There are what appears to a half-disassembled robot on the bench.  It doesn't look like its in workable condition.");
 				if(!objects.lab_bench.examined) {
 					add_message(current_location,"There are some tools littering the table.");
 					objects.lab_bench.examined = true;
 					objects.hammar.hidden = objects.spanner.hidden = false;
 				}
 			},["examine lab bench","examine bench","examine table"]),
+			Cmd(function() {
+				add_message(current_location,"You make short work of repairing the robot");
+				move_npc(npcs.robot,current_location);
+			},["repair robot"],function(){return !objects.hammar.hidden && !npcs.robot.location;}),
 		],
 	},
 	lab_drawing_board:{
@@ -920,6 +939,13 @@ var objects = {
 			Msg("a rough hole hewn in the east wall leads deep underground away from the house",["examine hole"]),
 		],
 	},
+	tennis_racket:{
+		name:"a tennis racket",
+		commands:[
+			Msg("The tennis racket is truly entwined in the grass",["examine racket"]),
+			Msg("The tennis racket won't move",["take racket"]),
+		],
+	},	
 };
 
 var npcs = {
@@ -941,7 +967,7 @@ var npcs = {
 			avatar:"char_sioux.png",
 		},
 	},
-	Woman:{
+	woman:{
 		name:"The Bossy Woman and her husband",
 		illustrated:{
 			avatar:"char_woman.png",
