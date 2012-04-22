@@ -81,7 +81,8 @@ var locations = {
 		name:"Lantern",
 		description:"At the top of the spiral staircase in the lighthouse you find a large glass cylinder. On inspection it contains an Argand hollow wick lamp mounted in a parabolic reflector. ",
 		illustrated:{
-			x:2745,y:830,x2:3368,y2:1258,
+			layer:"lantern",
+			x:0,y:0,w:3368-2745,h:1258-830,
 		},
 		commands:[
 			Go("down","light_house"),
@@ -131,6 +132,28 @@ var locations = {
 		illustrated:{
 			x:1822,y:1253,w:412,h:330,
 		},
+		visits:0,
+		on_enter:[
+			function(){
+				if(locations.coppice.visits++) return;
+				var desc = document.createElement("p");
+				desc.innerHTML = "Once you pause in the clearing, your view lazily surveys the twinkling still sea.<br/>"+
+					"And then, from afar, closing, it's sails billowing in the wind, is a large galleon!<br/>"+
+					"It drops anchor just off shore and some of the crew set off to land in a dingy.<br/>"+
+					"They beach in the cover beneath your viewpoint; and to your amazement, they seem to be dressed<br/>"+
+					"unmistakingly as pirates!  Do you imagine they are those that waylaid the professor?";
+				show_modal(desc);
+				var dismiss = modaliser.dismiss;
+				modaliser.dismiss = function() {
+					move_npc(npcs.pirates,locations.beach);
+					locations.beach.illustrated.images = [{
+						x:300, y:20,
+						image:"pirate_dingy.png",
+					}];
+					dismiss();
+				};
+			},
+		],
 		commands:[
 			Go("north","mysterious_path"),
 		],
@@ -819,6 +842,10 @@ var illustrated_layers = {
 		x:2303,y:2900,
 		image:"cave_interior.jpg",
 	},
+	lantern:{
+		x:2745,y:830,
+		//####
+	},
 };
 
 var objects = {
@@ -875,7 +902,7 @@ var objects = {
 		commands:[
 			Cmd(function() {
 				var img = document.createElement("img");
-				img.src = "mosaic.jpg";
+				img.src = "mosaic.png";
 				show_modal(img);
 			},["examine bird bath","examine bath"]),
 		],
@@ -1051,6 +1078,12 @@ var npcs = {
 		illustrated:{
 			avatar:"char_hedgehog.png",
 		},
-	},	
+	},
+	pirates:{
+		name:"Pirates",
+		illustrated:{
+			avatar:"char_pirates.png",
+		},
+	},
 };
 
