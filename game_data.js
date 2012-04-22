@@ -402,7 +402,7 @@ var locations = {
 				show_modal(zep);
 				locations.north_path.illustrated.images = [
 					{
-						x:locations.north_path.illustrated.w,y:0,
+						x:locations.north_path.illustrated.w-150,y:-25,
 						image:"zeppelin_boat.png",
 					},
 				];
@@ -411,15 +411,6 @@ var locations = {
 		],
 		commands:[
 			Go("west","secret_garden"),
-		],
-	},
-	zeppelin_boat:{
-		illustrated:{
-			layer:"zeppelin_boat",
-			x:0,y:0,w:400,h:300,
-		},
-		commands:[
-			Go("east","north_path"),
 		],
 	},
 	hg_hall:{
@@ -500,7 +491,7 @@ var locations = {
 		],
 	},
 	hg_dumb_waiter:{
-		name:"you are in the dumb-waiter",
+		name:"Dumb Waiter",
 		description:"you are on the ground floor, in the kitchen",
 		illustrated:{
 			layer:"house_ground_floor",
@@ -515,7 +506,7 @@ var locations = {
 		],
 	},
 	ht_dumb_waiter:{
-		name:"you are in the dumb-waiter",
+		name:"Dumb Waiter",
 		description:"you are on the top floor",
 		illustrated:{
 			layer:"house_top_floor",
@@ -529,7 +520,7 @@ var locations = {
 		],
 	},
 	hb_dumb_waiter:{
-		name:"you are in the dumb-waiter",
+		name:"Dumb Waiter",
 		description:"you are in the celler under the house",
 		illustrated:{
 			layer:"house_basement",
@@ -550,6 +541,11 @@ var locations = {
 		},
 		objects:[
 			"dumb_waiter",
+			"small_stove",
+			"spanner",
+			"hammar",
+			"lab_bench",
+			"lab_drawing_board",
 		],
 		commands:[
 			Cmd(function(){
@@ -597,7 +593,7 @@ var illustrated_layers = {
 	},
 	balloon_shed_interior_flown:{
 		x:1669,y:2691,
-		//######
+		image:"balloon_shed_interior_empty.jpg",
 	},
 	balloon_shed_open:{
 		x:1545,y:2585, //x:1669,y:2691,
@@ -707,6 +703,56 @@ var objects = {
 				add_message(current_location,"Clearly whoever does the cooking doesn't take the stairs");
 				objects.dumb_waiter.examined = true;
 			},["examine dumb waiter","look at dumb waiter"]),
+		],
+	},
+	small_stove:{
+		name:"a small iron stove",
+		take:Take("small_stove","stove"),
+		drop:Drop("small_stove","stove"),
+		commands:[
+			Msg("its a small blackened iron stove",["examine stove","examine iron stove"]),
+		],
+	},
+	spanner:{
+		name:"a spanner",
+		hidden:true,
+		take:Take("spanner","spanner",function(){return !objects.spanner.hidden;}),
+		drop:Drop("spanner","spanner"),
+		commands:[
+			Msg("It looks like a perfectly normal spanner.  Very useful.",["examine spanner"],function(){return !objects.spanner.hidden;}),
+		],
+	},
+	hammar:{
+		name:"a hammar",
+		hidden:true,
+		take:Take("hammar","hammar",function(){return !objects.hammar.hidden;}),
+		drop:Drop("hammar","hammar"),
+		commands:[
+			Msg("It looks like a perfectly normal hammar.  Very useful.",["examine hammar"],function(){return !objects.hammar.hidden;}),
+		],
+	},
+	lab_bench:{
+		name:"a lab bench",
+		examined:false,
+		commands:[
+			Cmd(function() {
+				add_message(current_location,"There are what appears to a half-assembled robot on the bench.  It doesn't look like its in workable condition.");
+				if(!objects.lab_bench.examined) {
+					add_message(current_location,"There are some tools littering the table.");
+					objects.lab_bench.examined = true;
+					objects.hammar.hidden = objects.spanner.hidden = false;
+				}
+			},["examine lab bench","examine table"]),
+		],
+	},
+	lab_drawing_board:{
+		name:"a drawing board",
+		commands:[
+			Cmd(function() {
+				var img = document.createElement("img");
+				img.src = "lab_pic.jpg";
+				show_modal(img);
+			},["examine drawing board"]),
 		],
 	},
 };

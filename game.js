@@ -129,6 +129,20 @@ function get_commands(location,standard_commands) {
 				add_message(current_location,current_location.description);
 			else
 				add_message(current_location,"There is no description, sorry");
+			if(current_location.objects.length) {
+				var description = "";
+				for(var i in current_location.objects) {
+					var object = objects[current_location.objects[i]];
+					if(object.hidden) continue;
+					if(!description.length)
+						description = "There is ";
+					else
+						description += ", ";
+					description += object.name;
+				}
+				if(description.length)
+					add_message(location,description);
+			}
 		},
 		"help":function() {
 			if(location.hint)
@@ -295,4 +309,14 @@ function init_locations() {
 		count++;
 	}
 	console.log("there are "+count+" locations!");
+	var object;
+	count = 0;
+	for(object in objects) {
+		objects[object].key = object;
+		object = objects[object];
+		if(!object.name)
+			object.name = "!"+object.key;
+		count++;
+	}
+	console.log("there are "+count+" objects!");
 }
