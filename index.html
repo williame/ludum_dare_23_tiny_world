@@ -41,20 +41,6 @@ function init() {
 		document.getElementsByTagName("head")[0].appendChild(script);
 	}
 }
-
-function toggle_soundtrack() {
-	var soundtrack = document.getElementById("soundtrack"),
-		button = document.getElementById("soundtrack_button");
-	console.log(soundtrack,soundtrack.pause);
-	if(soundtrack.src) {
-		soundtrack.src = null;
-		button.innerHTML = "start music";
-	} else {
-		soundtrack.src = "music1.mp3";
-		button.innerHTML = "stop music";
-	}
-}
-
 //-->
 </script>
 <body onload="init();">
@@ -62,12 +48,14 @@ function toggle_soundtrack() {
 		Without Javascript, there's nothing to see here; move along!
 	</noscript>
 	<div style="width:100%; height:100%; overflow-y:scroll; overflow-x:scroll; position:relative; margin:0px; padding:0px;">
-		<div id="soundtrack_control" style="float:right;">
+		<!--div id="soundtrack_control" style="float:right;">
 			<embed id="soundtrack" src="music1.mp3" loop="true" hidden="false" autostart="true" width="100" height="20"></embed>
-			<!--button id="soundtrack_button" type="button" onclick="toggle_soundtrack();">stop soundtrack</button-->
-		</div>
+		</div-->
 		<div id="main" style="margin:0px; padding:0px;">
 		</div>
+	</div>
+	<div id="modal" style="display:none; position:absolute; text-align: center; left:0; top:0; width:100%; height:100%; margin:0px; padding:0px; background-color:rgba(80,80,80,.5);"
+		onclick="dismiss_modal();">
 	</div>
 </body>
 </html>

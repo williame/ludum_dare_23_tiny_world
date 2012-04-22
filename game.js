@@ -68,6 +68,10 @@ function union(assoc_array_1,assoc_array_2) {
 }
 
 function on_commandline(event) {
+	if(is_modal()) {		
+		dismiss_modal();
+		return false;
+	}
 	if(event.keyCode == 66 && event.ctrlKey) {
 		if(++ui_index >= uis.length) ui_index = 0; // cycle through available UIs
 		set_ui(uis[ui_index]);
@@ -237,6 +241,22 @@ function set_ui(new_ui) {
 	ui.perform_layout();
 	if(current_location)
 		go_to(current_location.key);
+}
+
+function is_modal() {
+	return document.getElementById("modal").style.display != "none";
+}
+
+function dismiss_modal() {
+	document.getElementById("modal").style.display = "none";
+	refresh_location(current_location.key);
+}
+
+function show_modal(modal) {
+	var container = document.getElementById("modal");
+	container.innerHTML = "";
+	container.appendChild(modal);
+	container.style.display = "block";
 }
 
 function init_locations() {

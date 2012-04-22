@@ -449,10 +449,10 @@ var objects = {
 		take:Take("bottle_closed_message","bottle"),
 		drop:Drop("bottle_closed_message","bottle"),
 		commands:[
-			Msg("the bottle is corked; it contains a message",["examine bottle"]),
+			Msg("the bottle is corked; it contains a letter",["examine bottle"]),
 			Cmd(function() {
 				exchange_object("bottle_closed_message",["bottle_open","bottle_message"],
-					"you uncork the bottle; the message falls out");
+					"you uncork the bottle; the letter falls out");
 			},["open bottle","uncork bottle"]),
 		],
 	},
@@ -481,11 +481,16 @@ var objects = {
 		],
 	},
 	bottle_message:{
-		name:"lette",
-		take:Take("bottle_message","lette"),
-		drop:Drop("bottle_message","lette"),
+		name:"letter",
+		take:Take("bottle_message","letter"),
+		drop:Drop("bottle_message","letter"),
 		commands:[
-			Msg("this is the lette blah blah",["read message","examine message"]),
+			Cmd(function() {
+				var img = document.createElement("img");
+				img.src = "letter.jpg";
+				img.style.maxWidth = img.style.maxHeight = "100%";
+				show_modal(img);
+			},["read letter","examine letter"]),
 			Cmd(function() {
 				exchange_object("bottle_open",["bottle_closed_message"],"you put the letter back in the bottle");
 				exchange_object("bottle_message",[]); // remove it
