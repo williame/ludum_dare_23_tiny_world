@@ -500,6 +500,8 @@ var locations = {
 		],
 	},
 	hg_toilet:{
+		name:"Latrine",
+		description:"The Professor is particularly proud of his newfangled water closet located inside the house. No more outdoors trips on blustery winter nights or chamber pots!",
 		illustrated:{
 			layer:"house_ground_floor",
 			x:174,y:19,w:117,h:164,
@@ -509,6 +511,8 @@ var locations = {
 		],
 	},
 	hg_library:{
+		name:"Library",
+		description:"Large heavy wooden bookshelves dominate each side of the room. At the far end is a reading table with what appears to be a gramophone on it.",
 		illustrated:{
 			layer:"house_ground_floor",
 			x:22,y:591,w:264,h:178,
@@ -518,6 +522,8 @@ var locations = {
 		],
 	},
 	hg_kitchen:{
+		name:"Kitchen",
+		description: "The kitchen is on the west side of the house, with a large brick oven in the north eastern corner and heavy table on the north side. There is a dumb waiter in the north west corner and a sink in front of the window.",
 		illustrated:{
 			layer:"house_ground_floor",
 			x:20,y:350,w:263,h:226,
@@ -576,6 +582,7 @@ var locations = {
 	},
 	lab:{
 		name:"The Secret Lab",
+		description:"Deep below the house, with thick stone walls and reinforced ceiling. ",
 		illustrated:{
 			layer:"house_basement",
 			x:18,y:310,w:394,h:358,
@@ -597,10 +604,15 @@ var locations = {
 		],
 	},
 	hg_piano:{
+		name:"Grand Johanna",
+		description:"Someone has placed a large piano in front of the north door. The piano lid and fall are closed. ",
 		illustrated:{
 			layer:"house_ground_floor",
 			x:301,y:19,w:285,h:165,
 		},
+			objects:[
+			"music_sheet",
+		],
 		commands:[
 			Go("north","yard"),
 			Go("south","hg_hall"),
@@ -616,6 +628,8 @@ var locations = {
 		],
 	},
 	cave:{
+		name:"Cave",
+		description:"Once used by smugglers, the cave now appears empty. To the east you can see a small entrance open to the sea; a cool breeze hits your face, sea spray drips off your nose. On the north side there is a ladder.",
 		illustrated:{
 			layer:"cave",
 			x:100,y:100,w:633,h:304,
@@ -731,6 +745,18 @@ var objects = {
 			},["open bottle","uncork bottle"]),
 		],
 	},
+	music_sheet:{
+		name:"Sheet of Music",
+		commands:[
+			Cmd(function() {
+				var img = document.createElement("img");
+				img.src = "music_sheet.jpg";
+				show_modal(img);
+			},["read music","examine music","examine sheet music","read sheet music"]),
+		}),
+		
+	}
+	
 	bottle_message:{
 		name:"letter",
 		take:Take("bottle_message","letter"),
