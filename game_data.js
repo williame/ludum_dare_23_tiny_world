@@ -200,6 +200,7 @@ var locations = {
 	},
 	balloon_shed: {
 		open:false,
+		flown:false,
 		illustrated:{
 			layer:"balloon_shed_interior",
 			x:0,y:0,w:281,h:293,
@@ -209,6 +210,23 @@ var locations = {
 			Cmd(function(){
 				locations.balloon_shed.open=true;
 				go_to("balloon_shed_open");
+				if(!locations.balloon_shed.flown) {
+					locations.balloon_shed.flown=true;
+					locations.balloon_shed.illustrated.layer = "balloon_shed_interior_flown";
+					var desc = document.createElement("p");
+					desc.setAttribute("class","modal_description");
+					desc.innerHTML =
+						"<img src=\"balloon_trip.jpg\" style=\"max-height:40%; max-width:40%;\"/><br/>"+
+						"The balloon rises and rises; you jump aboard just in time.<br/>"+
+						"As it rises higher and higher you get a glimpse of the whole island for the first time.<br>"+
+						"You notice something sparkling in the long grass to the south of the balloon shed;<br/>"+
+						"You wonder what that might be?<br/>"+
+						"Fearing for your life, you jump to the ground just in time.";
+					show_modal(desc);
+					locations.rope_bridge.commands.push(Go("north","long_grass"));
+					go_to("rope_bridge");
+					ui.perform_layout();
+				}
 			},["open roof"]),
 		],
 	},
@@ -476,6 +494,10 @@ var illustrated_layers = {
 		x:1669,y:2691,
 		image:"balloon_shed_interior.jpg",
 	},
+	balloon_shed_interior_flown:{
+		x:1669,y:2691,
+		//######
+	},
 	balloon_shed_open:{
 		x:1545,y:2585, //x:1669,y:2691,
 		image:"balloon_shed_open.jpg",
@@ -531,7 +553,6 @@ var objects = {
 			Cmd(function() {
 				var img = document.createElement("img");
 				img.src = "letter.jpg";
-				img.style.maxWidth = img.style.maxHeight = "100%";
 				show_modal(img);
 			},["read letter","examine letter"]),
 			Cmd(function() {

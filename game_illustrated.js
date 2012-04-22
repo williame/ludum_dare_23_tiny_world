@@ -72,7 +72,12 @@ function _illustrated_perform_layout() {
 			if(y+value.h > bottom) bottom = y+value.h;
 		}
 	}
-	// move all explored items to be in-bounds
+	// expose whole map anyway?
+	if(locations.balloon_shed.flown) {
+		left = top = 0;
+		right = 4008;
+		bottom = 5000;
+	}	// move all explored items to be in-bounds
 	var main = document.getElementById("main");
 	if(main._rect) {
 		var scroll = illustrated_ui._scroll;

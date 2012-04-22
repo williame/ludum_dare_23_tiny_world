@@ -4,8 +4,6 @@ function _classic_create_location(location) {
 	var html =
 		"<a name=\"location_"+location.key+"\"/>"+
 		"<b>"+location.name+"</b><br/>";
-	if(location.description)
-		html += location.description+"<br/>";
 	for(var message in location.messages)
 		html += "<div class=\"message\">"+location.messages[message]+"</div>"
 	html += "<input class=\"commandline\" id=\"commandline_"+location.key+"\"/><br/>"+

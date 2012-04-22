@@ -171,10 +171,8 @@ function go_to(key) {
 		ui.get_commandline(current_location).style.display="none";
 	}
 	current_location = locations[key];
-	console.log("going to",current_location.name);
 	var block = current_location.ui;
 	if(!block) {
-		console.log("creating "+current_location.name);
 		block = current_location.ui = ui.create_location(current_location);
 		block.location = current_location;
 		document.getElementById("main").appendChild(block);
@@ -252,20 +250,32 @@ function set_ui(new_ui) {
 		go_to(current_location.key);
 }
 
+var modaliser = null;
+
 function is_modal() {
-	return document.getElementById("modal").style.display != "none";
+	return modaliser != null;
 }
 
 function dismiss_modal() {
-	document.getElementById("modal").style.display = "none";
-	refresh_location(current_location.key);
+	if(modaliser) {
+		modaliser.dismiss();
+		refresh_location(current_location.key);
+	}
 }
 
 function show_modal(modal) {
+	dismiss_modal();
 	var container = document.getElementById("modal");
 	container.innerHTML = "";
+	modal.style.maxWidth = modal.style.maxHeight = "100%";
 	container.appendChild(modal);
 	container.style.display = "block";
+	modaliser = {
+		dismiss:function() {
+			document.getElementById("modal").style.display = "none";
+			modaliser = null;
+		},
+	}
 }
 
 function init_locations() {
