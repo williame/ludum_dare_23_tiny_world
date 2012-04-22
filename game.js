@@ -16,7 +16,7 @@ function Take(obj,name,condition) {
 		remove_from_array(current_location.objects,obj);
 		inventory.push(obj);
 		add_message(current_location,"you took the "+name);
-	},["take "+name],condition);
+	},["take "+name,"pick up "+name],condition);
 }
 
 function Drop(obj,name,condition) {
@@ -24,7 +24,7 @@ function Drop(obj,name,condition) {
 		remove_from_array(inventory,obj);
 		current_location.objects.push(obj);
 		add_message(current_location,"you dropped the "+name);
-	},["drop "+name],condition);
+	},["drop "+name,"discard "+name],condition);
 }
 
 function Msg(msg,cmds,condition) {

@@ -767,6 +767,7 @@ var locations = {
 		},
 		objects:[
 			"dumb_waiter",
+			"cipher",
 		],
 		commands:[
 			Go("east","ht_antiroom"),
@@ -1098,6 +1099,18 @@ var objects = {
 						document.getElementById("moby_dick").focus();
 				},0);
 			},["read moby dick"]),
+		],
+	},
+	cipher:{
+		name:"a curious note written in what appear to be hieroglyphs",
+		take:Take("cipher","note"),
+		drop:Drop("cipher","note"),
+		commands:[
+			Cmd(function(){
+				var img = document.createElement("img");
+				img.src = "code.jpg";
+				show_modal(img);
+			},["examine note","look at note"]),
 		],
 	},
 };
