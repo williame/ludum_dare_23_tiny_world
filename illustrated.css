@@ -1,15 +1,22 @@
 body {
-	margin:0px;
+	margin: 0px;
+	color: white;
+	background-color: black;
+
+	font-size: 150%;
+	font-style: italic;
+	font-weight: 900;
+	font-family: cursive, serif;
+	text-shadow:
+		0 -1px rgba(80,80,80,0.8),
+		1px 0 rgba(80,80,80,0.8),
+		0 1px rgba(80,80,80,0.8),
+		-1px 0 rgba(80,80,80,0.8);
 }
 #main {
 	background-image: url('background1a.jpg');
 }
 .block {
-	font-size: 150%;
-	font-style: italic;
-	font-weight: 900;
-	font-family: cursive, serif;
-	text-shadow: 0 -1px white, 1px 0 white, 0 1px white, -1px 0 white;
 }
 .error {
 	color: red;
@@ -19,6 +26,4 @@ body {
 }
 .commandline:focus {
 }
-.modal_description {
-	text-shadow: 0 -1px white, 1px 0 white, 0 1px white, -1px 0 white;
-}
+
