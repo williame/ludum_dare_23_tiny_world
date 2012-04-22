@@ -211,10 +211,23 @@ var locations = {
 	},
 	promontory: {
 		name:"Folly",
-		description:"On the promontory there stand the ruins of a single-story watch tower, with crenelations and arrow loops. The stonework appears quite recent. You suffer a flying fish attack. Their cruel claws tickle your skin and one tries to swallow your earlobe whole. Where is that flying fish net when you need it?",
+		description:"On the promontory there stand the ruins of a single-story watch tower, with crenelations and arrow loops.<br/>The stonework appears quite recent.",
 		illustrated:{
 			x:2422,y:3258,x2:3259,y2:3917,
 		},
+		visits:0,
+		on_enter:[
+			function(){
+				if(locations.promontory.visits++) return;
+				var p = document.createElement("p");
+				p.innerHTML = "On the promontory there stand the ruins of a single-story watch tower, with crenelations and arrow loops. "+
+					"The stonework appears quite recent.<br/>"+
+					"You suffer a flying fish attack. Their cruel claws tickle your skin and one tries to swallow your earlobe whole. "+
+					"Where is that flying fish net when you need it?<br/>"+
+					"<img src=\"folly.jpg\"/>";
+				show_modal(p);
+			},
+		],
 		commands:[
 			Go("north","west_point"),
 			Go("west","rope_bridge"),
