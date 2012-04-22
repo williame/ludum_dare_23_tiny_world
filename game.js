@@ -124,6 +124,12 @@ function get_commands(location,standard_commands) {
 				description = "you aren't carrying anything";
 			add_message(location,description);
 		},
+		"look":function() {
+			if(current_location.description)
+				add_message(current_location,current_location.description);
+			else
+				add_message(current_location,"There is no description, sorry");
+		},
 		"help":function() {
 			if(location.hint)
 				add_message(loction,location.hint);
@@ -172,6 +178,8 @@ function go_to(key) {
 		block = current_location.ui = ui.create_location(current_location);
 		block.location = current_location;
 		document.getElementById("main").appendChild(block);
+		if(current_location.description)
+			add_message(current_location,current_location.description);
 		ui.get_commandline(current_location).onkeydown = on_commandline;
 		ui.perform_layout();
 	}
@@ -193,6 +201,7 @@ function refresh_location(location) {
 	new_commandline.parentNode.replaceChild(commandline,new_commandline);
 	commandline.style.display=(location==current_location?"block":"none");
 	commandline.onkeydown = on_commandline;
+	ui.perform_layout();
 	if(location === current_location)
 		commandline.focus();
 }

@@ -12,7 +12,8 @@ var locations = {
 	boat_shed: {
 		name:"The Boat Shed",
 		illustrated:{
-			x:312,y:2864,w:269,h:344,
+			layer:"boat_shed",
+			x:0,y:0,w:269,h:344,
 		},
 		commands:[
 			Go("south","quay"),
@@ -473,11 +474,15 @@ var illustrated_layers = {
 	},
 	balloon_shed_interior:{
 		x:1669,y:2691,
-		image:"", //######
+		image:"balloon_shed_interior.jpg",
 	},
 	balloon_shed_open:{
 		x:1545,y:2585, //x:1669,y:2691,
 		image:"balloon_shed_open.jpg",
+	},
+	boat_shed:{
+		x:312,y:2864,
+		image:"boat_shed_interior.jpg",
 	},
 };
 

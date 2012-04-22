@@ -5,8 +5,6 @@ function _illustrated_create_location(location) {
 	var html = "<table style=\"width:100%;height:100%;\"><tr><td valign=\"middle\"><div>"+
 		"<a name=\"location_"+location.key+"\"/>"+
 		"<b>"+location.name+"</b><br/>";
-	if(location.description)
-		html += location.description+"<br/>";
 	for(var message in location.messages)
 		html += "<div class=\"message\">"+location.messages[message]+"</div>"
 	html += "<input class=\"commandline\" id=\"commandline_"+location.key+"\"/><br/>"+
