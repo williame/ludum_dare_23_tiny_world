@@ -230,6 +230,9 @@ var locations = {
 				show_modal(p);
 			},
 		],
+		objects:[
+			"brick",
+		],
 		commands:[
 			Go("north","west_point"),
 			Go("west","rope_bridge"),
@@ -420,6 +423,9 @@ var locations = {
 		illustrated:{
 			x:411,y:2432,x2:975,y2:2868,
 		},
+		objects:[
+			"wellingtons",
+		],
 		commands:[
 			Go("east","south_yard"),
 		],
@@ -431,6 +437,9 @@ var locations = {
 			layer:"house_ground_floor",
 			x:285,y:781,x2:277,y2:330,
 		},
+		objects:[
+			"hose",
+		],
 		commands:[
 			Go("north","hg_dining"),
 		],
@@ -470,6 +479,10 @@ var locations = {
 					dismiss();
 				};
 			},
+		],
+		objects:[
+			"bellows",
+			"steam_engine",
 		],
 		commands:[
 			Go("east","yard"),
@@ -605,6 +618,9 @@ var locations = {
 			layer:"house_ground_floor",
 			x:18,y:193,w:269,h:148,
 		},
+		objects:[
+			"armor",
+		],
 		commands:[
 			Go("east","hg_hall"),
 			Go("upstairs","ht_landing"),
@@ -629,6 +645,9 @@ var locations = {
 			layer:"house_ground_floor",
 			x:22,y:591,w:264,h:178,
 		},
+		objects:[
+			"book_ends",
+		],
 		commands:[
 			Go("east","hg_dining"),
 		],
@@ -642,6 +661,7 @@ var locations = {
 		},
 		objects:[
 			"dumb_waiter",
+			"cooking_pot",
 		],
 		commands:[
 			Go("east","hg_fireplace"),
@@ -964,6 +984,86 @@ var objects = {
 			function() {
 				return in_array(inventory,"bottle_open") || in_array(current_location.objects,"bottle_open");
 			}),
+		],
+	},
+	cooking_pot:{
+		name:"cooking pot",
+		used:false,
+		take:Take("cooking pot","pot"),
+		drop:Drop("cooking pot","pot"),
+		commands:[
+			Msg("a large almost spherical pressure cooking pot",["examine pot","examine cooking pot"]),
+			
+		],
+	},
+	book_ends:{
+		name:"Book ends",
+		used:false,
+		take:Take("book ends","book ends"),
+		drop:Drop("book ends","book ends"),
+		commands:[
+			Msg("Two heavy lead book ends",["examine book ends"]),
+			
+		],
+	},
+	hose:{
+		name:"Garden Hose",
+		used:false,
+		take:Take("Garden Hose","Hose"),
+		drop:Drop("Garden Hose","Hose"),
+		commands:[
+			Msg("a good strong garden hose about 60 feet long",["examine hose","examine Garden hose"]),
+			
+		],
+	},
+	wellingtons:{
+		name:"A pair of Wellington Boots",
+		used:false,
+		take:Take("wellington boots","boots"),
+		drop:Drop("wellington boots","boots"),
+		commands:[
+			Msg("A good pair of rubber wellies. They fit your size.",["examine boots","examine wellington boots"]),
+			
+		],
+	},
+	armor:{
+		name:"A suit of armor",
+		used:false,
+		take:Take("suit of armor","armor"),
+		drop:Drop("suit of armor","armor"),
+		commands:[
+			Msg("A suit of armor, about your size.",["examine suit of armor","examine armor"]),
+			
+		],
+	},
+	bellows:{
+		name:"Bellows",
+		used:false,
+		take:Take("bellows","bellows"),
+		drop:Drop("bellows","bellows"),
+		commands:[
+			Msg("A large set of bellows used for blowing air.",["examine bellows","examine bellows"]),
+			
+		],
+	},
+	brick:{
+		name:"Brick",
+		used:false,
+		take:Take("brick","brick"),
+		drop:Drop("brick","brick"),
+		commands:[
+			Msg("A heavy building brick.",["examine brick","examine brick"]),
+			
+		],
+	},
+	steam_engine:{
+		name:"Steam engine",
+		used:false,
+		take:Take("Steam engine","Steam engine"),
+		drop:Drop("Steam engine","Steam engine"),
+		commands:[
+			Msg("The steam car has a perfectly good steam engine but it has recently been repaired and is not attached to the car.",["examine bellowsr","examine bellows"]),
+			
 		],
 	},
 	plank:{
