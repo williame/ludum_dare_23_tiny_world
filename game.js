@@ -224,6 +224,7 @@ function refresh_location(location) {
 	location = locations[location];
 	var commandline = ui.get_commandline(location);
 	var block = ui.create_location(location);
+	if(!block) return; // wrong layer in illustrations for example
 	location.ui.parentNode.replaceChild(block,location.ui);
 	location.ui = block;
 	block.location = location;

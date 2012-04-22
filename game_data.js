@@ -636,7 +636,7 @@ var locations = {
 		commands:[
 			Go("down","hg_dumb_waiter"),
 			Cmd(function(){
-				go_to("hg_kitchen"); //#####
+				go_to("ht_observatory");
 			},["climb out","get out"]),
 		],
 	},
@@ -697,11 +697,11 @@ var locations = {
 		description:"The top of the stairs opens onto a hall that transverses the house. There are doors either side",
 		illustrated:{
 			layer:"house_top_floor",
-			x:19,y:22,w:145,h:159,
+			x:19,y:192,w:574,h:143,
 		},
 		commands:[
 			Go("downstairs","hg_front_hall"),
-			Go("east","ht_bedroom"),
+			Go("north","ht_bedroom"),
 			Go("south","ht_antiroom"),
 		],
 	},
@@ -710,10 +710,9 @@ var locations = {
 		description:"The sparse bedroom has a queen (Victoria) sized bed. The bed is neatly made. Doesn't look like anyone sleeps here.",
 		illustrated:{
 			layer:"house_top_floor",
-			x:180,y:20,w:580,h:185,
+			x:173,y:14,w:416,h:171,
 		},
 		commands:[
-			Go("west","ht_landing"),
 			Go("south","ht_landing"),
 		],
 	},
@@ -722,7 +721,7 @@ var locations = {
 		description:"This room appears empty. There are doors to the south and west.",
 		illustrated:{
 			layer:"house_top_floor",
-			x:300,y:350,w:590,h:630,
+			x:301,y:341,w:287,h:292,
 		},
 		commands:[
 			Go("north","ht_landing"),
@@ -735,13 +734,15 @@ var locations = {
 		description:"A large room dominated by a brass turntable, on which a large brass telescope is mounted.",
 		illustrated:{
 			layer:"house_top_floor",
-			x:20,y:350,w:290,h:770,
+			x:18,y:345,w:270,h:430,
 		},
 		objects:[
 			"dumb_waiter",
 		],
 		commands:[
 			Go("east","ht_antiroom"),
+			Cmd(function() { go_to("ht_dumb_waiter"); },["climb into dumb waiter"],
+				function() { return objects.dumb_waiter.examined; }),
 		],
 	},
 	ht_small_room:{
@@ -749,7 +750,7 @@ var locations = {
 		description:"This is empty.",
 		illustrated:{
 			layer:"house_top_floor",
-			x:300,y:645,w:590,h:770,
+			x:300,y:642,w:289,h:127,
 		},
 		commands:[
 			Go("north","ht_antiroom"),

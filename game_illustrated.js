@@ -1,5 +1,7 @@
 
 function _illustrated_create_location(location) {
+	if(location.illustrated.layer != current_location.illustrated.layer)
+		return null;
 	var block = document.createElement("div");
 	block.setAttribute("class","block");
 	var html = "<table style=\"width:100%;height:100%;\"><tr><td valign=\"middle\"><div>"+
