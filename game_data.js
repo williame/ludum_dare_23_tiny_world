@@ -1,7 +1,7 @@
 var locations = {
 	quay: {
 		name:"The Quay",
-		description:"",
+		description:"The small quay has mooring for several craft. It is empty",
 		illustrated:{
 			x:104,y:3096,w:500,h:600,
 		},
@@ -11,6 +11,7 @@ var locations = {
 	},
 	boat_shed: {
 		name:"The Boat Shed",
+		description:"The Professor's boat is not here. The shed slopes into the water on the south side, with two runners and a heavy cable winch. All objects are securely fastened down but there are numerous tools around. ",
 		illustrated:{
 			layer:"boat_shed",
 			x:0,y:0,w:269,h:344,
@@ -35,7 +36,7 @@ var locations = {
 	},
 	steps: {
 		name:"Steps",
-		description:"The narrow path round the light house is slippery, but it's nothing compared to the stone steps leading down to the water. More than once you break your fall and get a slimy white substance on your hands. Is this flying fish guano?",
+		description:"The narrow path round the light house is slippery, but it's nothing compared to the stone steps leading down to the water. More than once you break your fall and get a slimy white substance on your hands. Is this flying fish guano? They continue straight into the water. The water is colder here. In the distance you can hear muffled, ghostly, bells tolling.",
 		illustrated:{
 			x:2919,y:1271,x2:3193,y2:1400,
 		},
@@ -45,6 +46,7 @@ var locations = {
 	},
 	light_house: {
 		name:"Lighthouse",
+		description:"A tall cylindrical stone tower sits above the treacherous rocky headland. There is a small door at its base.",
 		illustrated:{
 			x:2745,y:830,x2:3368,y2:1258,
 		},
@@ -55,6 +57,8 @@ var locations = {
 		],
 	},
 	lantern:{
+		name:"Lantern",
+		description:"At the top of the spiral staircase in the lighthouse you find a large glass cylinder. On inspection it contains an Argand hollow wick lamp mounted in a parabolic reflector. ",
 		illustrated:{
 			x:2745,y:830,x2:3368,y2:1258,
 		},
@@ -88,6 +92,8 @@ var locations = {
 		],
 	},
 	workshop: {
+		name: "Work shop",
+		description: "The Professor's workshop contains a large anvil and a work bench. The small room has a low roof and is poorly lit. ",
 		illustrated:{
 			x:1148,y:161,x2:1457,y2:319,
 		},
@@ -157,8 +163,8 @@ var locations = {
 		],
 	},
 	promontory: {
-		name:"Promontory",
-		description:"You suffer a flying fish attack. Their cruel claws tickle your skin and one tries to swallow your earlobe whole. Where is that flying fish net when you need it?",
+		name:"Folly",
+		description:"On the promontory there stand the ruins of a single-story watch tower, with crenelations and arrow loops. The stonework appears quite recent. You suffer a flying fish attack. Their cruel claws tickle your skin and one tries to swallow your earlobe whole. Where is that flying fish net when you need it?",
 		illustrated:{
 			x:2422,y:3258,x2:3259,y2:3917,
 		},
@@ -186,7 +192,7 @@ var locations = {
 	},
 	south_yard:{
 		name:"South Yard",
-		description:"This is a sandy area, and the sand gets into your shoes. You thank god you're not carrying any sandwiches. You retract that last thought as you realise that your uncle won't be treating you to a meal this evening. A small wading bird has been making patterns in the sand, and you console yourself with the fact that almost it's entire diet must be that sand.",
+		description:"This is a sandy area, and the sand gets into your shoes. You thank god you're not carrying any sandwiches. You retract that last thought as you realise that the professor won't be treating you to a meal this evening. A small wading bird has been making patterns in the sand, and you console yourself with the fact that almost it's entire diet must be that sand.",
 		illustrated:{
 			x:984,y:2149,w:455,h:570,
 		},
@@ -199,6 +205,8 @@ var locations = {
 		],
 	},
 	balloon_shed: {
+		name: "Balloon Shed",
+		description: "A peculiar building, square in plan with a large quadsectioned onion dome copper roof.",
 		open:false,
 		flown:false,
 		illustrated:{
@@ -244,6 +252,8 @@ var locations = {
 		],
 	},
 	rope_bridge: {
+		name:"Rope Bridge",
+		description: "Someone has erected a rope bridge between the mainland and a small island to the south.",
 		repaired:false,
 		illustrated:{
 			x:1777,y:3555,x2:2055,y2:3897,
@@ -263,7 +273,7 @@ var locations = {
 	},
 	jetty: {
 		name:"The Jetty",
-		description: "You are standing on the jetty of your good friend the Professor, awaiting his arrival. His little steam launch is due precisely now and you hope to listen to tales of his adventures around the fire this evening. As you stand watching the flying fish struggling on the large piece of parchment floating in the sea to your south, you notice a small, green bottle floating towards you in murky water. You collect the bottle using the handy flying fish net.",
+		description: "You are standing on the jetty of your good friend the Professor, awaiting his arrival. His little steam launch is due precisely now and you hope to listen to tales of his adventures around the fire this evening. As you stand watching the flying fish struggling on the large piece of parchment floating in the sea to your south, you notice a small, green bottle floating towards you in murky water. You collect the bottle.",
 		illustrated:{
 			x:516,y:3379,x2:768,y2:3556,
 		},
@@ -287,7 +297,7 @@ var locations = {
 	},
 	tennis_court: {
 		name:"Tennis Court",
-		description:"This court looks like it hasn't been used in years. The wonky net and long grass suggest that your uncle may not actually be that keen on tennis. As you wander, you trip over an old tennis racquet and try to pick it up, but the grass has claimed it as it's own and doesn't seem likely to relinquish it.",
+		description:"This court looks like it hasn't been used in years. The wonky net and long grass suggest that the Professor may not actually be that keen on tennis. As you wander, you trip over an old tennis racquet and try to pick it up, but the grass has claimed it as it's own and doesn't seem likely to relinquish it.",
 		illustrated:{
 			x:1072,y:2792,x2:1388,y2:3278,
 		},
@@ -312,7 +322,7 @@ var locations = {
 		],
 	},
 	vegetable_garden: {
-		name:"Vegetable Garden",
+		name:"Walled Vegetable Garden",
 		description:"The carrots are coming up lovely this year, with only a little help from the moles pushing from below. Purple sprouting broccoli and artichokes take pride of place in this garden, with the more tasty foods sidelined in little beds around the edges.",
 		illustrated:{
 			x:411,y:2432,x2:975,y2:2868,
@@ -322,6 +332,8 @@ var locations = {
 		],
 	},
 	conservatory: {
+		name:"Conservatory",
+		description: "South facing with large metal-framed glass windows, this conservatory is ideal for growing exotic plants. Wooden trestle benches are arranged in a 'U' shape. There are no plants on the benches. It is incredibly hot and stuffy in here.",
 		illustrated:{
 			layer:"house_ground_floor",
 			x:285,y:781,x2:277,y2:330,
@@ -344,6 +356,8 @@ var locations = {
 		],
 	},
 	garage: {
+		name: "Garage",
+		description: "The Professors garage contains several curious contraptions.",
 		illustrated:{
 			x:405,y:943,x2:719,y2:1214,
 		},
@@ -368,8 +382,8 @@ var locations = {
 		],
 	},
 	rock:{
-		name:"Rock",
-		description:"A rock is a rock is a rock. Or is it?",
+		name:"Island",
+		description:"A rock is a rock is a rock. Or is it? Rumor has it that this rock was recently sold to an American industrialist on the mistaken understanding that it was the Isle of White.",
 		illustrated:{
 			x:1725,y:4132,w:585,h:603,
 		},
@@ -381,6 +395,7 @@ var locations = {
 		],
 	},
 	north_path:{
+		name: "North Path",
 		illustrated:{
 			x:2161,y:571,w:522,h:215,
 		},
@@ -397,8 +412,8 @@ var locations = {
 					"As it grows nearer and nearer, and bigger and bigger, you see that it is a ginormous,<br/>"+
 					"steam-belching Zeppelin!<br/>"+
 					"It heads straight for the island and stops just a short distance from the shore.<br/>"+
-					"Hovering just feet above the waves, it lowers a small rowing boat and a man rows powerfully,<br/>"+
-					"deliberately towards you.";
+					"Hovering just feet above the waves, it lowers a small steam boat which is started by two naval ratings.<br/>"+
+					"a man steers deliberately towards you.";
 				show_modal(zep);
 				locations.north_path.illustrated.images = [
 					{
@@ -414,6 +429,7 @@ var locations = {
 		],
 	},
 	zeppelin_boat:{
+		name: "Baron's Steam boat",
 		illustrated:{
 			layer:"zeppelin_boat",
 			x:0,y:0,w:400,h:300,
@@ -423,6 +439,8 @@ var locations = {
 		],
 	},
 	hg_hall:{
+		name: "Afternoon Room",
+		description: "The sun shines brightly, illuminating great swathes of polished parquet floor. To the east are large french windows. To the west is an archway leading towards the front of the house.",
 		illustrated:{
 			layer:"house_ground_floor",
 			x:299,y:187,w:289,h:158,
@@ -435,6 +453,8 @@ var locations = {
 		],
 	},
 	hg_fireplace:{
+		name: "Fireplace",
+		description:"A large Regency fireplace dominates the western wall of the room. ",
 		illustrated:{
 			layer:"house_ground_floor",
 			x:300,y:350,w:288,h:183,
@@ -446,6 +466,8 @@ var locations = {
 		],
 	},
 	hg_dining:{
+		name: "Dining room",
+		description: "The table is not laid. ",
 		illustrated:{
 			layer:"house_ground_floor",
 			x:298,y:543,w:291,h:228,
@@ -457,6 +479,8 @@ var locations = {
 		],
 	},
 	hg_front_hall:{
+		name: "Entrance Hall",
+		description: "From the unwelcoming sparsity of the front hall you deduce that the Professor does not wish for unwanted visitors. ",
 		illustrated:{
 			layer:"house_ground_floor",
 			x:18,y:193,w:269,h:148,
