@@ -106,6 +106,9 @@ var locations = {
 		illustrated:{
 			x:1104,y:352,x2:1759,y2:1025,
 		},
+		objects:[
+			"mosaic",
+		],
 		commands:[
 			Go("south","north_lawn"),
 			Go("north","workshop"),
@@ -523,7 +526,7 @@ var locations = {
 	},
 	hg_dining:{
 		name: "Dining room",
-		description: "The table is not laid. ",
+		description: "The table is not laid. How unthoughtful.",
 		illustrated:{
 			layer:"house_ground_floor",
 			x:298,y:543,w:291,h:228,
@@ -667,12 +670,66 @@ var locations = {
 		],
 	},
 	ht_landing:{
+		name:"landing",
+		description:"The top of the stairs opens onto a hall that transverses the house. There are doors either side",
 		illustrated:{
 			layer:"house_top_floor",
 			x:19,y:22,w:145,h:159,
 		},
 		commands:[
 			Go("downstairs","hg_front_hall"),
+			Go("east","ht_bedroom"),
+			Go("south","ht_antiroom"),
+		],
+	},
+	ht_bedroom:{
+		name:"Bedroom",
+		description:"The sparse bedroom has a queen (Victoria) sized bed. The bed is neatly made. Doesn't look like anyone sleeps here.",
+		illustrated:{
+			layer:"house_top_floor",
+			x:650,y:1250,w:990,h:1400,
+		},
+		commands:[
+			Go("west","ht_landing"),
+			Go("south","ht_landing"),
+		],
+	},
+	ht_antiroom:{
+		name:"Anti-room",
+		description:"This room appears empty. There are doors to the south and west.",
+		illustrated:{
+			layer:"house_top_floor",
+			x:700,y:1600,w:990,h:1840,
+		},
+		commands:[
+			Go("north","ht_landing"),
+			Go("west","ht_observatory"),
+			Go("south","ht_small_room"),
+		],
+	},
+	ht_observatory:{
+		name:"Observatory",
+		description:"A large room dominated by a brass turntable, on which a large brass telescope is mounted.",
+		illustrated:{
+			layer:"house_top_floor",
+			x:400,y:1600,w:700,h:2020,
+		},
+		objects:[
+			"dumb_waiter",
+		],
+		commands:[
+			Go("east","ht_antiroom"),
+		],
+	},
+	ht_small_room:{
+		name:"Small Room",
+		description:"This is empty.",
+		illustrated:{
+			layer:"house_top_floor",
+			x:700,y:1850,w:990,h:2020,
+		},
+		commands:[
+			Go("north","ht_antiroom"),
 		],
 	},
 	cave:{
@@ -797,7 +854,7 @@ var objects = {
 			Msg("It is blown from green glass and smells strongly of rum.  The bottle is closed",["examine bottle"]),
 			Cmd(function() {
 				exchange_object("bottle_closed",["bottle_open"],
-					"you uncork the bottle");
+					"you uncork the bottle, the whiff of strong alcohol nearly knocks you backward");
 			},["open bottle","uncork bottle"]),
 		],
 	},
@@ -811,6 +868,16 @@ var objects = {
 				img.src = "music_sheet.jpg";
 				show_modal(img);
 			},["read music","examine music","examine sheet music","read sheet music"]),
+		],		
+	},
+	mosaic:{
+		name:"bird bath with decorative bottom",
+		commands:[
+			Cmd(function() {
+				var img = document.createElement("img");
+				img.src = "mosaic.jpg";
+				show_modal(img);
+			},["examine bird bath","examine bath"]),
 		],
 	},
 	bottle_message:{
