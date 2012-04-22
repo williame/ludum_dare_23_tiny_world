@@ -546,11 +546,13 @@ var locations = {
 			"hammar",
 			"lab_bench",
 			"lab_drawing_board",
+			"lab_hole",
 		],
 		commands:[
 			Cmd(function(){
 				go_to("hb_dumb_waiter");
 			},["climb into dumb waiter"]),
+			Go("east","cave"),
 		],
 	},
 	hg_piano:{
@@ -572,9 +574,51 @@ var locations = {
 			Go("downstairs","hg_front_hall"),
 		],
 	},
+	cave:{
+		illustrated:{
+			layer:"cave",
+			x:100,y:100,w:633,h:304,
+		},
+		first_time:true,
+		on_enter:[
+			function(){
+				if(!locations.cave.first_time) return;
+				locations.cave.first_time = false;
+				var p = document.createElement("p");
+				p.innerHTML = "After following a winding dark dank passage towards the salty doft and roar of the sea,<br/>"+
+					"you arrive in a cave...";
+				show_modal(p);
+			},
+		],
+		commands:[
+			Go("west","lab"),
+			Cmd(function(){ go_to("above_cave"); },
+				["climb ladder","go up","up"]),
+			Msg("The sea is cold and uninviting",["go east","exit east","east"]),
+		],
+	},
+	above_cave:{
+		name:"Cliff Top",
+		illustrated:{
+			x:2303,y:2900,w:633,h:304,
+		},
+		on_enter:[
+			function(){
+				add_message(current_location,"As you climb out of the trap door from the cave, the trap door falls softly shut behind you.<br/>"+
+					"It fits so well it is difficult to believe there is a trap door there.");
+			},
+		],
+		commands:[
+			Go("north","west_point"),
+			Go("south","promontory"),
+		],
+	},
 }, current_location = null;
 
 var illustrated_layers = {
+	base:{
+		x:0,y:0,
+	},
 	house_ground_floor:{
 		x:400,y:1240,
 		image:"house_groundfloor.jpg",
@@ -602,6 +646,10 @@ var illustrated_layers = {
 	boat_shed:{
 		x:312,y:2864,
 		image:"boat_shed_interior.jpg",
+	},
+	cave:{
+		x:2303,y:2900,
+		image:"cave_interior.jpg",
 	},
 };
 
@@ -742,7 +790,7 @@ var objects = {
 					objects.lab_bench.examined = true;
 					objects.hammar.hidden = objects.spanner.hidden = false;
 				}
-			},["examine lab bench","examine table"]),
+			},["examine lab bench","examine bench","examine table"]),
 		],
 	},
 	lab_drawing_board:{
@@ -753,6 +801,12 @@ var objects = {
 				img.src = "lab_pic.jpg";
 				show_modal(img);
 			},["examine drawing board"]),
+		],
+	},
+	lab_hole:{
+		name:"a hole in the east wall",
+		commands:[
+			Msg("a rough hole hewn in the east wall leads deep underground away from the house",["examine hole"]),
 		],
 	},
 };

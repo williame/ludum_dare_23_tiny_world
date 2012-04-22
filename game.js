@@ -307,6 +307,8 @@ function init_locations() {
 			location.objects = [];
 		location.messages = [];
 		count++;
+		if(!location.illustrated.layer)
+			location.illustrated.layer = "base";
 	}
 	console.log("there are "+count+" locations!");
 	var object;
