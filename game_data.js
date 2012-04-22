@@ -273,9 +273,26 @@ var locations = {
 	},
 	jetty: {
 		name:"The Jetty",
-		description: "You are standing on the jetty of your good friend the Professor, awaiting his arrival. His little steam launch is due precisely now and you hope to listen to tales of his adventures around the fire this evening. As you stand watching the flying fish struggling on the large piece of parchment floating in the sea to your south, you notice a small, green bottle floating towards you in murky water. You collect the bottle.",
+		first_time:true,
+		plot: function(){
+			var p = document.createElement("p");
+			p.innerHTML = "You are standing on the jetty of your good friend the Professor, awaiting his arrival.<br/>"+
+				"His little steam launch is due precisely now and you hope to listen to tales of his<br/>"+
+				"adventures around the fire this evening. As you stand watching the flying fish struggling<br/>"+
+				"on the large piece of parchment floating in the sea to your south, you notice a small, green<br/>"+
+				"bottle floating towards you in murky water.";
+			show_modal(p);
+		},
+		on_enter:[
+			function(){
+				if(!locations.jetty.first_time) return;
+				locations.jetty.first_time = false;
+				locations.jetty.plot();
+			}
+		],
+		description:"The wooden jetty is where you had expected Dr Strange's home-made steam launch to moor.", 
 		illustrated:{
-			x:516,y:3379,x2:768,y2:3556,
+			x:516-100,y:3379-100,x2:768+200,y2:3556+300,
 		},
 		objects:[
 			"bottle_closed_message",
@@ -283,6 +300,7 @@ var locations = {
 		commands:[
 			Go("north","wood_pile"),
 			Go("east","t_path"),
+			Cmd(function(){locations.jetty.plot();},["explain plot","plot"]),
 		],
 	},
 	t_path: {
@@ -682,7 +700,7 @@ var objects = {
 		take:Take("bottle_closed_message","bottle"),
 		drop:Drop("bottle_closed_message","bottle"),
 		commands:[
-			Msg("the bottle is corked; it contains a letter",["examine bottle"]),
+			Msg("It is blown from green glass and smells strongly of rum.  The bottle is corked; it contains a letter",["examine bottle"]),
 			Cmd(function() {
 				exchange_object("bottle_closed_message",["bottle_open","bottle_message"],
 					"you uncork the bottle; the letter falls out");
@@ -694,7 +712,7 @@ var objects = {
 		take:Take("bottle_open","bottle"),
 		drop:Drop("bottle_open","bottle"),
 		commands:[
-			Msg("the bottle is open",["examine bottle"]),
+			Msg("It is blown from green glass and smells strongly of rum.  The bottle is open",["examine bottle"]),
 			Cmd(function() {
 				exchange_object("bottle_open",["bottle_closed"],
 					"you cork the bottle again");
@@ -706,7 +724,7 @@ var objects = {
 		take:Take("bottle_closed","bottle"),
 		drop:Drop("bottle_closed","bottle"),
 		commands:[
-			Msg("the bottle is closed",["examine bottle"]),
+			Msg("It is blown from green glass and smells strongly of rum.  The bottle is closed",["examine bottle"]),
 			Cmd(function() {
 				exchange_object("bottle_closed",["bottle_open"],
 					"you uncork the bottle");
