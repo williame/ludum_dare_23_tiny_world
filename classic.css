@@ -11,3 +11,9 @@ body {
 	color: black;
 	background-color:white;
 }
+.talker {
+	color: yellow;
+}
+.speech {
+	color: cyan;
+}

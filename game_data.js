@@ -10,7 +10,8 @@ var locations = {
 			function(){
 				if(++locations.quay.visits != 2) return;
 				var desc = document.createElement("p");
-				desc.innerHTML = "Approaching fast without apparent effort, a Sioux in a canoe lands at the quay";
+				desc.innerHTML = "Approaching fast without apparent effort, a Sioux in a canoe lands at the quay<br/>"+
+					"<img src=\"sioux_arrive.jpg\"/>";
 				show_modal(desc);
 				// do extra things when the message is dismissed by the user and they return to the game
 				var dismiss = modaliser.dismiss;
@@ -141,7 +142,8 @@ var locations = {
 					"And then, from afar, closing, it's sails billowing in the wind, is a large galleon!<br/>"+
 					"It drops anchor just off shore and some of the crew set off to land in a dingy.<br/>"+
 					"They beach in the cover beneath your viewpoint; and to your amazement, they seem to be dressed<br/>"+
-					"unmistakingly as pirates!  Do you imagine they are those that waylaid the professor?";
+					"unmistakingly as pirates!  Do you imagine they are those that waylaid the professor?<br/>"+
+					"<img src=\"pirates_arrive.jpg\"/>";
 				show_modal(desc);
 				var dismiss = modaliser.dismiss;
 				modaliser.dismiss = function() {
@@ -457,9 +459,16 @@ var locations = {
 		on_enter:[
 			function(){
 				if(locations.garage.visits++) return;
-				add_message(current_location,"A woman and man have just chained their tandem bicycle across the garage door<br/>"+
-					"The gentleman is sweating profusely; they seem to have pedelled up to the house in a great hurry");
-				move_npc(npcs.woman,current_location);
+				var div = document.createElement("div");
+				div.innerHTML = "A woman and man have just chained their tandem bicycle across the garage door<br/>"+
+					"The gentleman is sweating profusely; they seem to have pedelled up to the house in a great hurry<br/>"+
+					"<img src=\"tandem_arrive.jpg\"/>";
+				show_modal(div);
+				var dismiss = modaliser.dismiss;
+				modaliser.dismiss = function(){
+					move_npc(npcs.woman,current_location);
+					dismiss();
+				};
 			},
 		],
 		commands:[
@@ -1146,11 +1155,33 @@ var npcs = {
 		illustrated:{
 			avatar:"char_sioux.png",
 		},
+		lines:{
+			woman:{
+				filler:["TESTING WOMAN"],
+			},
+		},
 	},
 	woman:{
 		name:"The Bossy Woman and her husband",
 		illustrated:{
 			avatar:"char_woman.png",
+		},
+		lines:{
+			greet:[
+				"I say, I heard about the poor Professor's prediciment and I thought it best to <i>hurry</i> over here and check everything is alright... what with all this talk of Mayan treasure and all?",
+			],
+			filler:[
+				"Great scott, what a warm day for a treasure hunt this is!",
+			],
+			sioux:{
+				greet:[
+					"Now hang on a second, we can't have you Indians here waving your tomahawks around; it'll end in tears, you mark my words",
+				],
+				filler:[
+					"Must have been strenous work to get across the atlantic like you Indians did",
+					"There's no gulf stream for canoists to follow home you know",
+				],
+			},
 		},
 	},
 	baron:{

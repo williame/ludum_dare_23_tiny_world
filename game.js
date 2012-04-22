@@ -181,25 +181,32 @@ function get_commands(location,standard_commands) {
 			add_object(location.objects[object]);
 	for(command in location.commands)
 		add_commands(location.commands[command]);
+	for(var npc in location.npcs) {
+		npc = location.npcs[npc];
+		for(command in npc.commands)
+			add_object(npc.commands[command]);
+	}
 	return commands;
 }
 
 function go_to(key) {
 	var now = new Date().getTime();
 	console.log("go_to("+key+")",now);
-	if(current_location) {
-		ui.get_commandline(current_location).style.display="none";
-		// if you move slowly between rooms, npcs follow
-		if((now - current_location.entered) > 2000) { // 2 seconds
-			for(var npc in current_location.npcs) {
-				npc = current_location.npcs[npc];
-				move_npc(npc,locations[key]);
-			}
-		} else if(current_location.npcs.length && !npc_ticker)
-			npc_ticker = setTimeout(npc_tick,1000*20); // move them randomly starting in 20 seconds
-	}
+	var old_location = current_location;
 	current_location = locations[key];
 	current_location.entered = now;
+	if(old_location) {
+		ui.get_commandline(old_location).style.display="none";
+		// if you move slowly between rooms, npcs follow
+		if((now - old_location.entered) > 2000) { // 2 seconds
+			var move_npcs = old_location.npcs.slice();
+			for(var npc in move_npcs) {
+				npc = move_npcs[npc];
+				move_npc(npc,locations[key]);
+			}
+		} else if(old_location.npcs.length && !npc_ticker)
+			npc_ticker = setTimeout(npc_tick,1000*20); // move them randomly starting in 20 seconds
+	}
 	var block = current_location.ui;
 	if(!block) {
 		block = current_location.ui = ui.create_location(current_location);
@@ -261,17 +268,51 @@ function npc_tick() {
 		npc_ticker = null;
 }
 
+function npc_says(npc,location,list) {
+	if(!list) return;
+	if(!location.ui) return;
+	var msg = list[Math.floor(Math.random()*list.length)];
+	add_message(location,"<span class=\"talker\">"+npc.handle+"</span> <span class=\"speech\">"+msg+"</span>");
+}
+
 function move_npc(npc,location) {
+	// going from
 	if(npc.location) {
 		remove_from_array(npc.location.npcs,npc);
 		if(npc.location.ui)
 			ui.update_npcs(npc.location);
 	}
+	// to
 	npc.location = location;
 	if(location) {
 		location.npcs.push(npc);
 		if(location.ui)
 			ui.update_npcs(location);
+	}
+	// work out if they say anything
+	if(location == current_location) {
+		var msg = [];
+		if(!npc.greeted && npc.lines.greet.length) {
+			npc.greeted = true;
+			msg = npc.lines.greet;
+		}
+		if(!msg.length && (location.npcs.length > 1))
+			for(var other in location.npcs) {
+				other = location.npcs[other];
+				if(other === npc) continue;
+				if(!hasattr(npc.lines,other.key)) continue;
+				var lines = npc.lines[other.key];
+				if(!lines) continue;
+				if(!lines.greeted && lines.greet.length) {
+					lines.greeted = true;
+					msg = msg.concat(lines.greet);
+				} else if(lines.filler.length)
+					msg = msg.concat(lines.filler);
+			}
+		if(!msg.length && npc.lines.filler.length)
+			msg = npc.lines.filler;
+		if(msg.length)
+			npc_says(npc,location,msg);
 	}
 }
 
@@ -385,6 +426,16 @@ function init_game_data() {
 		npc = npcs[npc];
 		if(!npc.name)
 			npc.name = "!"+npc.key;
+		if(!npc.handle)
+			npc.handle = npc.name;
+		if(!npc.lines)
+			npc.lines = {}
+		if(!npc.lines.greet)
+			npc.lines.greet = [];
+		if(!npc.lines.filler)
+			npc.lines.filler = [];
+		if(!npc.commands)
+			npc.commands = [];
 		count++;
 	}
 	console.log("there are "+count+" npcs!");
