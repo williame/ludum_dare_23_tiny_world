@@ -1,8 +1,7 @@
-
 var locations = {
 	quay: {
 		name:"The Quay",
-		description:"You are standing on a quay awaiting the arrival of your uncle. His little ship is due in today and you hope to listen to tales of his adventures around the fire this evening. As you stand watching the flying fish struggling on the large piece of parchment floating in the sea to your south, you notice a small, green bottle floating towards you in murky water. You collect the bottle using the handy flying fish net.",
+		description:"",
 		illustrated:{
 			x:104,y:3096,w:500,h:600,
 		},
@@ -219,6 +218,8 @@ var locations = {
 		],
 	},
 	jetty: {
+		name:"The Jetty",
+		description: "You are standing on the jetty of your good friend the Professor, awaiting his arrival. His little steam launch is due precisely now and you hope to listen to tales of his adventures around the fire this evening. As you stand watching the flying fish struggling on the large piece of parchment floating in the sea to your south, you notice a small, green bottle floating towards you in murky water. You collect the bottle using the handy flying fish net.",
 		illustrated:{
 			x:516,y:3379,x2:768,y2:3556,
 		},
