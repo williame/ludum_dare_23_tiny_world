@@ -9,7 +9,7 @@ function _illustrated_create_location(location) {
 			image = location.illustrated.images[image];
 			html += "<img src=\""+image.image+"\" style=\"position:relative; left:"+image.x+"px; top:"+image.y+"px;\"/>";
 		}
-	html += "<div id=\"npcs_"+location.key+"\" style=\"display:none;\"></div>"+
+	html += "<div id=\"npcs_"+location.key+"\"></div>"+
 		"<b>"+location.name+"</b><br/>";
 	for(var message in location.messages)
 		html += "<div class=\"message\">"+location.messages[message]+"</div>"
@@ -18,7 +18,7 @@ function _illustrated_create_location(location) {
 		"<div id=\"error_"+location.key+"\" style=\"display:none;\" class=\"error\"></div>"+
 		"</div></td></tr></table>";
 	block.innerHTML = html;
-	illustrated_ui.update_npcs(location);
+	setTimeout(function(){ illustrated_ui.update_npcs(location); },0);
 	return block;
 }
 
@@ -215,19 +215,18 @@ var illustrated_ui = {
 			_illustrated_ui_set_layer(illustrated_ui.layer);
 		}
 	},
-	update_npcs: function(location) {
-		var div = document.getElementById("npcs_"+location.key);
+	update_npcs: function(location,div) {
+		if(!div) div = document.getElementById("npcs_"+location.key);
 		if(!div) return;
-		var html = "";		
+		var html = "";
 		if(location.npcs.length) {
 			for(var npc in location.npcs) {
 				npc = location.npcs[npc];
-				console.log(npc.illustrated);
-				html += "<img src=\""+npc.illustrated.avatar+"\"/>";
+				html += "<img src=\""+npc.illustrated.avatar+"\" width=\"50px\" height=\"50px\"/>";
 			}
 			html += "<br/>";
 		}
-		if(html.length) {
+		if(html.length > 0) {
 			div.innerHTML = html;
 			div.style.display = "block";
 		} else

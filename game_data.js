@@ -5,6 +5,27 @@ var locations = {
 		illustrated:{
 			x:104,y:3096,w:500,h:600,
 		},
+		visits:0,
+		on_enter:[
+			function(){
+				if(++locations.quay.visits != 2) return;
+				var desc = document.createElement("p");
+				desc.innerHTML = "Approaching fast without apparent effort, a Sioux in a canoe lands at the quay";
+				show_modal(desc);
+				// do extra things when the message is dismissed by the user and they return to the game
+				var dismiss = modaliser.dismiss;
+				modaliser.dismiss = function(){
+					move_npc(npcs.sioux,current_location);
+					locations.quay.illustrated.images = [{
+						x:180,
+						y:300,
+						image:"canoe.png",
+					}];
+					refresh_location(current_location.key);
+					dismiss(); // call framework stuff
+				};
+			},
+		],
 		commands:[
 			Go("north","boat_shed"),
 		],
@@ -304,6 +325,8 @@ var locations = {
 		],
 	},
 	t_path: {
+		name:" ",
+		description:"You are at a junction in the path; which direction do you want to go in?",
 		illustrated:{
 			x:818,y:3319,w:800,h:252,
 		},
@@ -326,10 +349,18 @@ var locations = {
 	},
 	wood_pile: {
 		name:"Wood Pile",
-		description:"A pile of wood. It's mostly garden hardwoods such as willow and apple, but there are a few leylandii in there. You give it a kick and a long-tailed hedgehog makes a bid for freedom, waggling said tail and flapping its ears in a bid to move faster.",
+		description:"A pile of wood. It's mostly garden hardwoods such as willow and apple, but there are a few leylandii in there.",
 		illustrated:{
 			x:617,y:2885,x2:874,y2:3030,
 		},
+		visits:0,
+		on_enter:[
+			function(){
+				if(locations.wood_pile.visits++) return;
+				add_message(current_location,"You give the pile a kick and a long-tailed hedgehog extracates itself, waggling said tail and flapping its ears in a bid to move faster.");
+				move_npc(npcs.hedgehog,current_location);
+			},
+		],
 		objects:[
 			"plank",
 		],
@@ -418,11 +449,10 @@ var locations = {
 		illustrated:{
 			x:2161,y:571,w:522,h:215,
 		},
-		has_zeppelin_boat: false,
+		visits:0,
 		on_enter:[
 			function() {
-				if(locations.north_path.has_zeppelin_boat) return;
-				locations.north_path.has_zeppelin_boat = true;
+				if(++locations.north_path.visits != 2) return;
 				var zep = document.createElement("p");
 				zep.setAttribute("class","modal_description");
 				zep.innerHTML =
@@ -434,13 +464,18 @@ var locations = {
 					"Hovering just feet above the waves, it lowers a small steam boat which is started by two naval ratings.<br/>"+
 					"a man steers deliberately towards you.";
 				show_modal(zep);
-				locations.north_path.illustrated.images = [
-					{
-						x:locations.north_path.illustrated.w-150,y:-25,
-						image:"zeppelin_boat.png",
-					},
-				];
-				locations.north_path.illustrated.w += 300;
+				var dismiss = modaliser.dismiss;
+				modaliser.dismiss = function(){
+					locations.north_path.illustrated.images = [
+						{
+							x:locations.north_path.illustrated.w-150,y:-25,
+							image:"zeppelin_boat.png",
+						},
+					];
+					locations.north_path.illustrated.w += 300;
+					move_npc(npcs.baron,current_location);
+					dismiss();
+				};
 			},
 		],
 		commands:[
@@ -611,7 +646,7 @@ var locations = {
 			layer:"house_ground_floor",
 			x:301,y:19,w:285,h:165,
 		},
-			objects:[
+		objects:[
 			"music_sheet",
 		],
 		commands:[
@@ -635,15 +670,19 @@ var locations = {
 			layer:"cave",
 			x:100,y:100,w:633,h:304,
 		},
-		first_time:true,
+		visits:0,
 		on_enter:[
 			function(){
-				if(!locations.cave.first_time) return;
-				locations.cave.first_time = false;
+				if(++locations.cave.visits != 1) return;
 				var p = document.createElement("p");
 				p.innerHTML = "After following a winding dark dank passage towards the salty doft and roar of the sea,<br/>"+
-					"you arrive in a cave...";
+					"you arrive in a cave...<hr/>As though awaiting your arrival, a gigantic octopus crawls ashore on cue";
 				show_modal(p);
+				var dismiss = modaliser.dismiss;
+				modaliser.dismiss = function(){
+					move_npc(npcs.octopus,current_location);
+					dismiss();
+				};
 			},
 		],
 		commands:[
@@ -752,16 +791,16 @@ var objects = {
 	},
 	music_sheet:{
 		name:"Sheet of Music",
+		take:Take("music_sheet","music"),
+		drop:Drop("music_sheet","music"),
 		commands:[
 			Cmd(function() {
 				var img = document.createElement("img");
 				img.src = "music_sheet.jpg";
 				show_modal(img);
 			},["read music","examine music","examine sheet music","read sheet music"]),
-		}),
-		
-	}
-	
+		],
+	},
 	bottle_message:{
 		name:"letter",
 		take:Take("bottle_message","letter"),

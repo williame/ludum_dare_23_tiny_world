@@ -94,6 +94,8 @@ function on_commandline(event) {
 				go_to(location);
 			else
 				console.log("could not go to "+location);
+		} else if(line == "!refresh") {
+			refresh_location(current_location.key);
 		} else if(line.length) {
 			var commands = ui.get_commands(location), command;
 			ui.get_commandline(location).select();
@@ -182,11 +184,21 @@ function get_commands(location,standard_commands) {
 }
 
 function go_to(key) {
-	console.log("go_to("+key+")");
+	var now = new Date().getTime();
+	console.log("go_to("+key+")",now);
 	if(current_location) {
 		ui.get_commandline(current_location).style.display="none";
+		// if you move slowly between rooms, npcs follow
+		if((now - current_location.entered) > 2000) { // 2 seconds
+			for(var npc in current_location.npcs) {
+				npc = current_location.npcs[npc];
+				move_npc(npc,locations[key]);
+			}
+		} else if(current_location.npcs.length && !npc_ticker)
+			npc_ticker = setTimeout(npc_tick,1000*20); // move them randomly starting in 20 seconds
 	}
 	current_location = locations[key];
+	current_location.entered = now;
 	var block = current_location.ui;
 	if(!block) {
 		block = current_location.ui = ui.create_location(current_location);
@@ -223,10 +235,13 @@ function refresh_location(location) {
 		commandline.focus();
 }
 
+var npc_ticker = null;
+
 function npc_tick() {
+	var roaming = 0;
 	for(var npc in npcs) {
 		npc = npcs[npc];
-		if(npc.location) {
+		if(npc.location && (npc.location != current_location)) {
 			var commands = get_commands(npc.location), command, go = [];
 			for(command in commands) {
 				command = commands[command];
@@ -235,9 +250,13 @@ function npc_tick() {
 			}
 			if(go.length)
 				move_npc(npc,locations[go[Math.floor(Math.random()*go.length)]]);
+			roaming++;
 		}
 	}
-	setTimeout(npc_tick,1000*2);
+	if(roaming>0)
+		npc_ticker = setTimeout(npc_tick,1000*60); // every minute
+	else
+		npc_ticker = null;
 }
 
 function move_npc(npc,location) {
@@ -259,11 +278,6 @@ var inventory;
 function new_game() {
 	inventory = [];
 	// reset all objects etc; not going to happen
-	var loc_names = [], location;
-	for(location in locations)
-		loc_names.push(location);
-	for(var npc in npcs)
-		move_npc(npcs[npc],locations[loc_names[Math.floor(Math.random()*loc_names.length)]]);
 	go_to("jetty");
 	setTimeout(npc_tick,1000*2);
 }
