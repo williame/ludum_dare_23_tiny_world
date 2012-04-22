@@ -384,8 +384,42 @@ var locations = {
 		illustrated:{
 			x:2161,y:571,w:522,h:215,
 		},
+		has_zeppelin_boat: false,
+		on_enter:[
+			function() {
+				if(locations.north_path.has_zeppelin_boat) return;
+				locations.north_path.has_zeppelin_boat = true;
+				var zep = document.createElement("p");
+				zep.setAttribute("class","modal_description");
+				zep.innerHTML =
+					"<img src=\"zeppelin.png\"/><br/>"+
+					"As you reach the stony shore you look out and notice a small smokey dot on the east horizon.<br/>"+
+					"As it grows nearer and nearer, and bigger and bigger, you see that it is a ginormous,<br/>"+
+					"steam-belching Zeppelin!<br/>"+
+					"It heads straight for the island and stops just a short distance from the shore.<br/>"+
+					"Hovering just feet above the waves, it lowers a small rowing boat and a man rows powerfully,<br/>"+
+					"deliberately towards you.";
+				show_modal(zep);
+				locations.north_path.illustrated.images = [
+					{
+						x:locations.north_path.illustrated.w,y:0,
+						image:"zeppelin_boat.png",
+					},
+				];
+				locations.north_path.illustrated.w += 300;
+			},
+		],
 		commands:[
 			Go("west","secret_garden"),
+		],
+	},
+	zeppelin_boat:{
+		illustrated:{
+			layer:"zeppelin_boat",
+			x:0,y:0,w:400,h:300,
+		},
+		commands:[
+			Go("east","north_path"),
 		],
 	},
 	hg_hall:{

@@ -184,6 +184,9 @@ function go_to(key) {
 	var commandline = ui.get_commandline(current_location);
 	commandline.style.display="block";
 	commandline.select();
+	if(current_location.on_enter)
+		for(var trigger in current_location.on_enter)
+			current_location.on_enter[trigger]();
 	ui.enter_room(current_location);
 	ui.scroll_into_view(current_location);
 }
@@ -214,10 +217,10 @@ function new_game() {
 function add_message(location,message) {
 	remove_from_array(location.messages,message);
 	location.messages.push(message);
-	setTimeout(function(){
+	setTimeout(function() {
 		if(remove_from_array(location.messages,message))
 			refresh_location(location.key);
-	},1000*3);
+	},1000*8);
 	refresh_location(location.key);
 }
 

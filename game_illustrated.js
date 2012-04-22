@@ -12,6 +12,16 @@ function _illustrated_create_location(location) {
 		"<div id=\"error_"+location.key+"\" style=\"display:none;\" class=\"error\"></div>"+
 		"</div></td></tr></table>";
 	block.innerHTML = html;
+	if(location.illustrated.images)
+		for(var image in location.illustrated.images) {
+			image = location.illustrated.images[image];
+			var img = document.createElement("img");
+			img.src = image.image;
+			img.style.position = "absolute";
+			img.style.left = image.x;
+			img.style.top = image.y;
+			block.insertBefore(img,block.firstChild);
+		}
 	return block;
 }
 
