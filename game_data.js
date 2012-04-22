@@ -467,10 +467,26 @@ var locations = {
 		],
 	},
 	maze: {
+		name:"The Labyrinth",
 		illustrated:{
 			x:397,y:317,x2:1073,y2:919,
 		},
-		commands:[],
+		on_enter:[
+			function(){
+				var choices = [
+					"After an epic struggle and a few wrong turns, you reach the middle of the maze",
+					"A preplexing struggle of wits with the gardener and you reach the middle of the maze",
+					"What kind of man could build such a thing?  The maze is a real struggle to navigate",
+				], choice = choices[Math.floor(Math.random()*choices.length)];
+				add_message(current_location,choice);
+			}
+		],
+		objects:[
+			"summer_house",
+		],
+		commands:[
+			Go("south","yard"),
+		],
 	},
 	long_grass:{
 		name:"Long Grass",
@@ -1053,8 +1069,51 @@ var objects = {
 			Msg("The tennis racket is truly entwined in the grass",["examine racket"]),
 			Msg("The tennis racket won't move",["take racket"]),
 		],
-	},	
+	},
+	summer_house:{
+		name:"The summer house in the middle of the Labyrinth",
+		examined:false,
+		commands:[
+			Cmd(function(){
+				add_message(current_location,"The summer house is little more than a bench with a roof, but its very nicely done and the overall effect is most charming");
+				if(!objects.summer_house.examined) {
+					objects.summer_house.examined = true;
+					locations.maze.objects.push("moby_dick");
+					add_message(current_location,"There is a copy of the novel Moby Dick on the bench");
+				}
+			},["examine summer house","look at summer house"]),
+		],
+	},
+	moby_dick:{
+		name:"the novel Moby Dick",
+		take:Take("moby_dick","moby dick"),
+		drop:Drop("moby_dick","moby dick"),
+		commands:[
+			Cmd(function(){
+				var div = document.createElement("div");
+				div.innerHTML = "Which page?<br/>"+
+					"<input type=\"text\" id=\"moby_dick\" onkeypress=\"moby_dick_keypress(event);\"></input>";
+				show_modal(div);
+				setTimeout(function(){
+						document.getElementById("moby_dick").focus();
+				},0);
+			},["read moby dick"]),
+		],
+	},
 };
+
+function moby_dick_keypress(event) {
+	if(event.keyCode == 13) {
+		if(event.target.value.trim() == "120") {
+			var img = document.createElement("img");
+			img.src = "moby_dick.jpg";
+			show_modal(img);
+		} else {
+			alert("Trust me, that isn't the page you're looking for!");
+			dismiss();
+		}
+	}
+}
 
 var npcs = {
 	octopus:{
