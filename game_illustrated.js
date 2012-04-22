@@ -216,6 +216,7 @@ var illustrated_ui = {
 		}
 	},
 	update_npcs: function(location,div) {
+		if(illustrated_ui !== ui) return;
 		if(!div) div = document.getElementById("npcs_"+location.key);
 		if(!div) return;
 		var html = "";
@@ -224,7 +225,6 @@ var illustrated_ui = {
 				npc = location.npcs[npc];
 				html += "<img src=\""+npc.illustrated.avatar+"\" width=\"50px\" height=\"50px\"/>";
 			}
-			html += "<br/>";
 		}
 		if(html.length > 0) {
 			div.innerHTML = html;

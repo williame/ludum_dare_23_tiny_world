@@ -75,6 +75,7 @@ function on_commandline(event) {
 		return false;
 	}
 	if(event.keyCode == 66 && event.ctrlKey) {
+		console.log("changing ui!");
 		if(++ui_index >= uis.length) ui_index = 0; // cycle through available UIs
 		set_ui(uis[ui_index]);
 		return false;

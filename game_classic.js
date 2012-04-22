@@ -3,13 +3,15 @@ function _classic_create_location(location) {
 	var block = document.createElement("pre");
 	var html =
 		"<a name=\"location_"+location.key+"\"/>"+
-		"<b>"+location.name+"</b><br/>";
+		"<b>"+location.name+"</b><br/>"+
+		"<div id=\"npcs_"+location.key+"\"></div>";
 	for(var message in location.messages)
 		html += "<div class=\"message\">"+location.messages[message]+"</div>"
 	html += "<input class=\"commandline\" id=\"commandline_"+location.key+"\"/><br/>"+
 		"<div id=\"auto_complete_"+location.key+"\" style=\"display:none;\"></div>"+
 		"<div id=\"error_"+location.key+"\" style=\"display:none;\" class=\"error\"></div>";
 	block.innerHTML = html;
+	setTimeout(function(){ classic_ui.update_npcs(location); },0);
 	return block;
 }
 
@@ -57,6 +59,24 @@ var classic_ui = {
 		auto_complete_helper.style.display = "block";
 	},
 	enter_room: function() {},
+	update_npcs: function(location,div) {
+		if(classic_ui !== ui) return;
+		if(!div) div = document.getElementById("npcs_"+location.key);
+		if(!div) return;
+		var html = "";
+		if(location.npcs.length) {
+			for(var npc in location.npcs) {
+				if(html.length) html += ", ";
+				npc = location.npcs[npc];
+				html += npc.name;
+			}
+		}
+		if(html.length > 0) {
+			div.innerHTML = html;
+			div.style.display = "block";
+		} else
+			div.style.display = "none";
+	},
 };
 
 uis.push(classic_ui);
