@@ -20,6 +20,8 @@ var locations = {
 		],
 	},
 	yard: {
+		name:"Yard",
+		description:"This cobbled yard is a very relaxing place to be, with stunning views of the shed and the back of the house. The pot plant seems to be growing upside down, possibly showing its opinions of the said view.",
 		illustrated:{
 			x:729,y:930,x2:1073,y2:1244,
 		},
@@ -31,6 +33,8 @@ var locations = {
 		],
 	},
 	steps: {
+		name:"Steps",
+		description:"The narrow path round the light house is slippery, but iẗ́'s nothing compared to the stone steps leading down to the water. More than once you break your fall and get a slimy white substance on your hands. Is this flying fish guano?",
 		illustrated:{
 			x:2919,y:1271,x2:3193,y2:1400,
 		},
@@ -39,6 +43,7 @@ var locations = {
 		],
 	},
 	light_house: {
+		name:"Lighthouse",
 		illustrated:{
 			x:2745,y:830,x2:3368,y2:1258,
 		},
@@ -57,6 +62,8 @@ var locations = {
 		],
 	},
 	mysterious_path: {
+		name:"Mysterious Path",
+		description:"Dare you tread such an intrigue-inducing right-of-way? What, for example, are the paving slabs made of? It seems to be some kind of metal. As the idyllic fluffy, white clouds scud over and the sun sees the ground, the paving slabs seem to ooze warmth and happiness. Why follow this friendly path when you could sit on the grass and sing songs to yourself?",
 		illustrated:{
 			x:1821,y:817,x2:2735,y2:1242,
 		},
@@ -67,6 +74,8 @@ var locations = {
 		],
 	},
 	secret_garden: {
+		name:"Secret Garden",
+		description:"Secret but not forgotten. The gardener obviously keeps this little patch in perfect condition safe in the knowledge that no-one will ever criticise his choice to put hydrangea next to polyanthus, hibiscus next to polypropylene.",
 		unlocked:false,
 		illustrated:{
 			x:1104,y:352,x2:1759,y2:1025,
@@ -86,6 +95,8 @@ var locations = {
 		],
 	},
 	coppice:{
+		name:"Coppice",
+		description:"Trees. Thaẗ́'s definitely what they are. Plenty of them all sort of grouped round a clearing. Like a wall or a fence. Turning round; the view is absolutely amazing, marred only by the large and indecently anatomical carving of the common eight-legged arctic bat on the rocks between you and the sea.",
 		illustrated:{
 			x:1822,y:1253,w:412,h:330,
 		},
@@ -94,6 +105,8 @@ var locations = {
 		],
 	},
 	north_lawn: {
+		name:"North Lawn",
+		description:"The beautifully manicured lawn, cut in that chessboard fashion so admired by the gentry, is perfectly flat. Gardeners for years to come will use the phrase ‘as flat as the North Lawn̈́' when praising the work of a Master Lawncutter. The thirty degree angle of the lawn would make croquet quite an active sport, but it certainly looks the part.",
 		illustrated:{
 			x:1230,y:1065,x2:1802,y2:1572,
 		},
@@ -111,6 +124,8 @@ var locations = {
 		],
 	},
 	lawn: {
+		name:"Lawn",
+		description:"This is a windy place to stand. Do you really want to stand here? Ḯ'd move along if I were you.",
 		illustrated:{
 			x:1225,y:1594,x2:1798,y2:2149,
 		},
@@ -120,6 +135,8 @@ var locations = {
 		],
 	},
 	beach: {
+		name:"Beach",
+		description:"This is really not much better. You begin to feel you should have brought a coat with you. The wind̈́'s very refreshing, very bracing, and very much not the sort of weather you want to be standing in without a coat.",
 		illustrated:{
 			x:1802,y:1601,x2:2388,y2:2199,
 		},
@@ -128,6 +145,8 @@ var locations = {
 		],
 	},
 	west_point: {
+		name:"West Point",
+		description:"The sun comes out from behind a fluffy, white cloud, the wind blows your hair back from your face, and you think ‘This is the way to livë́'. You see a dwarf whale surfing the little waves towards the island and wonder what it would be like if they grew really, really big. How would they surf?",
 		illustrated:{
 			x:2733,y:2181,x2:3507,y2:2833,
 		},
@@ -137,6 +156,8 @@ var locations = {
 		],
 	},
 	promontory: {
+		name:"Promontory",
+		description:"You suffer a flying fish attack. Their cruel claws tickle your skin and one tries to swallow your earlobe whole. Where is that flying fish net when you need it?",
 		illustrated:{
 			x:2422,y:3258,x2:3259,y2:3917,
 		},
@@ -146,6 +167,8 @@ var locations = {
 		],
 	},
 	rough_ridge:{
+		name:"Rough Ridge",
+		description:"You stumble across a stone protruding from the back of the ridge and realise that the ridge must form some ancient wall or mount. As you stand in the sun, iẗ́'s funny to think that people might once have waged war here. As you move round the ridge, you realise that it is actually an extremely overgrown rockery.",
 		illustrated:{
 			x:1457,y:2229,w:792,h:452,
 		},
@@ -161,6 +184,8 @@ var locations = {
 		],
 	},
 	south_yard:{
+		name:"South Yard",
+		description:"This is a sandy area, and the sand gets into your shoes. You thank god yoǘ're not carrying any sandwiches. You retract that last thought as you realise that your uncle won̈́'t be treating you to a meal this evening. A small wading bird has been making patterns in the sand, and you console yourself with the fact that almost iẗ́'s entire diet must be that sand.",
 		illustrated:{
 			x:984,y:2149,w:455,h:570,
 		},
@@ -242,6 +267,8 @@ var locations = {
 		],
 	},
 	tennis_court: {
+		name:"Tennis Court",
+		description:"This court looks like it hasn't been used in years. The wonky net and long grass suggest that your uncle may not actually be that keen on tennis. As you wander, you trip over an old tennis racquet and try to pick it up, but the grass has claimed it as iẗ́'s own and doesn̈́'t seem likely to relinquish it.",
 		illustrated:{
 			x:1072,y:2792,x2:1388,y2:3278,
 		},
@@ -251,6 +278,8 @@ var locations = {
 		],
 	},
 	wood_pile: {
+		name:"Wood Pile",
+		description:"A pile of wood. Iẗ́'s mostly garden hardwoods such as willow and apple, but there are a few leylandii in there. You give it a kick and a long-tailed hedgehog makes a bid for freedom, waggling said tail and flapping its ears in a bid to move faster.",
 		illustrated:{
 			x:617,y:2885,x2:874,y2:3030,
 		},
@@ -264,6 +293,8 @@ var locations = {
 		],
 	},
 	vegetable_garden: {
+		name:"Vegetable Garden",
+		description:"The carrots are coming up lovely this year, with only a little help from the moles pushing from below. Purple sprouting broccoli and artichokes take pride of place in this garden, with the more tasty foods sidelined in little beds around the edges.",
 		illustrated:{
 			x:411,y:2432,x2:975,y2:2868,
 		},
@@ -281,6 +312,8 @@ var locations = {
 		],
 	},
 	terrace: {
+		name:"Terrace",
+		description:"The table and chairs are set our for two people, ready to share hilarious stories of travels around the world. Upon closer inspection, you realise that someone has carefully driven a nail up through the seat of each chair. You hope neither of them were meant for you.",
 		illustrated:{
 			x:1004,y:1252,x2:1207,y2:2021,
 		},
@@ -306,6 +339,8 @@ var locations = {
 		commands:[],
 	},
 	long_grass:{
+		name:"Long Grass",
+		description:"The grass is very long, and you keep tripping over things. This is obviously a place to put gardening tools and machinery when it reaches the end of its useful life. You stand on the head of a rake and its handle smacks you in the face. As the clouds cover the sun for a few moments, you feel a sense-of-humour failure coming on.",
 		illustrated:{
 			x:1730,y:3018,w:348,h:383,
 		},
@@ -314,6 +349,8 @@ var locations = {
 		],
 	},
 	rock:{
+		name:"Rock",
+		description:"A rock is a rock is a rock. Or is it?",
 		illustrated:{
 			x:1725,y:4132,w:585,h:603,
 		},
