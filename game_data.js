@@ -710,7 +710,7 @@ var locations = {
 		description:"The sparse bedroom has a queen (Victoria) sized bed. The bed is neatly made. Doesn't look like anyone sleeps here.",
 		illustrated:{
 			layer:"house_top_floor",
-			x:650,y:1250,w:990,h:1400,
+			x:180,y:20,w:580,h:185,
 		},
 		commands:[
 			Go("west","ht_landing"),
@@ -722,7 +722,7 @@ var locations = {
 		description:"This room appears empty. There are doors to the south and west.",
 		illustrated:{
 			layer:"house_top_floor",
-			x:700,y:1600,w:990,h:1840,
+			x:300,y:350,w:590,h:630,
 		},
 		commands:[
 			Go("north","ht_landing"),
@@ -735,7 +735,7 @@ var locations = {
 		description:"A large room dominated by a brass turntable, on which a large brass telescope is mounted.",
 		illustrated:{
 			layer:"house_top_floor",
-			x:400,y:1600,w:700,h:2020,
+			x:20,y:350,w:290,h:770,
 		},
 		objects:[
 			"dumb_waiter",
@@ -749,7 +749,7 @@ var locations = {
 		description:"This is empty.",
 		illustrated:{
 			layer:"house_top_floor",
-			x:700,y:1850,w:990,h:2020,
+			x:300,y:645,w:590,h:770,
 		},
 		commands:[
 			Go("north","ht_antiroom"),
