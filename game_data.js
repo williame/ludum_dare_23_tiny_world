@@ -1,7 +1,7 @@
 var locations = {
 	quay: {
 		name:"The Quay",
-		description:"",
+		description:"The small quay has mooring for several craft. It is empty.",
 		illustrated:{
 			x:104,y:3096,w:500,h:600,
 		},
@@ -11,6 +11,7 @@ var locations = {
 	},
 	boat_shed: {
 		name:"The Boat Shed",
+		description: "The Professor's boat is not here. The shed slopes into the water on the south side, with two runners and a heavy cable winch. All objects are securely fastened down but there are numerous tools around. ",
 		illustrated:{
 			x:312,y:2864,w:269,h:344,
 		},
@@ -20,6 +21,8 @@ var locations = {
 		],
 	},
 	yard: {
+		name: "Yard",
+		description:"A small gravel yard. To the west is a low brick building with a door. To the north a path leads to an opening in a thick box hedge. To the east there are steps down to a beautiful lawn. To the south is the house.",
 		illustrated:{
 			x:729,y:930,x2:1073,y2:1244,
 		},
@@ -31,6 +34,8 @@ var locations = {
 		],
 	},
 	steps: {
+		name: "Steps",
+		description:"The steps lead down into the cove. They continue straight into the water. The water is colder here. In the distance you can hear muffled, ghostly, bells tolling.",
 		illustrated:{
 			x:2919,y:1271,x2:3193,y2:1400,
 		},
@@ -39,6 +44,8 @@ var locations = {
 		],
 	},
 	light_house: {
+		name: "Light House"
+		description: "A tall cylindrical stone tower sits above the treacherous rocky headland. There is a small door at its base.",
 		illustrated:{
 			x:2745,y:830,x2:3368,y2:1258,
 		},
@@ -57,6 +64,8 @@ var locations = {
 		],
 	},
 	mysterious_path: {
+		name: "Mysterious Path",
+		description:"A stepping stone path leads east-west from the lawn towards the sea. It slopes gently down at first before rising toward the headland. ",
 		illustrated:{
 			x:1821,y:817,x2:2735,y2:1242,
 		},
@@ -67,6 +76,8 @@ var locations = {
 		],
 	},
 	secret_garden: {
+		name: "Secret Garden",
+		description:"A high brick wall surrounds the tranquil rose-scented air of this garden. The roses are a strange hybrid variety bread by the Professor himself. They are thorny.",
 		unlocked:false,
 		illustrated:{
 			x:1104,y:352,x2:1759,y2:1025,
@@ -219,9 +230,9 @@ var locations = {
 	},
 	jetty: {
 		name:"The Jetty",
-		description: "You are standing on the jetty of your good friend the Professor, awaiting his arrival. His little steam launch is due precisely now and you hope to listen to tales of his adventures around the fire this evening. As you stand watching the flying fish struggling on the large piece of parchment floating in the sea to your south, you notice a small, green bottle floating towards you in murky water. You collect the bottle using the handy flying fish net.",
+		description: "You are standing on the jetty of your good friend the Professor, awaiting his arrival. His little steam launch is due precisely now and you hope to listen to tales of his adventures around the fire this evening. As you stand watching the flying fish struggling on the large piece of parchment floating in the sea to your south, you notice a small, green bottle floating towards you in murky water. You collect the bottle.",
 		illustrated:{
-			x:516,y:3379,x2:768,y2:3556,
+			x:216,y:3179,x2:968,y2:3756,
 		},
 		objects:[
 			"bottle_closed_message",
@@ -242,6 +253,8 @@ var locations = {
 		],
 	},
 	tennis_court: {
+		name: "Tennis Court",
+		description: "The court has seen better days. The grass could do with mowing and the netting is falling apart. ",
 		illustrated:{
 			x:1072,y:2792,x2:1388,y2:3278,
 		},
@@ -251,6 +264,8 @@ var locations = {
 		],
 	},
 	wood_pile: {
+		name: "Wood Pile",
+		description: "Amidst the assorted junk and stinging nettles you spy a pile of recently cut wood",
 		illustrated:{
 			x:617,y:2885,x2:874,y2:3030,
 		},
@@ -264,6 +279,8 @@ var locations = {
 		],
 	},
 	vegetable_garden: {
+		name:"Walled garden",
+		description: "A modest vegetable and herb garden surround by high walls. There is a doorway in the eastern wall. The Professor loves tending to his vegetables for he feels that they are more articulate than his relatives.",
 		illustrated:{
 			x:411,y:2432,x2:975,y2:2868,
 		},
@@ -486,7 +503,7 @@ var objects = {
 		take:Take("bottle_message","message"),
 		drop:Drop("bottle_message","message"),
 		commands:[
-			Msg("this is the message blah blah",["read message","examine message"]),
+			Msg("My dear friend, I write to inform you of my sincerest apologies for not having made our planned rendezvous. You must forgive me for I am stranded on a small island in the outer reaches of Just Over There, with nothing but once-fresh fruit and a year supply of naval rum to keep my wits about me. And going it does keep me! I plan to build a raft and paddle homeward as soon as this splitting headache permits. Before my unfortunate run in with some pirates, which left me so stranded, I had discovered a hoard of secret treasures from the ancient Mayans. Fortunately I have hidden it in close proximity to my house, where I was sure it will be safe. Alas I fear that word has got out and it is only a matter of time before everyone and their mothers converges on my modest home to find the treasure. You know how word travels so fast these days, it's such a small world. You must get the treasure first. I trust that you will know where I have hidden it. Yours, etcetera, etcetera, sincerely and so forth, Professor Strange",["read message","examine message"]),
 			Cmd(function() {
 				exchange_object("bottle_open",["bottle_closed_message"],"you put the message back in the bottle");
 				exchange_object("bottle_message",[]); // remove it
