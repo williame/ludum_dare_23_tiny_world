@@ -3,8 +3,13 @@ function _illustrated_create_location(location) {
 	var block = document.createElement("div");
 	block.setAttribute("class","block");
 	var html = "<table style=\"width:100%;height:100%;\"><tr><td valign=\"middle\"><div>"+
-		"<a name=\"location_"+location.key+"\"/>"+
-		"<b>"+location.name+"</b><br/>";
+		"<a name=\"location_"+location.key+"\"/>";
+	if(location.illustrated.images)
+		for(var image in location.illustrated.images) {
+			image = location.illustrated.images[image];
+			html += "<img src=\""+image.image+"\" style=\"position:relative; left:"+image.x+"px; top:"+image.y+"px;\"/>";
+		}
+	html += "<b>"+location.name+"</b><br/>";
 	for(var message in location.messages)
 		html += "<div class=\"message\">"+location.messages[message]+"</div>"
 	html += "<input class=\"commandline\" id=\"commandline_"+location.key+"\"/><br/>"+
@@ -12,16 +17,6 @@ function _illustrated_create_location(location) {
 		"<div id=\"error_"+location.key+"\" style=\"display:none;\" class=\"error\"></div>"+
 		"</div></td></tr></table>";
 	block.innerHTML = html;
-	if(location.illustrated.images)
-		for(var image in location.illustrated.images) {
-			image = location.illustrated.images[image];
-			var img = document.createElement("img");
-			img.src = image.image;
-			img.style.position = "absolute";
-			img.style.left = image.x;
-			img.style.top = image.y;
-			block.insertBefore(img,block.firstChild);
-		}
 	return block;
 }
 

@@ -490,8 +490,71 @@ var locations = {
 			layer:"house_ground_floor",
 			x:20,y:350,w:263,h:226,
 		},
+		objects:[
+			"dumb_waiter",
+		],
 		commands:[
 			Go("east","hg_fireplace"),
+			Cmd(function() { go_to("hg_dumb_waiter"); },["climb into dumb waiter"],
+				function() { return objects.dumb_waiter.examined; }),
+		],
+	},
+	hg_dumb_waiter:{
+		name:"you are in the dumb-waiter",
+		description:"you are on the ground floor, in the kitchen",
+		illustrated:{
+			layer:"house_ground_floor",
+			x:-200,y:290,w:308,h:168,
+		},
+		commands:[
+			Go("down","hb_dumb_waiter"),
+			Go("up","ht_dumb_waiter"),
+			Cmd(function(){
+				go_to("hg_kitchen");
+			},["climb out","get out"]),
+		],
+	},
+	ht_dumb_waiter:{
+		name:"you are in the dumb-waiter",
+		description:"you are on the top floor",
+		illustrated:{
+			layer:"house_top_floor",
+			x:-200,y:290,w:308,h:168,
+		},
+		commands:[
+			Go("down","hg_dumb_waiter"),
+			Cmd(function(){
+				go_to("hg_kitchen"); //#####
+			},["climb out","get out"]),
+		],
+	},
+	hb_dumb_waiter:{
+		name:"you are in the dumb-waiter",
+		description:"you are in the celler under the house",
+		illustrated:{
+			layer:"house_basement",
+			x:-200,y:290,w:308,h:168,
+		},
+		commands:[
+			Go("up","hg_dumb_waiter"),
+			Cmd(function(){
+				go_to("lab");
+			},["climb out","get out"]),
+		],
+	},
+	lab:{
+		name:"The Secret Lab",
+		illustrated:{
+			layer:"house_basement",
+			x:18,y:310,w:394,h:358,
+		},
+		objects:[
+			"dumb_waiter",
+		],
+		commands:[
+			Cmd(function(){
+				go_to("hb_dumb_waiter");
+			},["climb into dumb waiter"]),
 		],
 	},
 	hg_piano:{
@@ -523,6 +586,10 @@ var illustrated_layers = {
 	house_top_floor:{
 		x:400,y:1240,
 		image:"house_topfloor.jpg",
+	},
+	house_basement:{
+		x:400,y:1240,
+		image:"lab.jpg",
 	},
 	balloon_shed_interior:{
 		x:1669,y:2691,
@@ -630,6 +697,16 @@ var objects = {
 			function() {
 				return current_location == locations.north_lawn;
 			}),
+		],
+	},
+	dumb_waiter:{
+		name:"a dumb waiter",
+		examined:false,
+		commands:[
+			Cmd(function(){
+				add_message(current_location,"Clearly whoever does the cooking doesn't take the stairs");
+				objects.dumb_waiter.examined = true;
+			},["examine dumb waiter","look at dumb waiter"]),
 		],
 	},
 };
