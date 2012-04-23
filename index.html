@@ -21,7 +21,8 @@ function init() {
 		var html = "<img src=\"title.jpg\"/><br/>This game can be played in the following visual styles: ";
 		for(var ui_choice in uis)
 			html += "<button onclick=\"set_ui(uis["+ui_choice+"]); event.stopPropagation(); dismiss_modal(); new_game(); return false;\">"+uis[ui_choice].name+"</button> ";
-		html += "(You can also switch between them in-game using ctrl-b key)";
+		html += "(You can also switch between them in-game using ctrl-b key)<br/>"+
+			"This game was made in 72 hours for the <a href=\"http://www.ludumdare.com/compo/ludum-dare-23/?action=preview&uid=10313\">Ludum Dare 23 Jam</a>!";
 		splash.innerHTML = html;
 		show_modal(splash);
 		var dismiss = modaliser.dismiss;
