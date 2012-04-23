@@ -37,6 +37,17 @@ var locations = {
 		],
 		commands:[
 			Go("north","boat_shed"),
+			Cmd(function(){
+				if(npcs.sioux.location == current_location)
+					add_message(current_location,"A quick glance at the tomahawk blade glimmering in the sunshine disuades you");
+				else {
+					add_message(current_location,"The war cry of the Indians charging down to the quay strikes fear into your heart; you've been observed!");
+					npc_says(npcs.sioux,current_location,["You cannot leave us stranded here!"]);
+					move_npc(npcs.sioux,current_location);
+				}
+			},["steal canoe","take canoe","steal boat","take boat"],function(){ return npcs.sioux.location; }),
+			Msg("Considering the journey it has taken across the atlantic, it is surprisingly unsubstantial",
+				["examine canoe","examine boat"],function(){ return npcs.sioux.location; }),
 		],
 	},
 	boat_shed: {
@@ -202,6 +213,7 @@ var locations = {
 						x:300, y:20,
 						image:"pirate_dingy.png",
 					}];
+					locations.beach.pirates_landed = true;
 				}
 				if(ui.nongraphical) {
 					add_message(current_location,desc,60);
@@ -254,12 +266,32 @@ var locations = {
 	},
 	beach: {
 		name:"Beach",
+		pirates_landed:false,
 		description:"This is really not much better. You begin to feel you should have brought a coat with you. The wind's very refreshing, very bracing, and very much not the sort of weather you want to be standing in without a coat.",
 		illustrated:{
 			x:1802,y:1601,x2:2388,y2:2199,
 		},
 		commands:[
 			Go("west","lawn"),
+			Cmd(function(){
+				if(npcs.pirates.location == current_location)
+					npc_says(npcs.pirates,current_location,["Children like you should be made to walk the plank!"]);
+				else if(npcs.pirates.location)
+					npc_says(npcs.pirates_aboard,current_location,["It is wrong to steal!","Hey! That's our boat!","We should maroon you on an island instead!"]);
+				else if(is_object_here("diving_suit")) {
+					var div = document.createElement("div");
+					div.innerHTML = "You maneuver the dingy out into the middle of the cove; donning the diving suit, you dive...";
+					show_modal(div);
+					var dismiss = modaliser.dismiss;
+					modaliser.dismiss = function(){
+						dismiss();
+						you_win();
+					};
+				} else
+					add_message(current_location,"You paddle out and around the cove; it is a pleasant way to spend time in the sunshine, but you dare not voyage too far out");
+			},["steal dingy","take dingy","steal boat","take boat"],function(){ return locations.beach.pirates_landed; }),
+			Msg("It is a small dingy that the pirates came ashore in",
+				["examine dingy","examine boat"],function(){ return locations.beach.pirates_landed; }),
 		],
 	},
 	west_point: {
@@ -632,7 +664,7 @@ var locations = {
 					"As it grows nearer and nearer, and bigger and bigger, you see that it is a ginormous,<br/>"+
 					"steam-belching Zeppelin!<br/>"+
 					"It heads straight for the island and stops just a short distance from the shore.<br/>"+
-					"Hovering just feet above the waves, it lowers a small steam boat which is started by two naval ratings.<br/>"+
+					"Hovering just feet above the waves, it lowers a small steam launch which is started by two naval ratings.<br/>"+
 					"a man steers deliberately towards you.";
 				function done() {
 					locations.north_path.illustrated.images = [
@@ -662,6 +694,17 @@ var locations = {
 		],
 		commands:[
 			Go("west","secret_garden"),
+			Cmd(function(){
+				if(npcs.baron.location == current_location)
+					add_message(current_location,"With the ratings awaiting on the Baron's great steam Zeppelin, you cannot expect to get far.");
+				else {
+					add_message(current_location,"A warning flare flashes above the great steam Zeppelin; you've been spotted and the Baron is doubtless hurrying on his way!");
+					npc_says(npcs.baron,current_location,["My menz will hunt zu down like the dog you is!"]);
+					move_npc(npcs.baron,current_location);
+				}
+			},["steal launch","take launch","steal boat","take boat"],function(){ return npcs.baron.location; }),
+			Msg("It is a small, sturdy and surprisingly heavy launch with a small steam engine powering the oars",
+				["examine launch"],function(){ return npcs.baron.location; }),
 		],
 	},
 	hg_hall:{

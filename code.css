@@ -2,7 +2,6 @@ body {
 	margin: 0px;
 	color: black;
 	background-color: white;
-	font-family: courier;
 }
 #container {
 	position:fixed;
@@ -15,9 +14,16 @@ body {
 	overflow-x:scroll;
 }
 #main {
+	font-family: courier;
 }
 #modal {
 	background-color:rgba(80,80,80,.5);
+	color: white;
+	text-shadow:
+		0 -1px rgba(80,80,80,0.8),
+		1px 0 rgba(80,80,80,0.8),
+		0 1px rgba(80,80,80,0.8),
+		-1px 0 rgba(80,80,80,0.8);
 }
 .block {
 }
