@@ -1246,7 +1246,6 @@ var objects = {
 	},
 	brick:{
 		name:"a brick",
-		used:false,
 		take:Take("brick","brick"),
 		drop:Drop("brick","brick"),
 		commands:[
@@ -1255,10 +1254,9 @@ var objects = {
 		],
 	},
 	steam_engine:{
-		name:"Steam engine",
-		used:false,
-		take:Take("Steam engine","Steam engine"),
-		drop:Drop("Steam engine","Steam engine"),
+		name:"a small steam engine",
+		take:Take("steam_engine","steam engine"),
+		drop:Drop("steam_engine","steam engine"),
 		commands:[
 			Msg("The steam car has a perfectly good steam engine but it has recently been repaired and is not attached to the car.",["examine steam engine","examine engine"]),
 			
@@ -1266,7 +1264,6 @@ var objects = {
 	},
 	plank:{
 		name:"a plank",
-		used:false,
 		take:Take("plank","plank"),
 		drop:Drop("plank","plank"),
 		commands:[

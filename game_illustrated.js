@@ -1,8 +1,11 @@
 
 function _illustrated_create_location(location) {
+	if(location != current_location)
+		console.log("UPDATE",location.key,location.illustrated.layer,current_location.illustrated.layer,location.illustrated.layer != current_location.illustrated.layer);
 	if(location.illustrated.layer != current_location.illustrated.layer)
 		return null;
 	var block = document.createElement("div");
+	block.location = location;
 	block.setAttribute("class","block");
 	var html = "<table style=\"width:100%;height:100%;\"><tr><td valign=\"middle\"><div>"+
 		"<a name=\"location_"+location.key+"\"/>";
