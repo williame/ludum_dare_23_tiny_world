@@ -80,10 +80,22 @@ var locations = {
 		illustrated:{
 			x:2745,y:830,x2:3368,y2:1258,
 		},
+		door_bolted:true,
 		commands:[
 			Go("west","mysterious_path"),
 			Go("south","steps"),
-			Go("up","lantern"),
+			Msg("The door is securely bolted",["open door"],function(){ return locations.light_house.door_bolted; }),
+			Cmd(function(){
+				go_to("lantern");
+			},["climb lighthouse","go up","up","enter lighthouse"],function(){ return !locations.light_house.door_bolted;}),
+			Cmd(function(){
+				locations.light_house.door_bolted = false;
+				add_message(current_location,"You slide back the bolts on the door");
+			},["unbolt door"],function(){ return locations.light_house.door_bolted; }),
+			Cmd(function(){
+				locations.light_house.door_bolted = true;
+				add_message(current_location,"You slide the bolts on the door closed");
+			},["bolt door"],function(){ return !locations.light_house.door_bolted; }),
 		],
 	},
 	lantern:{
@@ -870,7 +882,7 @@ var locations = {
 			function(){
 				if(++locations.cave.visits != 1) return;
 				var desc = "After following a winding dark dank passage towards the salty doft and roar of the sea,<br/>"+
-					"you arrive in a cave...<hr/>As though awaiting your arrival, a gigantic octopus crawls ashore on cue";
+					"you arrive in a cave... As though awaiting your arrival, a gigantic octopus crawls ashore on cue";
 				function done() {
 					move_npc(npcs.octopus,current_location);
 				}
@@ -879,7 +891,7 @@ var locations = {
 					done();
 				} else {
 					var p = document.createElement("p");
-					p.innerHTML = desc;
+					p.innerHTML = desc += "<br/><img src=\"octopus_cave.jpg\"/>";
 					show_modal(p);
 					var dismiss = modaliser.dismiss;
 					modaliser.dismiss = function(){

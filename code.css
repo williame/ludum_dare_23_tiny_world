@@ -16,6 +16,9 @@ body {
 }
 #main {
 }
+#modal {
+	background-color:rgba(80,80,80,.5);
+}
 .block {
 }
 .error {

@@ -7,6 +7,9 @@ body {
 }
 #container {
 }
+#modal {
+	background-color:rgba(80,80,80,.8);
+}
 .commandline {
 	width: 80%;
 	color: white;

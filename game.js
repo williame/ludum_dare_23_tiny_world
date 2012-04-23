@@ -6,8 +6,16 @@ function Cmd(functor,cmds,condition) {
 }
 
 function Go(dir,key,condition) {
-	var go = Cmd(function() { go_to(key); },["go "+dir,"exit "+dir,dir],condition);
+	var mapping = {
+		east:"left",
+		west:"right",
+	};
+	var commands = ["go "+dir,"exit "+dir,dir];
+	if(dir in mapping)
+		commands = commands.concat(["go "+mapping[dir],"exit "+mapping[dir]]);
+	var go = Cmd(function() { go_to(key); },commands,condition);
 	go.go = key; // so npcs know its navigable
+	go.dir = dir; // for "exits" help
 	return go;
 }
 
@@ -113,7 +121,7 @@ function on_commandline(event) {
 	return true;
 }
 
-function get_commands(location,standard_commands) {
+function get_commands(location,standard_commands,just_first) {
 	var commands = {
 		"inventory":function() {
 			var description = "";
@@ -152,17 +160,39 @@ function get_commands(location,standard_commands) {
 		"help":function() {
 			if(location.hint)
 				add_message(loction,location.hint);
-			ui.show_commands(location,commands);
+			ui.show_commands(location,get_commands(location,standard_commands,true));
+		},
+		"take":function() {
+			add_message(current_location,"take what?");
+		},
+		"exits":function() {
+			var exits = "", commands = get_commands(location,standard_commands,true);
+			for(var command in commands) {
+				command = commands[command];
+				if(command.dir) {
+					if(exits.length)
+						exits += ", ";
+					else
+						exits = "Exits are: ";
+					exits += command.dir;
+				}
+			}
+			if(!exits.length) exits = "There are no obvious exits";
+			add_message(current_location,exits);
 		},
 	};
+	if(!just_first)
+		commands["inv"] = commands["inventory"];
 	var command, object;
 	if(standard_commands)
 		commands = union(commands,standard_commands);
 	function add_commands(command) {
 		if(command.condition && !command.condition())
 			return;
-		for(var alias in command.commands)
+		for(var alias in command.commands) {
 			commands[command.commands[alias]] = command;
+			if(just_first) break;
+		}
 	}
 	function add_object(key) {
 		var object = objects[key];
@@ -229,6 +259,7 @@ function go_to(key) {
 
 function refresh_location(location) {
 	location = locations[location];
+	if(!location.ui) return;
 	var commandline = ui.get_commandline(location);
 	var block = ui.create_location(location);
 	if(!block) return; // wrong layer in illustrations for example
@@ -321,6 +352,11 @@ var inventory;
 function new_game() {
 	inventory = [];
 	// reset all objects etc; not going to happen
+	add_message(locations.jetty,
+		"<div style=\"border-style:solid;\">"+
+		"<i>(This is a text adventure; you have to move and interact with the world by typing in commands. "+
+		"Useful commands include </i><b>LOOK</b><i> and </i><b>TAKE</b><i>.  You move to other locations by typing "+
+		"</i><b>GO EAST</b><i> and so on.  You can always type </i><b>HELP</b><i> to see what commands are available.</i></div>",120); // show for 2 mins
 	go_to("jetty");
 }
 
