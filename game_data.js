@@ -1510,11 +1510,32 @@ var npcs = {
 		illustrated:{
 			avatar:"char_octopus.png",
 		},
+		lines:{
+			greet:[
+				"The octopus' third tentacle strokes your shoulder affectionately, like a fat boy sizing up his next sausage",
+			],
+			filler:[
+				"….is daydreaming of mermaids and mint humbugs. It is a very sticky situation. ",
+				"…chuckles knowingly to himself ",
+				"...scratches his bulbous head. ",
+				"...looks thoughtful. Or sleepy. Possibly both. ",
+				"...is pointing with his tentacles as if to hint. Maybe the treasure is in eight directions from here? ",
+			],
+		},
 	},
 	robot:{
 		name:"Robot",
 		illustrated:{
 			avatar:"char_robot.png",
+		},
+		lines:{
+			greet:[
+				"Th-an-k_u.",
+			],
+			filler:[
+				"...Looks skywards, rolls his eyes with mechanical efficiency. Bbe...p. ",
+				"...looks contemplative and then sighs and shakes his head. Beep. ",
+			],
 		},
 	},
 	sioux:{
@@ -1523,8 +1544,11 @@ var npcs = {
 			avatar:"char_sioux.png",
 		},
 		lines:{
+			greet:[
+				"Great chief sends me to claim many treasures. He says fire water is like truth serum. ",
+			],
 			woman:{
-				filler:["TESTING WOMAN"],
+				filler:["What a lovely scalp you have"],
 			},
 		},
 	},
@@ -1539,6 +1563,11 @@ var npcs = {
 			],
 			filler:[
 				"Great scott, what a warm day for a treasure hunt this is!",
+				"This is most vexing, oh do hurry up!",
+				"Did you hear that darling? Oh do take notes!",
+				"Really! This is all rather much!",
+				"Will there be sandwiches? ",
+				"Anyone for Battenberg? No, I thought as not.",
 			],
 			sioux:{
 				greet:[
@@ -1549,12 +1578,45 @@ var npcs = {
 					"There's no gulf stream for canoists to follow home you know",
 				],
 			},
+			baron:{
+				greet:[
+					"Baron! Fancy seeing you here. I do hope you are not here for purposes other than plunder and pillage",
+				],
+				filler:[
+					"Anyone for Battenberg? No, I thought as not.",
+				],
+			},
 		},
 	},
 	baron:{
 		name:"The Baron",
 		illustrated:{
 			avatar:"char_baron.png",
+		},
+		greet:[
+			"Good day there! I am the Baron Von Battenberg, and I have been sent by is excellency the Kaiser to claim the treas.. I mean, to lay claim to any, … things, that may be laying around.",
+		],
+		filler:[
+			"I claim this grass in the name of the German Empire!",
+			"I claim that tree in the name of the German Empire!",
+			"I claim that bird in the name of the German Empire. !!!Bang.!!! ",
+			"We have ways of making you talk.",
+			"Even octopuses will talk if you ask them in the correct manner.",
+			"I claim that cloud in the name of the German Empire!",
+			"I claim this moment in the name of the German Empire!",
+			"I claim that cloud in the name of the German Empire!",
+			"You see, I am only here to innocently claim inanimate objects that you do not need. I mean no harm.",
+			"I come in peace. By Zeppelin I admit. But very peacefully.",
+			"Gunboat diplomacy is for people who don't have Zeppelins.",
+			"Genau.",
+		],
+		sioux:{
+			greet:[
+				"Savage! What are you doing here? I thought I sunk your tiny little boat earlier??",
+			],
+			filler:[
+				"I claim the feathers in your hair in the name of the German Empire!",
+			],
 		},
 	},
 	hedgehog:{
@@ -1568,9 +1630,20 @@ var npcs = {
 		illustrated:{
 			avatar:"char_pirates.png",
 		},
+		greet:[
+			"Ahoy! thar. I hear thar be treaaye in this here place."",
+		],
+		filler:[
+			"Would ye like t'try again?",
+			"a bottle o' rum be required",
+			"Rum. Rum. Rum!",
+			"did I tell you t' tail o' t' frigate and t' giant squid?",
+			"treaaye",
+		],
 	},
 	pirates_aboard:{
 		name:"Pirates about ship",
 	},
+	
 };
 
