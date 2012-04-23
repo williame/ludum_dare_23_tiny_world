@@ -67,17 +67,15 @@ function _illustrated_perform_layout(location) {
 			var x = value.x, y = value.y;
 			if(!value.w) value.w = value.x2-x;
 			if(!value.h) value.h = value.y2-y;
-			if(value.layer) {
-				x += illustrated_layers[value.layer].x;
-				y += illustrated_layers[value.layer].y;
-			}
+			x += illustrated_layers[value.layer].x;
+			y += illustrated_layers[value.layer].y;
 			ui.setAttribute("style",
 				"position:absolute;"+
 				"width:"+value.w+"px;"+
 				"height:"+value.h+"px;");
-			if(x < left) left = value.x;
+			if(x < left) left = x;
 			if(x+value.w > right) right = x+value.w;
-			if(y < top) top = value.y;
+			if(y < top) top = y;
 			if(y+value.h > bottom) bottom = y+value.h;
 		}
 	}
@@ -168,8 +166,10 @@ var illustrated_ui = {
 			timer:null,
 		};
 		illustrated_ui.SCROLL_SPEED = 100;
-		if(current_location)
+		if(current_location) {
+			_illustrated_perform_layout();
 			_illustrated_ui_set_layer(current_location.illustrated.layer);
+		}
 	},
 	hide: function() {
 		_illustrated_ui_set_layer("<hiding>");

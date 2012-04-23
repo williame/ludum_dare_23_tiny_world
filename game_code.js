@@ -51,6 +51,7 @@ var code_ui = {
 	hide: function() {
 		for(var element in code_ui._elements)
 			code_ui._elements[element].style.display = "none";		
+		document.getElementById("container").style.top = "0px";
 	},
 	_elements:[],
 	create_location: _code_create_location,

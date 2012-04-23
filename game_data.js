@@ -20,19 +20,19 @@ var locations = {
 				}
 				var desc = "Approaching fast without apparent effort, a Sioux in a canoe lands at the quay";
 				if(ui.nongraphical) {
-					add_message(current_location,desc);
+					add_message(current_location,desc,60);
 					done();
-					return;
+				} else {
+					var div = document.createElement("div");
+					div.innerHTML = desc + "<br/><img src=\"sioux_arrive.jpg\"/>";
+					show_modal(div);
+					// do extra things when the message is dismissed by the user and they return to the game
+					var dismiss = modaliser.dismiss;
+					modaliser.dismiss = function(){
+						done();
+						dismiss(); // call framework stuff
+					};
 				}
-				var div = document.createElement("div");
-				div.innerHTML = desc + "<br/><img src=\"sioux_arrive.jpg\"/>";
-				show_modal(div);
-				// do extra things when the message is dismissed by the user and they return to the game
-				var dismiss = modaliser.dismiss;
-				modaliser.dismiss = function(){
-					done();
-					dismiss(); // call framework stuff
-				};
 			},
 		],
 		commands:[
@@ -145,23 +145,31 @@ var locations = {
 		on_enter:[
 			function(){
 				if(locations.coppice.visits++) return;
-				var desc = document.createElement("p");
-				desc.innerHTML = "Once you pause in the clearing, your view lazily surveys the twinkling still sea.<br/>"+
+				var desc = "Once you pause in the clearing, your view lazily surveys the twinkling still sea.<br/>"+
 					"And then, from afar, closing, it's sails billowing in the wind, is a large galleon!<br/>"+
 					"It drops anchor just off shore and some of the crew set off to land in a dingy.<br/>"+
 					"They beach in the cover beneath your viewpoint; and to your amazement, they seem to be dressed<br/>"+
-					"unmistakingly as pirates!  Do you imagine they are those that waylaid the professor?<br/>"+
-					"<img src=\"pirates_arrive.jpg\"/>";
-				show_modal(desc);
-				var dismiss = modaliser.dismiss;
-				modaliser.dismiss = function() {
+					"unmistakingly as pirates!  Do you imagine they are those that waylaid the professor?";
+				function done() {
 					move_npc(npcs.pirates,locations.beach);
 					locations.beach.illustrated.images = [{
 						x:300, y:20,
 						image:"pirate_dingy.png",
 					}];
-					dismiss();
-				};
+				}
+				if(ui.nongraphical) {
+					add_message(current_location,desc,60);
+					done();
+				} else {
+					var div = document.createElement("p");
+					div.innerHTML = desc + "<br/><img src=\"pirates_arrive.jpg\"/>";
+					show_modal(div);
+					var dismiss = modaliser.dismiss;
+					modaliser.dismiss = function() {
+						done();
+						dismiss();
+					};
+				}
 			},
 		],
 		commands:[
@@ -229,13 +237,8 @@ var locations = {
 		on_enter:[
 			function(){
 				if(locations.promontory.visits++) return;
-				var p = document.createElement("p");
-				p.innerHTML = "On the promontory there stand the ruins of a single-story watch tower, with crenelations and arrow loops. "+
-					"The stonework appears quite recent.<br/>"+
-					"You suffer a flying fish attack. Their cruel claws tickle your skin and one tries to swallow your earlobe whole. "+
-					"Where is that flying fish net when you need it?<br/>"+
-					"<img src=\"folly.jpg\"/>";
-				show_modal(p);
+				add_message(current_location,"You suffer a flying fish attack. Their cruel claws tickle your skin and one tries to swallow your earlobe whole. "+
+					"Where is that flying fish net when you need it?");
 			},
 		],
 		objects:[
@@ -244,6 +247,17 @@ var locations = {
 		commands:[
 			Go("north","west_point"),
 			Go("west","rope_bridge"),
+			Cmd(function(){
+				var desc = "On the promontory there stand the ruins of a single-story watch tower, with crenelations and arrow loops. "+
+					"The stonework appears quite recent.";
+				if(ui.nongraphical) {
+					add_message(current_location,desc);
+				} else {
+					var p = document.createElement("p");
+					p.innerHTML = desc + "<br/><img src=\"folly.jpg\"/>";
+					show_modal(p);
+				}
+			},["examine folly"]),
 		],
 	},
 	rough_ridge:{
@@ -349,13 +363,18 @@ var locations = {
 		name:"The Jetty",
 		first_time:true,
 		plot: function(){
-			var p = document.createElement("p");
-			p.innerHTML = "You are standing on the jetty of your good friend the Professor, awaiting his arrival.<br/>"+
+			var desc = "You are standing on the jetty of your good friend the Professor, awaiting his arrival.<br/>"+
 				"His little steam launch is due precisely now and you hope to listen to tales of his<br/>"+
 				"adventures around the fire this evening. As you stand watching the flying fish struggling<br/>"+
 				"on the large piece of parchment floating in the sea to your south, you notice a small, green<br/>"+
 				"bottle floating towards you in murky water.";
-			show_modal(p);
+			if(ui.nongraphical) {
+				add_message(current_location,desc,60);
+			} else {
+				var p = document.createElement("p");
+				p.innerHTML = desc; 
+				show_modal(p);
+			}
 		},
 		on_enter:[
 			function(){
@@ -477,16 +496,24 @@ var locations = {
 		on_enter:[
 			function(){
 				if(locations.garage.visits++) return;
-				var div = document.createElement("div");
-				div.innerHTML = "A woman and man have just chained their tandem bicycle across the garage door<br/>"+
-					"The gentleman is sweating profusely; they seem to have pedelled up to the house in a great hurry<br/>"+
-					"<img src=\"tandem_arrive.jpg\"/>";
-				show_modal(div);
-				var dismiss = modaliser.dismiss;
-				modaliser.dismiss = function(){
+				var desc = "A woman and man have just chained their tandem bicycle across the garage door<br/>"+
+					"The gentleman is sweating profusely; they seem to have pedelled up to the house in a great hurry";
+				function done() {
 					move_npc(npcs.woman,current_location);
-					dismiss();
-				};
+				}
+				if(ui.nongraphical) {
+					add_message(current_location,desc,60);
+					done();
+				} else {
+					var div = document.createElement("div");
+					div.innerHTML = desc + "<br/><img src=\"tandem_arrive.jpg\"/>";
+					show_modal(div);
+					var dismiss = modaliser.dismiss;
+					modaliser.dismiss = function(){
+						done();
+						dismiss();
+					};
+				}
 			},
 		],
 		objects:[
@@ -551,19 +578,13 @@ var locations = {
 		on_enter:[
 			function() {
 				if(++locations.north_path.visits != 2) return;
-				var zep = document.createElement("p");
-				zep.setAttribute("class","modal_description");
-				zep.innerHTML =
-					"<img src=\"zeppelin.png\"/><br/>"+
-					"As you reach the stony shore you look out and notice a small smokey dot on the east horizon.<br/>"+
+				var desc = "As you reach the stony shore you look out and notice a small smokey dot on the east horizon.<br/>"+
 					"As it grows nearer and nearer, and bigger and bigger, you see that it is a ginormous,<br/>"+
 					"steam-belching Zeppelin!<br/>"+
 					"It heads straight for the island and stops just a short distance from the shore.<br/>"+
 					"Hovering just feet above the waves, it lowers a small steam boat which is started by two naval ratings.<br/>"+
 					"a man steers deliberately towards you.";
-				show_modal(zep);
-				var dismiss = modaliser.dismiss;
-				modaliser.dismiss = function(){
+				function done() {
 					locations.north_path.illustrated.images = [
 						{
 							x:locations.north_path.illustrated.w-150,y:-25,
@@ -572,8 +593,21 @@ var locations = {
 					];
 					locations.north_path.illustrated.w += 300;
 					move_npc(npcs.baron,current_location);
-					dismiss();
-				};
+				}
+				if(ui.nongraphical) {
+					add_message(current_location,desc,60);
+					done();
+				} else {				
+					var zep = document.createElement("p");
+					zep.setAttribute("class","modal_description");
+					zep.innerHTML = "<img src=\"zeppelin.png\"/><br/>"+ desc;
+					show_modal(zep);
+					var dismiss = modaliser.dismiss;
+					modaliser.dismiss = function(){
+						done();
+						dismiss();
+					};
+				}
 			},
 		],
 		commands:[
@@ -835,15 +869,24 @@ var locations = {
 		on_enter:[
 			function(){
 				if(++locations.cave.visits != 1) return;
-				var p = document.createElement("p");
-				p.innerHTML = "After following a winding dark dank passage towards the salty doft and roar of the sea,<br/>"+
+				var desc = "After following a winding dark dank passage towards the salty doft and roar of the sea,<br/>"+
 					"you arrive in a cave...<hr/>As though awaiting your arrival, a gigantic octopus crawls ashore on cue";
-				show_modal(p);
-				var dismiss = modaliser.dismiss;
-				modaliser.dismiss = function(){
+				function done() {
 					move_npc(npcs.octopus,current_location);
-					dismiss();
-				};
+				}
+				if(ui.nongraphical) {
+					add_message(current_location,desc,60);
+					done();
+				} else {
+					var p = document.createElement("p");
+					p.innerHTML = desc;
+					show_modal(p);
+					var dismiss = modaliser.dismiss;
+					modaliser.dismiss = function(){
+						done();
+						dismiss();
+					};
+				}
 			},
 		],
 		commands:[

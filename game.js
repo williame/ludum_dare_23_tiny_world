@@ -324,13 +324,14 @@ function new_game() {
 	go_to("jetty");
 }
 
-function add_message(location,message) {
+function add_message(location,message,timeout) {
 	remove_from_array(location.messages,message);
 	location.messages.push(message);
+	if(!timeout) timeout = 40; // default 40 seconds
 	setTimeout(function() {
 		if(remove_from_array(location.messages,message))
 			refresh_location(location.key);
-	},1000*20);
+	},1000*timeout);
 	refresh_location(location.key);
 }
 
