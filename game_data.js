@@ -653,6 +653,7 @@ var locations = {
 	},
 	north_path:{
 		name: "North Path",
+		description:"A narrow path leads down to the water's edge",
 		illustrated:{
 			x:2161,y:571,w:522,h:215,
 		},
@@ -1194,8 +1195,8 @@ var objects = {
 	},
 	hose:{
 		name:"a length of garden hose",
-		take:Take("hose","Hose"),
-		drop:Drop("hose","Hose"),
+		take:Take("hose","hose"),
+		drop:Drop("hose","hose"),
 		commands:[
 			Msg("a good strong garden hose about 60 feet long",["examine hose","examine Garden hose"]),
 			
