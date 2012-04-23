@@ -1515,8 +1515,8 @@ var npcs = {
 				"The octopus' third tentacle strokes your shoulder affectionately, like a fat boy sizing up his next sausage",
 			],
 			filler:[
-				"….is daydreaming of mermaids and mint humbugs. It is a very sticky situation. ",
-				"…chuckles knowingly to himself ",
+				"...is daydreaming of mermaids and mint humbugs. It is a very sticky situation. ",
+				"...chuckles knowingly to himself ",
 				"...scratches his bulbous head. ",
 				"...looks thoughtful. Or sleepy. Possibly both. ",
 				"...is pointing with his tentacles as if to hint. Maybe the treasure is in eight directions from here? ",
@@ -1594,7 +1594,7 @@ var npcs = {
 			avatar:"char_baron.png",
 		},
 		greet:[
-			"Good day there! I am the Baron Von Battenberg, and I have been sent by is excellency the Kaiser to claim the treas.. I mean, to lay claim to any, … things, that may be laying around.",
+			"Good day there! I am the Baron Von Battenberg, and I have been sent by is excellency the Kaiser to claim the treas.. I mean, to lay claim to any, things, that may be laying around.",
 		],
 		filler:[
 			"I claim this grass in the name of the German Empire!",
@@ -1631,7 +1631,7 @@ var npcs = {
 			avatar:"char_pirates.png",
 		},
 		greet:[
-			"Ahoy! thar. I hear thar be treaaye in this here place."",
+			"Ahoy! thar. I hear thar be treaaye in this here place.",
 		],
 		filler:[
 			"Would ye like t'try again?",
