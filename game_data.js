@@ -100,12 +100,14 @@ var locations = {
 	},
 	lantern:{
 		name:"Lantern",
-		description:"At the top of the spiral staircase in the lighthouse you find a large glass cylinder. On inspection it contains an Argand hollow wick lamp mounted in a parabolic reflector. ",
+		description:"At the top of the spiral staircase in the lighthouse is the lantern room containing the lamp",
 		illustrated:{
 			layer:"lantern",
 			x:0,y:0,w:3368-2745,h:1258-830,
 		},
 		commands:[
+			Msg("On inspection the lamp is an Argand hollow wick model mounted in a parabolic reflector.",["examine lamp"]),
+			Msg("You don't have any matches!",["light lamp"],function(){ return !(in_array(inventory,"matches")||in_array(locations.lantern.objects,"matches")); }),
 			Go("down","light_house"),
 		],
 	},
@@ -647,10 +649,20 @@ var locations = {
 			layer:"house_ground_floor",
 			x:300,y:350,w:288,h:183,
 		},
+		objects:[
+			"matches",
+		],
 		commands:[
 			Go("south","hg_dining"),
 			Go("north","hg_hall"),
 			Go("west","hg_kitchen"),
+			Cmd(function(){
+				add_message(current_location,"The majestic stone columns and cornice are a wonder to behold.");
+				if(objects.matches.hidden) {
+					add_message(current_location,"On the mantlepiece sits a box of matches."),
+					objects.matches.hidden = false;
+				}
+			},["examine fireplace"]),
 		],
 	},
 	hg_dining:{
@@ -967,8 +979,8 @@ var illustrated_layers = {
 		image:"cave_interior.jpg",
 	},
 	lantern:{
-		x:2745,y:830,
-		//####
+		x:2920,y:960,
+		image:"lanten.jpg", //####sic
 	},
 };
 
@@ -1286,6 +1298,48 @@ var objects = {
 			},["examine note","look at note"]),
 		],
 	},
+	matches:{
+		name:"a box of matches",
+		hidden:true,
+		take:Take("matches","matches",function(){return !objects.matches.hidden;}),
+		drop:Drop("matches","matches"),
+		commands:[
+			Msg("It is a perfectly normal box of matches",["examine matches"]),
+			Msg("You really shouldn't play with matches!",["light a match","light match"],function(){return current_location != locations.lantern;}),
+			Cmd(function(){
+				if(npcs.pirates.location) {
+					var desc = "With a roar the wick bursts into life, shining its beam across the sea at the pirate boat<br/>"+
+						"With great calamity the pirate crew aboard run around panicking";
+					function done() {
+						npc_says(npcs.pirates_aboard,current_location,[
+							"Ashore Ahoy!  There is a light house!  Have you not seen any rocks?  It is not safe to moor here!",
+							"Ashore Ahoy!  We are captured in the beam of a death ray!  Run away, run away!",
+						]);
+						npc_says(npcs.pirates,current_location,[
+							"Quick we flee!",
+							"I cannot run any faster, my wooden leg keeps getting stuck in the sand",
+						]);
+						add_message(current_location,"With brisk strokes, the pirates swim splashingly panickingly out to their galleon and depart");
+						move_npc(npcs.pirates); // remove them
+					}
+					if(ui.nongraphical) {
+						add_message(current_location,desc);
+						done();
+					} else {
+						var div = document.createElement("div");
+						div.innerHTML = desc + "<br/><img src=\"lighthouse_lit.jpg\"/>";
+						show_modal(div);
+						var dismiss = modaliser.dismiss;
+						modaliser.dismiss = function() {
+							done();
+							dismiss();
+						}
+					}
+				} else
+					add_message(current_location,"With a small puff the wick flickers and goes lamely out.");
+			},["light lamp","light a match","light match"],function(){return current_location == locations.lantern;}),
+		],
+	},
 };
 
 function moby_dick_keypress(event) {
@@ -1365,6 +1419,9 @@ var npcs = {
 		illustrated:{
 			avatar:"char_pirates.png",
 		},
+	},
+	pirates_aboard:{
+		name:"Pirates about ship",
 	},
 };
 
