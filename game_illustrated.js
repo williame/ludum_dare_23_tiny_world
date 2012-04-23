@@ -72,10 +72,9 @@ function _illustrated_perform_layout(location) {
 			if(!value.h) value.h = value.y2-y;
 			x += illustrated_layers[value.layer].x;
 			y += illustrated_layers[value.layer].y;
-			ui.setAttribute("style",
-				"position:absolute;"+
-				"width:"+value.w+"px;"+
-				"height:"+value.h+"px;");
+			ui.style.position = "absolute";
+			ui.style.width = value.w;
+			ui.style.height = value.h;
 			if(x < left) left = x;
 			if(x+value.w > right) right = x+value.w;
 			if(y < top) top = y;
