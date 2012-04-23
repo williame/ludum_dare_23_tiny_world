@@ -1,22 +1,22 @@
 
-function _classic_create_location(location) {
+function _code_create_location(location) {
 	var block = document.createElement("code");
 	var html =
 		"<a name=\"location_"+location.key+"\"/>"+
-		"<b>"+location.name+"</b><br/>"+
-		"<div id=\"npcs_"+location.key+"\"></div>";
+		"<b>"+location.name+"</b> (<span id=\"npcs_"+location.key+"\"></span>)<br/>";
 	for(var message in location.messages)
 		html += "<div class=\"message\">"+location.messages[message]+"</div>"
 	html += "<input class=\"commandline\" id=\"commandline_"+location.key+"\"/><br/>"+
 		"<div id=\"auto_complete_"+location.key+"\" style=\"display:none;\"></div>"+
 		"<div id=\"error_"+location.key+"\" style=\"display:none;\" class=\"error\"></div>";
 	block.innerHTML = html;
-	setTimeout(function(){ classic_ui.update_npcs(location); },0);
+	setTimeout(function(){ code_ui.update_npcs(location); },0);
 	return block;
 }
 
 var code_ui = {
 	name: "programmer at work (pretending to work) mode",
+	nongraphical:true,
 	init: function() {
 		document.getElementById("main_css").href = "code.css";
 		if(!code_ui._elements.length) {
@@ -53,7 +53,7 @@ var code_ui = {
 			code_ui._elements[element].style.display = "none";		
 	},
 	_elements:[],
-	create_location: _classic_create_location,
+	create_location: _code_create_location,
 	perform_layout: function(){
 		var main = document.getElementById("main");
 		main.style.width = "";
@@ -93,7 +93,7 @@ var code_ui = {
 	},
 	enter_room: function() {},
 	update_npcs: function(location,div) {
-		if(classic_ui !== ui) return;
+		if(code_ui !== ui) return;
 		if(!div) div = document.getElementById("npcs_"+location.key);
 		if(!div) return;
 		var html = "";
@@ -104,11 +104,7 @@ var code_ui = {
 				html += npc.name;
 			}
 		}
-		if(html.length > 0) {
-			div.innerHTML = html;
-			div.style.display = "block";
-		} else
-			div.style.display = "none";
+		div.innerHTML = html;
 	},
 };
 

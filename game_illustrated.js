@@ -168,6 +168,11 @@ var illustrated_ui = {
 			timer:null,
 		};
 		illustrated_ui.SCROLL_SPEED = 100;
+		if(current_location)
+			_illustrated_ui_set_layer(current_location.illustrated.layer);
+	},
+	hide: function() {
+		_illustrated_ui_set_layer("<hiding>");
 	},
 	create_location: _illustrated_create_location,
 	perform_layout: _illustrated_perform_layout,

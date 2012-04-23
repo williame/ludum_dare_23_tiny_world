@@ -9,13 +9,7 @@ var locations = {
 		on_enter:[
 			function(){
 				if(++locations.quay.visits != 2) return;
-				var desc = document.createElement("p");
-				desc.innerHTML = "Approaching fast without apparent effort, a Sioux in a canoe lands at the quay<br/>"+
-					"<img src=\"sioux_arrive.jpg\"/>";
-				show_modal(desc);
-				// do extra things when the message is dismissed by the user and they return to the game
-				var dismiss = modaliser.dismiss;
-				modaliser.dismiss = function(){
+				function done() {
 					move_npc(npcs.sioux,current_location);
 					locations.quay.illustrated.images = [{
 						x:180,
@@ -23,6 +17,20 @@ var locations = {
 						image:"canoe.png",
 					}];
 					refresh_location(current_location.key);
+				}
+				var desc = "Approaching fast without apparent effort, a Sioux in a canoe lands at the quay";
+				if(ui.nongraphical) {
+					add_message(current_location,desc);
+					done();
+					return;
+				}
+				var div = document.createElement("div");
+				div.innerHTML = desc + "<br/><img src=\"sioux_arrive.jpg\"/>";
+				show_modal(div);
+				// do extra things when the message is dismissed by the user and they return to the game
+				var dismiss = modaliser.dismiss;
+				modaliser.dismiss = function(){
+					done();
 					dismiss(); // call framework stuff
 				};
 			},

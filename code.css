@@ -24,12 +24,12 @@ body {
 .commandline {
 	width: 80%;
 	border: none;
+	font-family: courier;
 }
 .commandline:focus {
+	border: none;
 }
 .talker {
-	color: yellow;
+	color: navy;
 }
-.speech {
-	color: cyan;
-}
+.speech {}
