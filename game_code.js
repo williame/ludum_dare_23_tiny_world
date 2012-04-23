@@ -15,11 +15,44 @@ function _classic_create_location(location) {
 	return block;
 }
 
-var classic_ui = {
-	name: "classic",
+var code_ui = {
+	name: "programmer at work (pretending to work) mode",
 	init: function() {
-		document.getElementById("main_css").href = "classic.css";
+		document.getElementById("main_css").href = "code.css";
+		if(!code_ui._elements.length) {
+			var body = document.getElementsByTagName("body")[0];
+			// left
+			var div = document.createElement("div");
+			code_ui._elements.push(div);
+			div.style.position="fixed";
+			div.style.top="79px";
+			div.style.width="263px";
+			div.style.bottom="0px";
+			div.style.background = "transparent url('code_gui_left_middle.jpg')";
+			div.innerHTML = "<img src=\"code_gui_left_top.jpg\" style=\"position:absolute; left:1px;\"/>"+
+					"<img src=\"code_gui_left_bottom.jpg\" style=\"position:absolute; bottom:0px; left:2px;\"/>";
+			body.insertBefore(div,body.firstChild);
+			// top
+			var div = document.createElement("div");
+			code_ui._elements.push(div);
+			div.style.position="fixed";
+			div.style.width="100%";
+			div.style.height="104px";
+			div.style.background = "transparent url('code_gui_top_middle.jpg')";
+			div.innerHTML = "<img src=\"code_gui_top_right.jpg\" style=\"float:right;\"/>"+
+					"<img src=\"code_gui_top_left.jpg\" style=\"position:fixed; float:left;\"/>";
+			body.insertBefore(div,body.firstChild);
+		} else for(var element in code_ui._elements)
+			code_ui._elements[element].style.display = "block";
+		var container = document.getElementById("container");
+		container.style.top = "104px";
+		container.style.bottom = "0px";
 	},
+	hide: function() {
+		for(var element in code_ui._elements)
+			code_ui._elements[element].style.display = "none";		
+	},
+	_elements:[],
 	create_location: _classic_create_location,
 	perform_layout: function(){
 		var main = document.getElementById("main");
@@ -79,4 +112,4 @@ var classic_ui = {
 	},
 };
 
-uis.push(classic_ui);
+uis.push(code_ui);

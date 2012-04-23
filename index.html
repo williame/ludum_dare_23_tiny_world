@@ -10,14 +10,25 @@ var script_files = [
 	"game.js",
 	"game_illustrated.js",
 	"game_classic.js",
+	"game_code.js",
 	"game_data.js",
 ], script_count = -1;
 
 function init() {
 	if(++script_count == script_files.length) {
 		init_game_data();
-		set_ui(illustrated_ui);
-		new_game();
+		var splash = document.createElement("p");
+		var html = "<img src=\"title.jpg\"/><br/>This game can be played in the following visual styles: ";
+		for(var ui_choice in uis)
+			html += "<button onclick=\"set_ui(uis["+ui_choice+"]); event.stopPropagation(); dismiss_modal(); new_game(); return false;\">"+uis[ui_choice].name+"</button> ";
+		html += "(You can also switch between them in-game using ctrl-b key)";
+		splash.innerHTML = html;
+		show_modal(splash);
+		var dismiss = modaliser.dismiss;
+		modaliser.dismiss = function() {
+			if(!ui) return;
+			dismiss();
+		};
 	} else {
 		if(0 == script_count) {
 			// monkey patch String
@@ -47,7 +58,7 @@ function init() {
 	<noscript>
 		Without Javascript, there's nothing to see here; move along!
 	</noscript>
-	<div style="width:100%; height:100%; overflow-y:scroll; overflow-x:scroll; position:relative; margin:0px; padding:0px;">
+	<div id="container">
 		<!--div id="soundtrack_control" style="float:right;">
 			<embed id="soundtrack" src="music1.mp3" loop="true" hidden="false" autostart="true" width="100" height="20"></embed>
 		</div-->

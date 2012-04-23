@@ -304,6 +304,7 @@ var locations = {
 		],
 	},
 	balloon_shed_open: {
+		name:"Balloon Shed",
 		illustrated:{
 			layer:"balloon_shed_open",
 			x:0,y:0,w:281,h:293,
@@ -670,7 +671,7 @@ var locations = {
 		],
 	},
 	hg_dumb_waiter:{
-		name:"Dumb Waiter",
+		name:"Dumb Waiter Ground Floor",
 		description:"you are on the ground floor, in the kitchen",
 		illustrated:{
 			layer:"house_ground_floor",
@@ -685,7 +686,7 @@ var locations = {
 		],
 	},
 	ht_dumb_waiter:{
-		name:"Dumb Waiter",
+		name:"Dumb Waiter Top Floor",
 		description:"you are on the top floor",
 		illustrated:{
 			layer:"house_top_floor",
@@ -699,8 +700,8 @@ var locations = {
 		],
 	},
 	hb_dumb_waiter:{
-		name:"Dumb Waiter",
-		description:"you are in the celler under the house",
+		name:"Dumb Waiter Celler",
+		description:"you are in the celler under the house; this is possibly the only way here",
 		illustrated:{
 			layer:"house_basement",
 			x:-200,y:290,w:308,h:168,

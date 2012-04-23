@@ -322,7 +322,6 @@ function new_game() {
 	inventory = [];
 	// reset all objects etc; not going to happen
 	go_to("jetty");
-	setTimeout(npc_tick,1000*2);
 }
 
 function add_message(location,message) {
@@ -347,6 +346,8 @@ function exchange_object(from,to,msg) {
 var uis = [], ui = null, ui_index = -1;
 function set_ui(new_ui) {
 	if(ui === new_ui) return;
+	if(ui && ui.hide)
+		ui.hide();
 	for(ui_index in uis)
 		if(uis[ui_index] == new_ui)
 			break;
@@ -373,7 +374,8 @@ function is_modal() {
 function dismiss_modal() {
 	if(modaliser) {
 		modaliser.dismiss();
-		refresh_location(current_location.key);
+		if(!modaliser && current_location)
+			refresh_location(current_location.key);
 	}
 }
 
@@ -398,8 +400,10 @@ function init_game_data() {
 	for(location in locations) {
 		locations[location].key = location;
 		location = locations[location];
-		if(!location.name)
+		if(!location.name) {
+			console.log("unamed location",location.key);
 			location.name = "!"+location.key;
+		}
 		if(!location.objects)
 			location.objects = [];
 		location.messages = [];
@@ -414,8 +418,10 @@ function init_game_data() {
 	for(object in objects) {
 		objects[object].key = object;
 		object = objects[object];
-		if(!object.name)
+		if(!object.name) {
+			console.log("unamed object",object.key);
 			object.name = "!"+object.key;
+		}
 		count++;
 	}
 	console.log("there are "+count+" objects!");
@@ -424,8 +430,10 @@ function init_game_data() {
 	for(npc in npcs) {
 		npcs[npc].key = npc;
 		npc = npcs[npc];
-		if(!npc.name)
+		if(!npc.name) {
+			console.log("unamed npc",npc.key);
 			npc.name = "!"+npc.key;
+		}
 		if(!npc.handle)
 			npc.handle = npc.name;
 		if(!npc.lines)
