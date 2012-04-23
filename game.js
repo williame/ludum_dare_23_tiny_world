@@ -105,6 +105,12 @@ function on_commandline(event) {
 				console.log("could not go to "+location);
 		} else if(line == "!refresh") {
 			refresh_location(current_location.key);
+		} else if(line.startsWith("!take ")) {
+			var object = line.substring(6).trim();
+			if(object in objects)
+				inventory.push(object); // don't remove it from wherever it is though
+			else
+				console.log("could not take "+location);
 		} else if(line.length) {
 			var commands = ui.get_commands(location), command;
 			ui.get_commandline(location).select();
@@ -376,6 +382,31 @@ function exchange_object(from,to,msg) {
 		inventory = inventory.concat(to);
 	else if(remove_from_array(current_location.objects,from))
 		current_location.objects = current_location.objects.concat(to);
+	if(msg)
+		add_message(current_location,msg);
+}
+
+function is_object_here(object,location) {
+	if(!location) location = current_location;
+	if(in_array(location.objects,object)) return true;
+	if(current_location == location) return in_array(inventory,object);
+	return false;
+}
+
+function are_objects_here(objects,location) {
+	for(var object in objects)
+		if(!is_object_here(objects[object],location))
+			return false;
+	return true;
+}
+
+function combine_objects(from,to,msg) {
+	for(var f in from) {
+		f = from[f];
+		remove_from_array(inventory,f);
+		remove_from_array(current_location.objects,f);
+	}
+	inventory.push(to);
 	if(msg)
 		add_message(current_location,msg);
 }

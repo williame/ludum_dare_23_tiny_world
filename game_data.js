@@ -72,6 +72,38 @@ var locations = {
 		},
 		commands:[
 			Go("north","light_house"),
+			Cmd(function(){
+				var desc = "";
+				if(in_array(inventory,"diving_suit"))
+					desc = "Donning your heavy improvised diving suit, you start your descent.";
+				else
+					desc = "You carefully climb down towards the still sea.";
+				if(!npcs.octopus.location) {
+					desc += "<br/>Peering through the shallow water, you see a dark monstorous shape stir.";
+					desc += "<br/>Rethinking your folly, you scramble back up to safety";
+					if(!ui.nongraphical)
+						desc += "<br/><img src=\"octopus.jpg\"/>";
+				} else if(!in_array(inventory,"diving_suit")) {
+					desc += "<br/>The steps seem to continue onwards deeper and deeper below the water into the cove;<br/>not being a strong swimmer, you head back to dry shore";
+				}
+				function done() {
+					if(in_array(inventory,"diving_suit") && npcs.octopus.location)
+						you_win();
+				}
+				if(ui.nongraphical) {
+					add_message(current_location,desc);
+					done();
+				} else {
+					var div = document.createElement("div");
+					div.innerHTML = desc;
+					show_modal(div);
+					var dismiss = modaliser.dismiss;
+					modaliser.dismiss = function() {
+						dismiss();
+						done();
+					};
+				}
+			},["go south","south","go down","down"]),
 		],
 	},
 	light_house: {
@@ -566,6 +598,10 @@ var locations = {
 		illustrated:{
 			x:1730,y:3018,w:348,h:383,
 		},
+		objects:[
+			"rake",
+			"glass",
+		],
 		commands:[
 			Go("south","rope_bridge"),
 		],
@@ -897,6 +933,7 @@ var locations = {
 					"you arrive in a cave... As though awaiting your arrival, a gigantic octopus crawls ashore on cue";
 				function done() {
 					move_npc(npcs.octopus,current_location);
+					add_message(current_location,"The octopus seems friendly; perhaps it too is a good friend of the professor?");
 				}
 				if(ui.nongraphical) {
 					add_message(current_location,desc,60);
@@ -915,9 +952,14 @@ var locations = {
 		],
 		commands:[
 			Go("west","lab"),
-			Cmd(function(){ go_to("above_cave"); },
-				["climb ladder","go up","up"]),
-			Msg("The sea is cold and uninviting",["go east","exit east","east"]),
+			Cmd(function(){ go_to("above_cave"); },["climb ladder","go up","up"]),
+			Cmd(function() {
+				if(in_array(inventory,"diving_suit"))
+					add_message(current_location,"Donning your improvised diving suit, you step bravely into the sea<br/>"+
+						"Underwater, you grope around for a while but do not find any treasure.  You return dejected and tired");
+				else
+					add_message(current_location,"The sea is cold and uninviting; you are not really equipped to survive it.");
+			},["go east","exit east","east"]),
 		],
 	},
 	above_cave:{
@@ -1062,73 +1104,109 @@ var objects = {
 			}),
 		],
 	},
+	helmet:{
+		name:"a diving helmet",
+		take:Take("diving helmet","helmet"),
+		drop:Drop("diving helmet","helmet"),
+		commands:[
+			Msg("Considering its provenance, its really very well suited to diving",["examine diving helmet","examine helmet"]),
+			Msg("It is exceedingly uncomfortable and cumbersome on dry land; you quickly take it off again",["put on helmet","wear helmet"]),
+		],
+	},
+	rake:{
+		name:"a rake",
+		take:Take("rake","rake"),
+		drop:Drop("rake","rake"),
+		commands:[
+			Msg("An old and well-worn gardening rake",["examine rake"]),
+		],
+	},
+	glass:{
+		name:"a round sheet of glass",
+		take:Take("glass","glass"),
+		drop:Drop("glass","glass"),
+		commands:[
+			Msg("It is a round sheet of glass",["examine glass"]),
+		],
+	},
 	cooking_pot:{
 		name:"cooking pot",
-		used:false,
-		take:Take("cooking pot","pot"),
-		drop:Drop("cooking pot","pot"),
+		take:Take("cooking_pot","pot"),
+		drop:Drop("cooking_pot","pot"),
 		commands:[
 			Msg("a large almost spherical pressure cooking pot",["examine pot","examine cooking pot"]),
-			
+			Cmd(function(){
+				combine_objects(["glass","cooking_pot"],"helmet","The glass fits the cooking pot perfectly!");
+			},["put glass in cooking pot"],function(){ return is_object_here("glass"); }),
 		],
 	},
 	book_ends:{
-		name:"Book ends",
-		used:false,
-		take:Take("book ends","book ends"),
-		drop:Drop("book ends","book ends"),
+		name:"a pair of book ends",
+		take:Take("book_ends","book ends"),
+		drop:Drop("book_ends","book ends"),
 		commands:[
 			Msg("Two heavy lead book ends",["examine book ends"]),
 			
 		],
 	},
 	hose:{
-		name:"Garden Hose",
-		used:false,
-		take:Take("Garden Hose","Hose"),
-		drop:Drop("Garden Hose","Hose"),
+		name:"a length of garden hose",
+		take:Take("hose","Hose"),
+		drop:Drop("hose","Hose"),
 		commands:[
 			Msg("a good strong garden hose about 60 feet long",["examine hose","examine Garden hose"]),
 			
 		],
 	},
 	wellingtons:{
-		name:"A pair of Wellington Boots",
-		used:false,
-		take:Take("wellington boots","boots"),
-		drop:Drop("wellington boots","boots"),
+		name:"a pair of Wellington Boots",
+		take:Take("wellingtons","boots"),
+		drop:Drop("wellingtons","boots"),
 		commands:[
 			Msg("A good pair of rubber wellies. They fit your size.",["examine boots","examine wellington boots"]),
 			
 		],
 	},
 	armor:{
-		name:"A suit of armor",
-		used:false,
-		take:Take("suit of armor","armor"),
-		drop:Drop("suit of armor","armor"),
+		name:"a suit of armor",
+		take:Take("armor","armor"),
+		drop:Drop("armor","armor"),
 		commands:[
 			Msg("A suit of armor, about your size.",["examine suit of armor","examine armor"]),
-			
+			Cmd(function(){
+				combine_objects(["air_supply","helmet","book_ends","wellingtons","armor"],"diving_suit",
+					"You attach the book ends and wellingtons to the armor.  With the air supply and helmet you've improvised, its an impressive diving suit!");
+			},["create diving suit"],function(){ 
+				return are_objects_here(["air_supply","helmet","book_ends","wellingtons","armor"]); 
+			}),
 		],
 	},
 	bellows:{
-		name:"Bellows",
-		used:false,
+		name:"bellows",
 		take:Take("bellows","bellows"),
 		drop:Drop("bellows","bellows"),
 		commands:[
-			Msg("A large set of bellows used for blowing air.",["examine bellows","examine bellows"]),
-			
+			Msg("A large set of bellows used for blowing air.",["examine bellows"]),
+			Cmd(function(){
+				combine_objects(["hose","bellows"],"air_supply","The hose fits tightly to the end of the bellows");
+			},["attach bellows to hose"],function(){ return is_object_here("hose"); }),
+		],
+	},
+	air_supply:{
+		name:"a divers air supply",
+		take:Take("air_supply","air supply"),
+		drop:Drop("air_supply","air supply"),
+		commands:[
+			Msg("You have improvised a perfect apparatus for supplying a diver with oxygen!",["examine air supply"]),
 		],
 	},
 	brick:{
-		name:"Brick",
+		name:"a brick",
 		used:false,
 		take:Take("brick","brick"),
 		drop:Drop("brick","brick"),
 		commands:[
-			Msg("A heavy building brick.",["examine brick","examine brick"]),
+			Msg("A heavy building brick.",["examine brick"]),
 			
 		],
 	},
@@ -1138,7 +1216,7 @@ var objects = {
 		take:Take("Steam engine","Steam engine"),
 		drop:Drop("Steam engine","Steam engine"),
 		commands:[
-			Msg("The steam car has a perfectly good steam engine but it has recently been repaired and is not attached to the car.",["examine bellowsr","examine bellows"]),
+			Msg("The steam car has a perfectly good steam engine but it has recently been repaired and is not attached to the car.",["examine steam engine","examine engine"]),
 			
 		],
 	},
@@ -1192,6 +1270,9 @@ var objects = {
 		drop:Drop("small_stove","stove"),
 		commands:[
 			Msg("its a small blackened iron stove",["examine stove","examine iron stove"]),
+			Cmd(function(){
+				combine_objects(["glass","stove"],"helmet","The glass fits the stove's fire-box perfectly!");
+			},["put glass in the stove"],function(){ return is_object_here("glass"); }),
 		],
 	},
 	spanner:{
@@ -1340,6 +1421,13 @@ var objects = {
 			},["light lamp","light a match","light match"],function(){return current_location == locations.lantern;}),
 		],
 	},
+	diving_suit:{
+		name:"a diving suit",
+		commands:[
+			Msg("It is an extremely improvised diving suit you have made",["examine diving suit"]),
+			Msg("Its not really meant to be worn on land!",["put on diving suit","Don diving suit","wear diving suit"]),
+		],
+	},
 };
 
 function moby_dick_keypress(event) {
@@ -1353,6 +1441,23 @@ function moby_dick_keypress(event) {
 			dismiss();
 		}
 	}
+}
+
+function you_win() {
+	var div = document.createElement("div");
+	div.innerHTML = "<h3>You win!</h3>"+
+		"<img src=\"treasure.jpg\"/><br/>"+
+		"Descending slowly into the cove, your feet stir up sediment that quickly clouds the clear turquoise waters. "+
+		"In the distance you hear bells tolling, their sound increasing steadily as you press on. Slowly you perceive "+
+		"a dense shape looming ahead. It is a stone pyramid through which an small ancient tree is growing. The World "+
+		"Tree connects the physical world with the spiritual world, supporting the heavens, middleworld and underworld.<br/>"+
+		"The tree is slowly corroding in the salty water. As you get closer you see that corrosion has exposed thousands, "+
+		"millions of small diamonds each one representing a star of the Milky Way running through its core as if blood in "+
+		"veins, pumping life to the world.<br/>"+
+		"You grab a shell from the seabed and start hacking away frantically at the diamonds, gathering them in your pockets "+
+		"and folds of your clothing.  You judge it to be worth a small fortune!";
+	show_modal(div);
+	modaliser.dismiss = function(){}; // stuck here forever
 }
 
 var npcs = {
