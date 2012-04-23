@@ -363,6 +363,13 @@ function new_game() {
 		"<i>(This is a text adventure; you have to move and interact with the world by typing in commands. "+
 		"Useful commands include </i><b>LOOK</b><i> and </i><b>TAKE</b><i>.  You move to other locations by typing "+
 		"</i><b>GO EAST</b><i> and so on.  You can always type </i><b>HELP</b><i> to see what commands are available.</i></div>",120); // show for 2 mins
+	if(ui != code_ui) {
+		try {
+			document.getElementById("soundtrack_control").play();
+		} catch(e) {
+			console.log(e);
+		}
+	}
 	go_to("jetty");
 }
 
