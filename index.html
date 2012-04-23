@@ -59,9 +59,10 @@ function init() {
 		Without Javascript, there's nothing to see here; move along!
 	</noscript>
 	<div id="container">
-		<!--div id="soundtrack_control" style="float:right;">
-			<embed id="soundtrack" src="music1.mp3" loop="true" hidden="false" autostart="true" width="100" height="20"></embed>
-		</div-->
+		<audio controls="controls" loop="loop" id="soundtrack_control" style="position:fixed;bottom:0px;right:0px;z-order:100000;">
+			<source src="music1.mp3" type="audio/mpeg" />
+			<source src="music1.ogg" type="audio/ogg" />
+		</audio>
 		<div id="main" style="margin:0px; padding:0px;">
 		</div>
 	</div>

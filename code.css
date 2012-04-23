@@ -16,6 +16,7 @@ body {
 }
 #main {
 	font-family: courier;
+	font-size: 120%;
 }
 #modal {
 	background-color:rgba(80,80,80,.8);
