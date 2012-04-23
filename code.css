@@ -1,7 +1,7 @@
 body {
 	margin: 0px;
 	color: black;
-	background-color: white;
+	background-color: #808080;
 }
 #container {
 	position:fixed;
@@ -12,12 +12,14 @@ body {
 	right:0px;
 	overflow-y:scroll;
 	overflow-x:scroll;
+	background-color: white;
 }
 #main {
 	font-family: courier;
 }
 #modal {
-	background-color:rgba(80,80,80,.5);
+	background-color:rgba(80,80,80,.8);
+	font-weight:bold;
 	color: white;
 	text-shadow:
 		0 -1px rgba(80,80,80,0.8),
