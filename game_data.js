@@ -640,7 +640,7 @@ var locations = {
 	},
 	rock:{
 		name:"Island",
-		description:"A rock is a rock is a rock. Or is it? Rumor has it that this rock was recently sold to an American industrialist on the mistaken understanding that it was the Isle of White.",
+		description:"A rock is a rock is a rock. Or is it? Rumor has it that this rock was recently sold to an American industrialist on the mistaken understanding that it was the Isle of Wight.",
 		illustrated:{
 			x:1725,y:4132,w:585,h:603,
 		},
