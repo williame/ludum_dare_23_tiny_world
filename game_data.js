@@ -1473,7 +1473,7 @@ var objects = {
 
 function moby_dick_keypress(event) {
 	if(event.keyCode == 13) {
-		if(event.target.value.trim() == "120") {
+		if(event.target.value.trim() == "102") {
 			var img = document.createElement("img");
 			img.src = "moby_dick.jpg";
 			show_modal(img);
